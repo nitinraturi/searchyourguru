@@ -20,7 +20,7 @@ pip install -r requirements.txt
 ```
 - Create a file **.env** where **manage.py** is located similar to **.env-sample** and set your environment variables later.
 ```
-cp .env-sample ./.env
+cp .env-sample .env
 ```
 - Let's create required directories now, run
 ```
