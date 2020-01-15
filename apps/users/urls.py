@@ -1,7 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-app_name = "users"
+app_name = "apps.users"
 
 urlpatterns = [
     # path('login/',
