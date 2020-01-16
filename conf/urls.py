@@ -13,7 +13,7 @@ from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include('apps.users.urls',namespace="users")),
+    path('account/', include('apps.users.urls',namespace="users")),
 
     #django-rest_framework
     path('drf-api-auth/', include('rest_framework.urls')),

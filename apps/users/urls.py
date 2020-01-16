@@ -1,9 +1,17 @@
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import path,include
+from rest_framework.routers import DefaultRouter
+from .views import *
 
 app_name = "apps.users"
+auth_router = DefaultRouter()
+auth_router.register(r'auth', AuthViewSet,basename="auth_viewset")
 
 urlpatterns = [
+    path('', include(auth_router.urls))
+]
+
+# urlpatterns += [
     # path('login/',
     #      auth_views.LoginView.as_view(),
     #      name='login'),
@@ -28,4 +36,4 @@ urlpatterns = [
     # path('reset/done/',
     #      auth_views.PasswordResetCompleteView.as_view(),
     #      name='password_reset_complete'),
-]
+# ]

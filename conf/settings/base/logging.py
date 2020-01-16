@@ -42,9 +42,9 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['file', 'mail_admins'],
+            'handlers': ['file', 'mail_admins','console'],
             'propagate': True,
-            'level': 'WARNING',
+            'level': 'DEBUG',
         },
     }
 }
