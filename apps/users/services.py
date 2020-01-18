@@ -3,5 +3,10 @@ from django.contrib.auth import get_user_model
 
 def create_user(**kwargs):
     User = get_user_model()
-    user = User.objects.create_user(**kwargs)
+    data = {}
+    data['first_name'] = kwargs.get('name')
+    data['user_type'] = kwargs.get('user_type')
+    email = kwargs.get('email')
+    password = kwargs.get('password')
+    user = User.objects.create_user(email,password,**data)
     return user

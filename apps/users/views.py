@@ -15,13 +15,14 @@ class AuthViewSet(viewsets.ViewSet):
         serializer = UserRegistrationSerializer(data=request.data)
         response = {}
         if serializer.is_valid():
-            data = serializer.cleaned_data
+            data = serializer.validated_data
             serializer.save()
             response['status'] = 'queued'
-            # user = user_services.create_user(data,serializer=True)
+            response['email'] = data.get('email')
+            response['user_type'] = data.get('user_type')
             status_code = status.HTTP_201_CREATED
         else:
-            data = serializer.errors
-            response['errors'] = errors
+            response['status'] = 'failed'
+            response['errors'] = serializer.errors
             status_code = status.HTTP_400_BAD_REQUEST
-        return Response({'data':data},status=status_code)
+        return Response(response,status=status_code)
