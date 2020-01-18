@@ -1,15 +1,16 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework.validators import UniqueValidator
 from . import constants as user_constants
 from apps.tution import selectors as tution_selectors
+from . import services as user_services
 
 class UserRegistrationSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
-    email = serializers.EmailField()
+    email = serializers.EmailField(validators=[UniqueValidator(queryset=get_user_model().objects.all()]))
     password = serializers.CharField(max_length=64)
     confirm_password = serializers.CharField(max_length=64)
-    # course = serializers.MultipleChoiceField(choices=user_c)
-    user_type = serializers.ChoiceField(choices=user_constants.USER_TYPE_CHOICES)
+    user_type = serializers.ChoiceField(choices=[user_constants.STUDENT,user_constants.TUTOR])
 
     def validate(self,data):
         password = data.get('password')
@@ -17,3 +18,8 @@ class UserRegistrationSerializer(serializers.Serializer):
         if password != confirm_password:
             raise serializers.ValidationError('Passwords did not match')
         return data
+
+    def create(self, validated_data):
+        user = user_services.create_user(validated_data['name'], validated_data['email'],
+             validated_data['password'],validated_data['user_type'])
+        return user
