@@ -10,7 +10,7 @@ class AuthViewSet(viewsets.ViewSet):
     queryset = get_user_model().objects.all()
     renderer_classes = [renderers.JSONRenderer]
 
-    @action(detail=False, methods=['post'],url_name="register",url_path="register")
+    @action(detail=False, methods=['post'],url_name="register",url_path="auth/register")
     def register(self,request):
         serializer = UserRegistrationSerializer(data=request.data)
         response = {}
@@ -25,4 +25,24 @@ class AuthViewSet(viewsets.ViewSet):
             response['status'] = 'failed'
             response['errors'] = serializer.errors
             status_code = status.HTTP_400_BAD_REQUEST
+        return Response(response,status=status_code)
+
+    # @action(detail=False, methods=['post'],url_name="login",url_path="login")
+    # def login(self,request):
+    #
+
+class UserViewSet(viewsets.ViewSet):
+    queryset = get_user_model().objects.all()
+
+    @action(detail=True,methods=['get'],url_name="user_view",url_path="user")
+    def user_view(self,request,pk):
+        response = {}
+        user = user_services.get_user(id=pk)
+        if user:
+            serializer = UserSerializer(user)
+            response = serializer.data
+            status_code = status.HTTP_200_OK
+        else:
+            response['error'] = "User does not exist"
+            status_code = status.HTTP_404_NOT_FOUND
         return Response(response,status=status_code)

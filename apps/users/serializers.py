@@ -22,3 +22,8 @@ class UserRegistrationSerializer(serializers.Serializer):
     def create(self, validated_data):
         user = user_services.create_user(**validated_data)
         return user
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('first_name','email','user_type')

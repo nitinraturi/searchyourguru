@@ -1,0 +1,7 @@
+{% extends 'layouts/base.html' %}
+
+{% block body %}
+<center>
+  <h1>Logged in: {{request.user.is_authenticated}}</h1>
+</center>
+{% endblock %}

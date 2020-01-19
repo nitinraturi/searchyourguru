@@ -4,11 +4,12 @@ from rest_framework.routers import DefaultRouter
 from .views import *
 
 app_name = "apps.users"
-auth_router = DefaultRouter()
-auth_router.register(r'auth', AuthViewSet,basename="auth_viewset")
+router = DefaultRouter()
+router.register(r'', AuthViewSet,basename="auth")
+router.register(r'', UserViewSet,basename="user")
 
 urlpatterns = [
-    path('', include(auth_router.urls))
+    path('', include(router.urls))
 ]
 
 # urlpatterns += [
