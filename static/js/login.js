@@ -2,13 +2,13 @@ var app = new Vue({
   delimiters: ['[[', ']]'],
   el: '#login-app',
   data: {
-    auth_token_endpoint:"/auth/token/",
+    auth_token_endpoint: "/auth/token/",
     login_email: null,
     login_password: null,
     invalid_login: false,
     login_error_message: null,
     is_login_loading: false,
-    errors:[],
+    errors: [],
   },
   methods: {
     login: function(event) {
@@ -21,13 +21,20 @@ var app = new Vue({
         this.invalid_login = null;
         this.login_error_message = null;
         this.is_login_loading = true;
-        axios.post(`http://jsonplaceholder.typicode.com/posts`, {
-          body: this.data
-        })
-        .then(response => {})
-        .catch(e => {
-          this.errors.push(e)
-        })
+        axios.post(this.auth_token_endpoint, {
+            email: this.login_email,
+            password: this.login_password
+          })
+          .then((response) => {
+            localStorage.setItem('user-token', response.data.access);
+            localStorage.setItem('user-token-refresh', response.data.refresh);
+            localStorage.setItem('user-is-authenticated', true);
+            this.is_login_loading = false;
+            window.location = "/";
+          }, (error) => {
+            this.login_error_message=error.response.data.detail;
+            this.is_login_loading = false;
+          });
       }
     },
   }
