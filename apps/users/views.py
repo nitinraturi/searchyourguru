@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import views, viewsets, status, renderers
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model,logout
 from .serializers import *
 from . import services as user_services
 
@@ -11,7 +11,7 @@ class AuthViewSet(viewsets.ViewSet):
     renderer_classes = [renderers.JSONRenderer]
 
     @action(detail=False, methods=['post'],url_name="register",url_path="auth/register")
-    def register(self,request):
+    def account_register(self,request):
         serializer = UserRegistrationSerializer(data=request.data)
         response = {}
         if serializer.is_valid():
@@ -27,9 +27,24 @@ class AuthViewSet(viewsets.ViewSet):
             status_code = status.HTTP_400_BAD_REQUEST
         return Response(response,status=status_code)
 
-    # @action(detail=False, methods=['post'],url_name="login",url_path="login")
-    # def login(self,request):
-    #
+    @action(detail=False, methods=['post'],url_name="login",url_path="auth/login")
+    def account_login(self,request):
+        response = {}
+        serializer = LoginSerializer(data=request.data,context={"request":request})
+        if serializer.is_valid():
+            data = serializer.validated_data
+            response['success'] = True
+            status_code = status.HTTP_200_OK
+        else:
+            response = serializer.errors
+            status_code = status.HTTP_403_FORBIDDEN
+        return Response(response,status=status_code)
+
+    @action(detail=False, methods=['post'],url_name="logout",url_path="auth/logout")
+    def account_logout(self,request):
+        logout(request)
+        return Response({'success':True},status=status.HTTP_200_OK)
+
 
 class UserViewSet(viewsets.ViewSet):
     queryset = get_user_model().objects.all()

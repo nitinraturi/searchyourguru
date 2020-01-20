@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model,authenticate, login
 from rest_framework.validators import UniqueValidator
 from . import constants as user_constants
 from apps.tution import selectors as tution_selectors
@@ -27,3 +27,18 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('first_name','email','user_type')
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(max_length=64,required=True)
+
+    def validate(self,data):
+        email = data.get("email")
+        password = data.get("password")
+        request = self.context.get('request')
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+        else:
+            raise serializers.ValidationError({'detail':'No active account found with the given credentials'})
+        return data

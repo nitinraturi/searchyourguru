@@ -1,7 +1,83 @@
 {% extends 'layouts/base.html' %}
 
 {% block body %}
-<center>
-  <h1>Logged in: {{request.user.is_authenticated}}</h1>
-</center>
+<section class="hero is-info is-fullheight-with-navbar">
+  <div class="hero-body">
+    <div class="container">
+      <p class="title">
+        Is Authenticated: {{request.user.is_authenticated}}
+      </p>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container-fluid">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="columns">
+          <div class="column is-6">
+            <div class="card box">
+              <div class="card-body">
+                <h1 class="title is-5">Looking for tutors?</h1>
+                <div class="tile is-ancestor">
+                  <div class="tile is-child box">
+                    <div class="content">
+                      Tell us your needs
+                    </div>
+                    <h2 class="subtitle is-5"><span class="tag is-danger">Step 1</span></h2>
+                  </div>
+                  <div class="tile is-child box">
+                    <div class="content">
+                      Get a free demo
+                    </div>
+                    <h2 class="subtitle is-5"><span class="tag is-danger">Step 2</span></h2>
+                  </div>
+                  <div class="tile is-child box">
+                    <div class="content">
+                      Confirm if you like
+                    </div>
+                    <h2 class="subtitle is-5"><span class="tag is-danger">Step 3</span></h2>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <a href="{% url 'pages:signup' %}">Register as a student -></a>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6">
+            <div class="card box">
+              <div class="card-body">
+                <h1 class="title is-5">Looking for students?</h1>
+                <div class="tile is-ancestor">
+                  <div class="tile is-child box">
+                    <div class="content">
+                      Tell us your needs
+                    </div>
+                    <h2 class="subtitle is-5"><span class="tag is-danger">Step 1</span></h2>
+                  </div>
+                  <div class="tile is-child box">
+                    <div class="content">
+                      Get a free demo
+                    </div>
+                    <h2 class="subtitle is-5"><span class="tag is-danger">Step 2</span></h2>
+                  </div>
+                  <div class="tile is-child box">
+                    <div class="content">
+                      Confirm if you like
+                    </div>
+                    <h2 class="subtitle is-5"><span class="tag is-danger">Step 3</span></h2>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <a href="{% url 'pages:signup' %}">Register as a Tutor -></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

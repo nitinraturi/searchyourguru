@@ -1,22 +1,28 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>SearchYourGuru</title>
   <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
-  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <!-- <script src="{% static 'js/jquery.min.js' %}"></script> -->
   <script src="{% static 'js/vue.js' %}"></script>
   <script src="{% static 'js/axios.js' %}"></script>
   <script src="{% static 'js/font-awesome.js' %}"></script>
   <script src="{% static 'js/utils.js' %}"></script>
 </head>
-<body class="has-navbar-fixed-top">
-{% include 'snippets/navbar.html' %}
-{% block body %}
-{% endblock %}
-<script src="{% static 'js/login.js' %}"></script>
+
+<body class="has-navbar-fixed-top has-background-grey-lighter">
+  <div id="main_app">
+    {% include 'snippets/navbar.html' %}
+    {% block body %}{% endblock %}
+  </div>
+  <script src="{% static 'js/common.js' %}"></script>
+  <script src="{% static 'js/controllers/main.js' %}"></script>
+  {% block extra_scripts %}{% endblock %}
 </body>
+
 </html>

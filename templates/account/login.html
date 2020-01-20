@@ -1,7 +1,8 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
 
 {% block body %}
-<div id="login-app">
+<div id="login_app">
   <section class="hero is-info is-fullheight-with-navbar is-bold">
     <div class="hero-body">
       <div class="container">
@@ -49,4 +50,8 @@
     </div>
   </section>
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- <script src="{% static 'js/controllers/login.js' %}"></script> -->
 {% endblock %}
