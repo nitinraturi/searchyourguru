@@ -8,6 +8,7 @@ from apps.tution.models import Course, Subject
 class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True, null=True, db_index=True)
+    phone = models.CharField(max_length=10,blank=True,null=True)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
@@ -21,7 +22,6 @@ class User(AbstractUser):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,related_name="user_profile")
-    phone = models.CharField(max_length=255,blank=True,null=True)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

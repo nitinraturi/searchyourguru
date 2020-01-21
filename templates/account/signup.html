@@ -1,5 +1,58 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
 
 {% block body %}
-<h1>Register</h1>
+<div id="login_app">
+  <section class="hero is-info is-fullheight-with-navbar is-bold">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-4">
+            <p class="title">
+              We Help Students and Tutors Find Each Other
+            </p>
+            <p class="subtitle">Free Registration</p>
+            <div>
+              <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                  <input v-model="login_email" class="input" type="email" placeholder="Email" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control has-icons-left">
+                  <input v-model="login_password" class="input" type="password" placeholder="Password" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+              <article class="message is-danger" v-if="login_error_message!=null">
+                <div class="message-body">
+                  [[login_error_message]]
+                </div>
+              </article>
+              <div class="field">
+                <p class="control">
+                  <button v-on:click="login" id="login-btn" class="button is-success" v-bind:class="{'is-loading':is_login_loading}">
+                    Login
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- <script src="{% static 'js/controllers/login.js' %}"></script> -->
 {% endblock %}

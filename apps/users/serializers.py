@@ -1,13 +1,14 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model,authenticate, login
-from rest_framework.validators import UniqueValidator
 from . import constants as user_constants
 from apps.tution import selectors as tution_selectors
 from . import services as user_services
+from .validators import *
 
 class UserRegistrationSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
-    email = serializers.EmailField(validators=[UniqueValidator(queryset=get_user_model().objects.all())])
+    email = serializers.EmailField()
+    phone = serializers.CharField(max_length=10)
     password = serializers.CharField(max_length=64)
     confirm_password = serializers.CharField(max_length=64)
     user_type = serializers.ChoiceField(choices=[user_constants.STUDENT,user_constants.TUTOR])
@@ -18,6 +19,16 @@ class UserRegistrationSerializer(serializers.Serializer):
         if password != confirm_password:
             raise serializers.ValidationError({'password':'Passwords did not match'})
         return data
+
+    def validate_email(self,val):
+        if not isUniqueEmail(val):
+            raise serializers.ValidationError("Account with this email already exists")
+        return val
+
+    def validate_phone(self,val):
+        if not isUniquePhone(val):
+            raise serializers.ValidationError("Account with this phone already exists")
+        return val
 
     def create(self, validated_data):
         user = user_services.create_user(**validated_data)
