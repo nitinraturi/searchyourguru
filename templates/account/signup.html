@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-<div id="login_app">
+<div id="signup_app">
   <section class="hero is-info is-fullheight-with-navbar is-bold">
     <div class="hero-body">
       <div class="container">
@@ -12,10 +12,36 @@
               We Help Students and Tutors Find Each Other
             </p>
             <p class="subtitle">Free Registration</p>
+
+            <!-- Form Div -->
             <div>
+
+              <!-- User Type -->
+              <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">I am a ?</label>
+                </div>
+                <div class="field-body">
+                  <div class="field is-narrow">
+                    <div class="control">
+                      <label class="radio">
+                        <input type="radio" name="user_type" v-model="signup_user_type" value="3">
+                        Student or Parent
+                      </label>
+                      <label class="radio">
+                        <input type="radio" name="user_type" v-model="signup_user_type" value="4">
+                        Tutor
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Name -->
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
-                  <input v-model="login_email" class="input" type="email" placeholder="Email" required>
+                  <input v-model="signup_user_name" class="input" type="text" placeholder="Full Name" required>
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
@@ -24,23 +50,64 @@
                   </span>
                 </p>
               </div>
+
+              <!-- Name -->
+              <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                  <input v-model="signup_user_phone" class="input" type="text" placeholder="Your Mobile Number" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </p>
+              </div>
+
+              <!-- Email -->
+              <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                  <input v-model="signup_email" class="input" type="email" placeholder="Email" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </p>
+              </div>
+
+              <!-- Password -->
               <div class="field">
                 <p class="control has-icons-left">
-                  <input v-model="login_password" class="input" type="password" placeholder="Password" required>
+                  <input v-model="signup_password" class="input" type="password" placeholder="Password" required>
                   <span class="icon is-small is-left">
                     <i class="fas fa-lock"></i>
                   </span>
                 </p>
               </div>
-              <article class="message is-danger" v-if="login_error_message!=null">
+
+              <!-- Confirm Password -->
+              <div class="field">
+                <p class="control has-icons-left">
+                  <input v-model="signup_confirm_password" class="input" type="password" placeholder="Confirm Password" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+
+
+              <!-- signup_error_message -->
+              <article class="message is-danger" v-if="signup_error_message!=null">
                 <div class="message-body">
-                  [[login_error_message]]
+                  [[signup_error_message]]
                 </div>
               </article>
               <div class="field">
                 <p class="control">
-                  <button v-on:click="login" id="login-btn" class="button is-success" v-bind:class="{'is-loading':is_login_loading}">
-                    Login
+                  <button v-on:click="signup" class="button is-success" v-bind:class="{'is-loading':is_signup_loading}">
+                    Create Account
                   </button>
                 </p>
               </div>
@@ -54,5 +121,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-<!-- <script src="{% static 'js/controllers/login.js' %}"></script> -->
+<script src="{% static 'js/controllers/signup.js' %}"></script>
 {% endblock %}

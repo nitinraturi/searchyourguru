@@ -12,7 +12,7 @@ class AuthViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['post'],url_name="register",url_path="auth/register")
     def account_register(self,request):
-        serializer = UserRegistrationSerializer(data=request.data)
+        serializer = UserRegistrationSerializer(data=request.data,context={"request":request})
         response = {}
         if serializer.is_valid():
             data = serializer.validated_data

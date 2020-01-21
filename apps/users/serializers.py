@@ -32,6 +32,7 @@ class UserRegistrationSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         user = user_services.create_user(**validated_data)
+        request = self.context.get('request')
         return user
 
 class UserSerializer(serializers.ModelSerializer):

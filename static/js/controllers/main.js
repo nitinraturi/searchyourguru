@@ -1,7 +1,7 @@
 Vue.prototype.$appName = 'SearchYourGuru'
 var main_app = new Vue({
   delimiters: ['[[', ']]'],
-  el: '#main_app',
+  el: '#nav_app',
   data: {
     login_endpoint: "/account/auth/login/",
     logout_endpoint: "/account/auth/logout/",
