@@ -4,6 +4,7 @@ from . import constants as user_constants
 from apps.tution import selectors as tution_selectors
 from . import services as user_services
 from .validators import *
+from apps.mailers import utils as mailer_utils
 
 class UserRegistrationSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
@@ -33,6 +34,7 @@ class UserRegistrationSerializer(serializers.Serializer):
     def create(self, validated_data):
         user = user_services.create_user(**validated_data)
         request = self.context.get('request')
+        mailer_utils.send_account_activation_mail(request,user)
         return user
 
 class UserSerializer(serializers.ModelSerializer):

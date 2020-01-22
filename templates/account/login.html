@@ -8,6 +8,30 @@
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-4">
+            {% if account_activated == False %}
+            <article class="message is-danger">
+              <div class="message-header">
+                <p>Account Activation</p>
+                <button class="delete" aria-label="delete"></button>
+              </div>
+              <div class="message-body">
+                Activation link is invalid or expired, Please register again.
+              </div>
+            </article>
+            {% endif %}
+            {% if account_activated == True %}
+            <article class="message is-success">
+              <div class="message-header">
+                <p>Account Activation</p>
+                <button class="delete" aria-label="delete"></button>
+              </div>
+              <div class="message-body">
+                <p>Hii <b>{{user.email}}</b>, your account has been successfully activated.</p>
+                <p>Please login with your credentials below</p>
+              </div>
+            </article>
+            {% endif %}
+
             <p class="title">
               We Help Students and Tutors Find Each Other
             </p>

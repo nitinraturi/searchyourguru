@@ -1,5 +1,5 @@
 from django.contrib.auth import views as auth_views
-from django.urls import path,include
+from django.urls import path,re_path,include
 from rest_framework.routers import DefaultRouter
 from .views import *
 
@@ -9,7 +9,9 @@ router.register(r'', AuthViewSet,basename="auth")
 router.register(r'', UserViewSet,basename="user")
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    re_path('^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        activate_account, name='activate_account')
 ]
 
 # urlpatterns += [

@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from rest_framework import views, viewsets, status, renderers
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -61,3 +62,22 @@ class UserViewSet(viewsets.ViewSet):
             response['error'] = "User does not exist"
             status_code = status.HTTP_404_NOT_FOUND
         return Response(response,status=status_code)
+
+
+def activate_account(request, uidb64, token):
+    from django.utils.encoding import force_text
+    from django.utils.http import urlsafe_base64_decode
+    from .tokens import account_activation_token
+
+    User = get_user_model()
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return render(request,'account/login.html',{'new_user':user,'account_activated':True})
+    else:
+        return render(request,'account/login.html',{'new_user':user,'account_activated':False})

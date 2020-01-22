@@ -22,4 +22,5 @@ INSTALLED_APPS += [
     'apps.users',
     'apps.pages',
     'apps.tution',
+    'apps.mailers',
 ]

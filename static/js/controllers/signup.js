@@ -12,6 +12,7 @@ var main_app = new Vue({
     invalid_signup: false,
     signup_error_message: null,
     is_signup_loading: false,
+    success_signup_message:null,
     errors: [],
   },
   methods: {
@@ -38,7 +39,8 @@ var main_app = new Vue({
             // localStorage.setItem('user-token-refresh', response.data.refresh);
             // localStorage.setItem('user-is-authenticated', true);
             this.is_signup_loading = false;
-            window.location = "/";
+            // window.location = "/";
+            this.success_signup_message = true;
           }, (error) => {
             console.log(error.response);
             this.signup_error_message = error.response.data;
