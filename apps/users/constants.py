@@ -9,3 +9,7 @@ USER_TYPE_CHOICES = (
       (STUDENT, 'Student'),
       (TUTOR, 'Tutor'),
   )
+
+ACCOUNT_ACTIVE = "active"
+ACCOUNT_INACTIVE = "inactive"
+ACCOUNT_DOESNOTEXIST = "doesnotexist"

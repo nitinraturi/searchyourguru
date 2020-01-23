@@ -34,6 +34,20 @@ class AuthViewSet(viewsets.ViewSet):
         serializer = LoginSerializer(data=request.data,context={"request":request})
         if serializer.is_valid():
             data = serializer.validated_data
+            response['status'] = data.get('status')
+            status_code = status.HTTP_200_OK
+        else:
+            response = serializer.errors
+            status_code = status.HTTP_403_FORBIDDEN
+        return Response(response,status=status_code)
+
+    @action(detail=False, methods=['post'],url_name="account_activation_link",url_path="auth/account-activation-link")
+    def account_activation_link(self,request):
+        response = {}
+        serializer = AccountActivationSerializer(data=request.data,context={"request":request})
+        if serializer.is_valid():
+            serializer.send_activation_link()
+            data = serializer.validated_data
             response['success'] = True
             status_code = status.HTTP_200_OK
         else:

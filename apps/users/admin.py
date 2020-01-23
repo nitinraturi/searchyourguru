@@ -19,7 +19,7 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
     inlines = (UserProfileInline,)
     list_display = ('email', 'is_staff', 'is_active','is_superuser',)
-    list_filter = ('email', 'is_staff', 'is_active','is_superuser','user_type')
+    list_filter = ('is_staff', 'is_active','is_superuser','user_type')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Permissions', {'fields': ('is_staff', 'is_active','user_type','phone')}),

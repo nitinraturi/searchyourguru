@@ -26,8 +26,8 @@
               <p class="subtitle">Free Registration</p>
 
               <!-- Form Div -->
-              <div>
-
+              <div class="box">
+              <form action="#" v-on:submit.prevent="onSubmit" method="POST">
                 <!-- User Type -->
                 <div class="field is-horizontal">
                   <div class="field-label">
@@ -37,14 +37,15 @@
                     <div class="field is-narrow">
                       <div class="control">
                         <label class="radio">
-                          <input type="radio" name="user_type" v-model="signup_user_type" value="3">
+                          <input type="radio" name="user_type" v-model="signup_user_type" value="3" required>
                           Student or Parent
                         </label>
                         <label class="radio">
-                          <input type="radio" name="user_type" v-model="signup_user_type" value="4">
+                          <input type="radio" name="user_type" v-model="signup_user_type" value="4" required>
                           Tutor
                         </label>
                       </div>
+                      <p class="help is-danger" v-if="signup_user_type_error != null">[[signup_user_type_error]]</p>
                     </div>
                   </div>
                 </div>
@@ -61,12 +62,13 @@
                       <i class="fas fa-check"></i>
                     </span>
                   </p>
+                  <p class="help is-danger" v-if="signup_user_name_error != null">[[signup_user_name_error]]</p>
                 </div>
 
-                <!-- Name -->
+                <!-- Phone -->
                 <div class="field">
                   <p class="control has-icons-left has-icons-right">
-                    <input v-model="signup_user_phone" class="input" type="text" placeholder="Your Mobile Number" required>
+                    <input v-model="signup_user_phone" class="input" type="number" placeholder="Your Mobile Number" required>
                     <span class="icon is-small is-left">
                       <i class="fas fa-envelope"></i>
                     </span>
@@ -74,6 +76,7 @@
                       <i class="fas fa-check"></i>
                     </span>
                   </p>
+                  <p class="help is-danger" v-if="signup_user_phone_error != null">[[signup_user_phone_error]]</p>
                 </div>
 
                 <!-- Email -->
@@ -87,6 +90,7 @@
                       <i class="fas fa-check"></i>
                     </span>
                   </p>
+                  <p class="help is-danger" v-if="signup_email_error != null">[[signup_email_error]]</p>
                 </div>
 
                 <!-- Password -->
@@ -97,6 +101,7 @@
                       <i class="fas fa-lock"></i>
                     </span>
                   </p>
+                  <p class="help is-danger" v-if="signup_password_error != null">[[signup_password_error]]</p>
                 </div>
 
                 <!-- Confirm Password -->
@@ -109,13 +114,6 @@
                   </p>
                 </div>
 
-
-                <!-- signup_error_message -->
-                <article class="message is-danger" v-if="signup_error_message!=null">
-                  <div class="message-body">
-                    [[signup_error_message]]
-                  </div>
-                </article>
                 <div class="field">
                   <p class="control">
                     <button v-on:click="signup" class="button is-success" v-bind:class="{'is-loading':is_signup_loading}">
@@ -123,6 +121,9 @@
                     </button>
                   </p>
                 </div>
+              </form>
+              <hr>
+              <p>Already have an account, <a href="/login/">Login here</a></p>
               </div>
             </div>
           </div>

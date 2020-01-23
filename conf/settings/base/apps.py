@@ -12,7 +12,7 @@ INSTALLED_APPS = [
 
 #Third Party Apps
 INSTALLED_APPS += [
-    'debug_toolbar',
+    # 'debug_toolbar',
     'compressor',
     'rest_framework',
 ]

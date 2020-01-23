@@ -35,38 +35,56 @@
             <p class="title">
               We Help Students and Tutors Find Each Other
             </p>
-            <div>
-              <div class="field">
-                <p class="control has-icons-left has-icons-right">
-                  <input v-model="login_email" class="input" type="email" placeholder="Email" required>
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                  </span>
-                  <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
-                  </span>
-                </p>
+            <p class="subtitle">Enter your credentials</p>
+
+            <article class="message is-danger" v-if="account_activation_required == true">
+              <div class="message-header">
+                <p>Email Activation Required</p>
               </div>
-              <div class="field">
-                <p class="control has-icons-left">
-                  <input v-model="login_password" class="input" type="password" placeholder="Password" required>
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                  </span>
-                </p>
+              <div class="message-body">
+                [[account_activation_required_message]]
               </div>
-              <article class="message is-danger" v-if="login_error_message!=null">
-                <div class="message-body">
-                  [[login_error_message]]
+              <div class="message-footer">
+                <button v-on:click="resend_verification_email" class="button is-danger" v-bind:class="{'is-loading':is_login_loading}">Resend Verification Email</button>
+              </div>
+            </article>
+
+            <div class="box" v-if="account_activation_required != true">
+              <!-- <form action="#" v-on:submit.prevent="onSubmit" method="POST"> -->
+                <div class="field">
+                  <p class="control has-icons-left has-icons-right">
+                    <input v-model="login_email" class="input" type="email" placeholder="Email" required>
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-envelope"></i>
+                    </span>
+                    <span class="icon is-small is-right">
+                      <i class="fas fa-check"></i>
+                    </span>
+                  </p>
                 </div>
-              </article>
-              <div class="field">
-                <p class="control">
-                  <button v-on:click="login" id="login-btn" class="button is-success" v-bind:class="{'is-loading':is_login_loading}">
-                    Login
-                  </button>
-                </p>
-              </div>
+                <div class="field">
+                  <p class="control has-icons-left">
+                    <input v-model="login_password" class="input" type="password" placeholder="Password" required>
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-lock"></i>
+                    </span>
+                  </p>
+                </div>
+                <article class="message is-danger" v-if="login_error_message!=null">
+                  <div class="message-body">
+                    [[login_error_message]]
+                  </div>
+                </article>
+                <div class="field">
+                  <p class="control">
+                    <button v-on:click="login" id="login-btn" class="button is-success" v-bind:class="{'is-loading':is_login_loading}">
+                      Login
+                    </button>
+                  </p>
+                </div>
+              <!-- </form> -->
+              <hr>
+              <p>Dont have an account, <a href="/signup/">Register here</a></p>
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ from . import constants as user_constants
 from apps.tution import selectors as tution_selectors
 from . import services as user_services
 from .validators import *
+from .selectors import *
 from apps.mailers import utils as mailer_utils
 
 class UserRegistrationSerializer(serializers.Serializer):
@@ -50,9 +51,36 @@ class LoginSerializer(serializers.Serializer):
         email = data.get("email")
         password = data.get("password")
         request = self.context.get('request')
-        user = authenticate(request, email=email, password=password)
-        if user is not None:
-            login(request, user)
+
+        if isEmailVerificationPending(email):
+            raise serializers.ValidationError({"status":user_constants.ACCOUNT_INACTIVE})
         else:
-            raise serializers.ValidationError({'detail':'No active account found with the given credentials'})
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                data['status'] = user_constants.ACCOUNT_ACTIVE
+                login(request, user)
+            else:
+                raise serializers.ValidationError({'status':user_constants.ACCOUNT_DOESNOTEXIST})
         return data
+
+class AccountActivationSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+
+    def validate(self,data):
+        email = data.get('email')
+        user = get_user(email=email)
+        request = self.context.get('request')
+        if user is None:
+            raise serializers.ValidationError({'detail':'No user associated with this email'})
+
+        if not isEmailVerificationPending(email):
+            raise serializers.ValidationError({'detail':"No email verification pending"})
+        return data
+
+    def send_activation_link(self):
+        email = self.validated_data.get('email')
+        request = self.context.get('request')
+        user = get_user(email=email)
+        if user:
+            mailer_utils.send_account_activation_mail(request,user)
+        return user
