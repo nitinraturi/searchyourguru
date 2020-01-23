@@ -7,7 +7,9 @@
     <div class="hero-body">
       <div class="container">
         <div class="columns is-centered">
-          <div class="column is-4">
+          <div class="column is-6">
+
+            <!-- This will be executed in case of activation link start -->
             {% if account_activated == False %}
             <article class="message is-danger">
               <div class="message-header">
@@ -31,26 +33,15 @@
               </div>
             </article>
             {% endif %}
+            <!-- end -->
 
             <p class="title">
-              We Help Students and Tutors Find Each Other
+              SearchYourGuru
             </p>
-            <p class="subtitle">Enter your credentials</p>
+            <p class="subtitle">Login Now</p>
 
-            <article class="message is-danger" v-if="account_activation_required == true">
-              <div class="message-header">
-                <p>Email Activation Required</p>
-              </div>
-              <div class="message-body">
-                [[account_activation_required_message]]
-              </div>
-              <div class="message-footer">
-                <button v-on:click="resend_verification_email" class="button is-danger" v-bind:class="{'is-loading':is_login_loading}">Resend Verification Email</button>
-              </div>
-            </article>
-
-            <div class="box" v-if="account_activation_required != true">
-              <!-- <form action="#" v-on:submit.prevent="onSubmit" method="POST"> -->
+            <div class="box">
+              <form action="#" v-on:submit.prevent="login" method="POST">
                 <div class="field">
                   <p class="control has-icons-left has-icons-right">
                     <input v-model="login_email" class="input" type="email" placeholder="Email" required>
@@ -61,6 +52,7 @@
                       <i class="fas fa-check"></i>
                     </span>
                   </p>
+                  <p class="help is-danger" v-if="login_email_error == true">Please enter a valid email</p>
                 </div>
                 <div class="field">
                   <p class="control has-icons-left">
@@ -69,23 +61,28 @@
                       <i class="fas fa-lock"></i>
                     </span>
                   </p>
+                  <p class="help is-danger" v-if="login_password_error == true">Please enter password</p>
                 </div>
+
                 <article class="message is-danger" v-if="login_error_message!=null">
                   <div class="message-body">
                     [[login_error_message]]
                   </div>
                 </article>
+
                 <div class="field">
                   <p class="control">
-                    <button v-on:click="login" id="login-btn" class="button is-success" v-bind:class="{'is-loading':is_login_loading}">
+                    <button type="submit" v-on:submit="login" id="login-btn" class="button is-success" v-bind:class="{'is-loading':is_login_loading}">
                       Login
                     </button>
                   </p>
                 </div>
-              <!-- </form> -->
+              </form>
               <hr>
-              <p>Dont have an account, <a href="/signup/">Register here</a></p>
+              <p>Dont have an account, <a href="{% url 'pages:signup' %}">Register here</a></p>
             </div>
+
+
           </div>
         </div>
       </div>

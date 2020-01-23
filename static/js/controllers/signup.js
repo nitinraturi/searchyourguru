@@ -9,9 +9,7 @@ var main_app = new Vue({
     signup_email: null,
     signup_password: null,
     signup_confirm_password: null,
-    invalid_signup: false,
     is_signup_loading: false,
-    success_signup_message:null,
     signup_user_type_error: null,
     signup_user_name_error: null,
     signup_user_phone_error: null,
@@ -52,13 +50,9 @@ var main_app = new Vue({
           };
         axios.post(this.signup_endpoint,data)
           .then((response) => {
-            // localStorage.setItem('user-token', response.data.access);
-            // localStorage.setItem('user-token-refresh', response.data.refresh);
-            // localStorage.setItem('user-is-authenticated', true);
             this.is_signup_loading = false;
-            this.success_signup_message = true;
+            window.location = '/verification/?source=signup&verification_email='+this.signup_email;
           }, (error) => {
-            console.log(error.response);
             this.errors = error.response.data.errors;
             this.is_signup_loading = false;
 

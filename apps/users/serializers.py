@@ -74,7 +74,7 @@ class AccountActivationSerializer(serializers.Serializer):
             raise serializers.ValidationError({'detail':'No user associated with this email'})
 
         if not isEmailVerificationPending(email):
-            raise serializers.ValidationError({'detail':"No email verification pending"})
+            raise serializers.ValidationError({'detail':"No email verification pending for this email"})
         return data
 
     def send_activation_link(self):
