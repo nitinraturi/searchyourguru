@@ -41,6 +41,20 @@ class AuthViewSet(viewsets.ViewSet):
             status_code = status.HTTP_403_FORBIDDEN
         return Response(response,status=status_code)
 
+    @action(detail=False, methods=['post'],url_name="change_password",url_path="auth/change-password")
+    def change_password(self,request):
+        response = {}
+        serializer = ChangePasswordSerializer(data=request.data,context={"request":request})
+        if serializer.is_valid():
+            serializer.change_password()
+            data = serializer.validated_data
+            response['success'] = True
+            status_code = status.HTTP_200_OK
+        else:
+            response = serializer.errors
+            status_code = status.HTTP_400_BAD_REQUEST
+        return Response(response,status=status_code)
+
     @action(detail=False, methods=['post'],url_name="account_activation_link",url_path="auth/account-activation-link")
     def account_activation_link(self,request):
         response = {}
@@ -53,6 +67,20 @@ class AuthViewSet(viewsets.ViewSet):
         else:
             response = serializer.errors
             status_code = status.HTTP_403_FORBIDDEN
+        return Response(response,status=status_code)
+
+    @action(detail=False, methods=['post'],url_name="account_password_reset_link",url_path="auth/account-password-reset-link")
+    def account_password_reset_link(self,request):
+        response = {}
+        serializer = PasswordResetSerializer(data=request.data,context={"request":request})
+        if serializer.is_valid():
+            serializer.send_password_link()
+            data = serializer.validated_data
+            response['success'] = True
+            status_code = status.HTTP_200_OK
+        else:
+            response = serializer.errors
+            status_code = status.HTTP_400_BAD_REQUEST
         return Response(response,status=status_code)
 
     @action(detail=False, methods=['post'],url_name="logout",url_path="auth/logout")
@@ -95,3 +123,19 @@ def activate_account(request, uidb64, token):
         return render(request,'account/login.html',{'new_user':user,'account_activated':True})
     else:
         return render(request,'account/login.html',{'new_user':user,'account_activated':False})
+
+def password_reset_verification(request, uidb64, token):
+    from django.utils.encoding import force_text
+    from django.utils.http import urlsafe_base64_decode
+    from .tokens import password_reset_token
+
+    User = get_user_model()
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and password_reset_token.check_token(user, token):
+        return render(request,'account/password_reset.html',{'new_user':user,'password_reset_verification':True})
+    else:
+        return render(request,'account/password_reset.html',{'new_user':user,'password_reset_verification':False})

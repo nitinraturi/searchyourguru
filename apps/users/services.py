@@ -11,3 +11,7 @@ def create_user(**kwargs):
     password = kwargs.get('password')
     user = User.objects.create_user(email,password,**data)
     return user
+
+def change_user_password(user,password):
+    user.set_password(password)
+    user.save()

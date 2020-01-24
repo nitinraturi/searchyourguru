@@ -11,7 +11,9 @@ router.register(r'', UserViewSet,basename="user")
 urlpatterns = [
     path('', include(router.urls)),
     re_path('^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        activate_account, name='activate_account')
+        activate_account, name='activate_account'),
+    re_path('^password-reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        password_reset_verification, name='password_reset_verification'),
 ]
 
 # urlpatterns += [

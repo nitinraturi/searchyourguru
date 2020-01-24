@@ -18,3 +18,10 @@ class VerificationView(TemplateView):
         context['source'] = self.request.GET.get('source')
         context['verification_email'] = self.request.GET.get('verification_email')
         return context
+
+class PasswordResetView(TemplateView):
+    template_name="account/password_reset.html"
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

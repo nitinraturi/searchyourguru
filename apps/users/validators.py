@@ -9,6 +9,10 @@ def isEmailVerificationPending(email):
     User = get_user_model()
     return User.objects.filter(email=email,is_active=False).exists()
 
+def isUserActive(email):
+    User = get_user_model()
+    return User.objects.filter(email=email,is_active=True).exists()
+
 
 def isUniquePhone(phone):
     User = get_user_model()

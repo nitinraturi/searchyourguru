@@ -1,5 +1,5 @@
 {% autoescape off %}
-Hi {{ user.first_name }},
-Please click on the link to confirm your registration,
-http://{{ domain }}{% url 'account:activate_account' uidb64=uid token=token %}
+<p>Hi {{ user.first_name }},</p>
+<p>Please click on the link to confirm your registration,</p>
+<p><a href="http://{{ domain }}{% url 'account:activate_account' uidb64=uid token=token %}">http://{{ domain }}{% url 'account:activate_account' uidb64=uid token=token %}</a></p>
 {% endautoescape %}
