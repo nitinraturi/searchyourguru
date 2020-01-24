@@ -27,7 +27,7 @@ var main_app = new Vue({
           })
           .then((response) => {
             this.is_login_loading = false;
-            window.location = "/";
+            window.location = "/dashboard/";
           }, (error) => {
             let response =error.response.data.status[0];
             if(response == "doesnotexist"){

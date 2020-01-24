@@ -1,0 +1,51 @@
+<form action="#" v-on:submit.prevent="update_general_profile" method="POST">
+  <!-- Name -->
+  <div class="field">
+    <p class="control has-icons-left has-icons-right">
+      <input v-model="general_settings.user_name" class="input" type="text" placeholder="Full Name" required v-bind:disabled="general_settings.edit_mode">
+      <span class="icon is-small is-left">
+        <i class="fas fa-envelope"></i>
+      </span>
+      <span class="icon is-small is-right">
+        <i class="fas fa-check"></i>
+      </span>
+    </p>
+    <p class="help is-danger" v-if="general_settings.user_name_error != null">[[general_settings.user_name_error]]</p>
+  </div>
+
+  <!-- Phone -->
+  <div class="field">
+    <p class="control has-icons-left has-icons-right">
+      <input v-model="general_settings.user_phone" class="input" type="number" placeholder="Your Mobile Number" required>
+      <span class="icon is-small is-left">
+        <i class="fas fa-envelope"></i>
+      </span>
+      <span class="icon is-small is-right">
+        <i class="fas fa-check"></i>
+      </span>
+    </p>
+    <p class="help is-danger" v-if="general_settings.user_phone_error != null">[[general_settings.user_phone_error]]</p>
+  </div>
+
+  <!-- Email -->
+  <div class="field">
+    <p class="control has-icons-left has-icons-right">
+      <input v-model="general_settings.user_email" class="input" type="email" placeholder="Email" required disabled>
+      <span class="icon is-small is-left">
+        <i class="fas fa-envelope"></i>
+      </span>
+      <span class="icon is-small is-right">
+        <i class="fas fa-check"></i>
+      </span>
+    </p>
+    <p class="help is-danger" v-if="general_settings.user_email_error != null">[[general_settings.user_email_error]]</p>
+  </div>
+
+  <div class="field">
+    <p class="control">
+      <button type="submit" v-on:submit="update_general_profile" class="button is-success" v-bind:class="{'is-loading':is_signup_loading}">
+        Update
+      </button>
+    </p>
+  </div>
+</form>

@@ -1,0 +1,35 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block body %}
+<div id="dashboard_app">
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-5">
+          <h1 class="subtitle is-5 has-text-info">Hello {{user.first_name}}</h1>
+          <aside class="menu">
+            <p class="menu-label">Account</p>
+            <ul class="menu-list">
+              <li><a v-on:click.prevent.stop="set_app_state('account')">General</a></li>
+              <li><a v-on:click.prevent.stop="set_app_state('change_password')">Change Password</a></li>
+              <li><a v-on:click.prevent.stop="set_app_state('change_email')">Change Email</a></li>
+            </ul>
+          </aside>
+        </div>
+        <div class="column is-7">
+          <div class="box" v-if="app_state=='account'">
+            <h1 class="title is-5">General Settings</h1>
+            {% include 'pages/dashboard/general.html' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/controllers/dashboard.js' %}"></script>
+{% endblock %}

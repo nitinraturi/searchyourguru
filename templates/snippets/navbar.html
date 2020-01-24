@@ -23,7 +23,7 @@
 				<a class="navbar-item" href="{% url 'pages:login' %}">Login</a>
 				<a class="navbar-item" href="{% url 'pages:signup' %}">Register</a>
 				{% else %}
-				<a class="navbar-item" href="#">Dashboard</a>
+				<a class="navbar-item" href="{% url 'pages:dashboard' %}">Dashboard</a>
 				<a class="navbar-item" href="#" v-on:click="logout">Logout</a>
 				{% endif %}
 			</div>

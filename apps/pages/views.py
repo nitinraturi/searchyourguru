@@ -10,6 +10,9 @@ class LoginView(TemplateView):
 class SignupView(TemplateView):
     template_name="account/signup.html"
 
+class DashboardView(TemplateView):
+    template_name="pages/dashboard.html"
+
 class VerificationView(TemplateView):
     template_name="account/verification.html"
 
