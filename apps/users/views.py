@@ -136,6 +136,6 @@ def password_reset_verification(request, uidb64, token):
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if user is not None and password_reset_token.check_token(user, token):
-        return render(request,'account/password_reset.html',{'new_user':user,'password_reset_verification':True})
+        return render(request,'account/password_reset.html',{'user':user,'password_reset_verification':True})
     else:
-        return render(request,'account/password_reset.html',{'new_user':user,'password_reset_verification':False})
+        return render(request,'account/password_reset.html',{'user':user,'password_reset_verification':False})

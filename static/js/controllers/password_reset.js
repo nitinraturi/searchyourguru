@@ -48,6 +48,7 @@ var main_app = new Vue({
       }else{
         this.is_loading = true;
         axios.post(this.change_password_endpoint, {
+          email:document.querySelector('#user_email').value,
           password: this.new_password,
           confirm_password: this.confirm_new_password
         })
