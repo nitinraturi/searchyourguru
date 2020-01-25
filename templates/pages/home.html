@@ -1,13 +1,14 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
 
 {% block body %}
-<section class="hero is-info is-medium">
+<section class="hero is-info is-bold is-medium">
   <div class="hero-body">
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-8">
           <p class="title">
-            Search
+            SearchYourGuru
           </p>
           <div class="box">
             <form action="#">
@@ -91,54 +92,57 @@
 
 <section class="section">
   <div class="container">
+    <center>
+      <a href="{% url 'pages:signup' %}" class="button is-success">
+        Register & Get your 1st connection for free
+      </a>
+    </center>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
     <h1 class="title has-text-centered">Learn & Earn - 3 Step Process</h1>
     <hr>
     <div class="columns is-centered">
       <div class="column is-9">
         <div class="columns">
-          <div class="column is-half">
-            <div class="box">
-              <h1 class="title is-5 has-text-centered">Student/Parent</h1>
-              <div class="columns">
-                <div class="column is-4">
-                  <h2 class="subtitle"><span class="tag is-info">Step 1</span></h2>
-                  <p class="subtitle">Select a tutor</p>
-                </div>
-                <div class="column is-4">
-                  <h2 class="subtitle"><span class="tag is-link">Step 2</span></h2>
-                  <p class="subtitle">Get a free demo</p>
-                </div>
-                <div class="column is-4">
-                  <h2 class="subtitle is-5"><span class="tag is-success">Step 3</span></h2>
-                  <p class="subtitle">Confirm if you like</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="column is-half">
-            <div class="box">
-              <h1 class="title is-5 has-text-centered">Tutor</h1>
-              <div class="columns">
-                <div class="column is-4">
-                  <h2 class="subtitle is-5"><span class="tag is-info">Step 1</span></h2>
-                  <p class="subtitle">Create a Profile</p>
-                </div>
-                <div class="column is-4">
-                  <h2 class="subtitle is-5"><span class="tag is-link">Step 2</span></h2>
-                  <p class="subtitle">Get Students</p>
-                </div>
-                <div class="column is-4">
 
-                  <h2 class="subtitle is-5"><span class="tag is-success">Step 3</span></h2>
-                  <p class="subtitle">Start Earning</p>
-                </div>
-              </div>
-            </div>
+          <div class="column is-full">
+            <figure class="image">
+              <img src="{% static 'img/student-h1.jpg' %}" alt="">
+            </figure>
           </div>
         </div>
       </div>
     </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <center>
+      <a href="{% url 'pages:signup' %}" class="button is-success">
+        Register For a Free Account Today
+      </a>
+    </center>
   </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title has-text-centered">Why US</h1>
+    <hr>
+    <div class="columns is-centered">
+      <div class="column is-9">
+        <div class="columns">
+          <div class="column is-full">
+            <figure class="image">
+              <img src="{% static 'img/banner1.jpg' %}" alt="">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
 </section>
 
 {% endblock %}
