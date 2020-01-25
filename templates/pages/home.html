@@ -1,77 +1,137 @@
 {% extends 'layouts/base.html' %}
 
 {% block body %}
-<section class="hero is-info is-fullheight-with-navbar">
+<section class="hero is-info is-medium">
   <div class="hero-body">
     <div class="container">
-      <p class="title">
-        Is Authenticated: {{request.user.is_authenticated}}
-      </p>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <p class="title">
+            Search
+          </p>
+          <div class="box">
+            <form action="#">
+              <div class="columns is-multiline">
+                <div class="column is-3">
+                  <!-- City  -->
+                  <div class="field is-horizontal">
+                    <div class="field-body">
+                      <div class="field">
+                        <label class="label">City</label>
+                        <div class="control">
+                          <select name="city" class="input">
+                            <option value="0">Delhi</option>
+                            <option value="0">Delhi</option>
+                            <option value="0">Delhi</option>
+                            <option value="0">Delhi</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="column is-3">
+                  <!-- City  -->
+                  <div class="field is-horizontal">
+                    <div class="field-body">
+                      <div class="field">
+                        <label class="label">Looking</label>
+                        <div class="control">
+                          <select name="type" class="input">
+                            <option value="0">Tutors</option>
+                            <option value="0">Students</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="column is-3">
+                  <!-- City  -->
+                  <div class="field is-horizontal">
+                    <div class="field-body">
+                      <div class="field">
+                        <label class="label">Course</label>
+                        <div class="control">
+                          <select name="type" class="input">
+                            <option value="0">BCA</option>
+                            <option value="0">MCA</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="column is-3">
+                  <div class="field">
+                    <label for="" class="label">
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-search"></i>
+                      </span>
+                    </label>
+                    <p class="control">
+                      <button type="submit" v-on:submit="signup" class="button is-success">
+                        Search
+                      </button>
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
 <section class="section">
-  <div class="container-fluid">
+  <div class="container">
+    <h1 class="title has-text-centered">Learn & Earn - 3 Step Process</h1>
+    <hr>
     <div class="columns is-centered">
-      <div class="column is-8">
+      <div class="column is-9">
         <div class="columns">
-          <div class="column is-6">
-            <div class="card box">
-              <div class="card-body">
-                <h1 class="title is-5">Looking for tutors?</h1>
-                <div class="tile is-ancestor">
-                  <div class="tile is-child box">
-                    <div class="content">
-                      Tell us your needs
-                    </div>
-                    <h2 class="subtitle is-5"><span class="tag is-danger">Step 1</span></h2>
-                  </div>
-                  <div class="tile is-child box">
-                    <div class="content">
-                      Get a free demo
-                    </div>
-                    <h2 class="subtitle is-5"><span class="tag is-danger">Step 2</span></h2>
-                  </div>
-                  <div class="tile is-child box">
-                    <div class="content">
-                      Confirm if you like
-                    </div>
-                    <h2 class="subtitle is-5"><span class="tag is-danger">Step 3</span></h2>
-                  </div>
+          <div class="column is-half">
+            <div class="box">
+              <h1 class="title is-5 has-text-centered">Student/Parent</h1>
+              <div class="columns">
+                <div class="column is-4">
+                  <h2 class="subtitle"><span class="tag is-info">Step 1</span></h2>
+                  <p class="subtitle">Select a tutor</p>
                 </div>
-              </div>
-              <div class="card-footer">
-                <a href="{% url 'pages:signup' %}">Register as a student -></a>
+                <div class="column is-4">
+                  <h2 class="subtitle"><span class="tag is-link">Step 2</span></h2>
+                  <p class="subtitle">Get a free demo</p>
+                </div>
+                <div class="column is-4">
+                  <h2 class="subtitle is-5"><span class="tag is-success">Step 3</span></h2>
+                  <p class="subtitle">Confirm if you like</p>
+                </div>
               </div>
             </div>
           </div>
-          <div class="column is-6">
-            <div class="card box">
-              <div class="card-body">
-                <h1 class="title is-5">Looking for students?</h1>
-                <div class="tile is-ancestor">
-                  <div class="tile is-child box">
-                    <div class="content">
-                      Tell us your needs
-                    </div>
-                    <h2 class="subtitle is-5"><span class="tag is-danger">Step 1</span></h2>
-                  </div>
-                  <div class="tile is-child box">
-                    <div class="content">
-                      Get a free demo
-                    </div>
-                    <h2 class="subtitle is-5"><span class="tag is-danger">Step 2</span></h2>
-                  </div>
-                  <div class="tile is-child box">
-                    <div class="content">
-                      Confirm if you like
-                    </div>
-                    <h2 class="subtitle is-5"><span class="tag is-danger">Step 3</span></h2>
-                  </div>
+          <div class="column is-half">
+            <div class="box">
+              <h1 class="title is-5 has-text-centered">Tutor</h1>
+              <div class="columns">
+                <div class="column is-4">
+                  <h2 class="subtitle is-5"><span class="tag is-info">Step 1</span></h2>
+                  <p class="subtitle">Create a Profile</p>
                 </div>
-              </div>
-              <div class="card-footer">
-                <a href="{% url 'pages:signup' %}">Register as a Tutor -></a>
+                <div class="column is-4">
+                  <h2 class="subtitle is-5"><span class="tag is-link">Step 2</span></h2>
+                  <p class="subtitle">Get Students</p>
+                </div>
+                <div class="column is-4">
+
+                  <h2 class="subtitle is-5"><span class="tag is-success">Step 3</span></h2>
+                  <p class="subtitle">Start Earning</p>
+                </div>
               </div>
             </div>
           </div>
@@ -80,4 +140,5 @@
     </div>
   </div>
 </section>
+
 {% endblock %}
