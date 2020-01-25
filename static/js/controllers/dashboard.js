@@ -7,7 +7,7 @@ var main_app = new Vue({
       update_user_profile: "/account/user/update-profile/",
       update_password: "/account/user/update-password/"
     },
-    app_state: "change_password",
+    app_state: "general_settings",
     is_loading: false,
     general_settings: {
       user_name: "",
