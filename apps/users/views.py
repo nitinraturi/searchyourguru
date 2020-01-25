@@ -3,9 +3,12 @@ from django.http import HttpResponseRedirect
 from rest_framework import views, viewsets, status, renderers
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model,logout
 from .serializers import *
 from . import services as user_services
+from . import selectors as user_selectors
 
 class AuthViewSet(viewsets.ViewSet):
     queryset = get_user_model().objects.all()
@@ -35,6 +38,8 @@ class AuthViewSet(viewsets.ViewSet):
         if serializer.is_valid():
             data = serializer.validated_data
             response['status'] = data.get('status')
+            response['access'] = data.get('access')
+            response['refresh'] = data.get('refresh')
             status_code = status.HTTP_200_OK
         else:
             response = serializer.errors
@@ -44,7 +49,7 @@ class AuthViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'],url_name="change_password",url_path="auth/change-password")
     def change_password(self,request):
         response = {}
-        serializer = ChangePasswordSerializer(data=request.data,context={"request":request})
+        serializer = SetPasswordSerializer(data=request.data,context={"request":request})
         if serializer.is_valid():
             serializer.change_password()
             data = serializer.validated_data
@@ -92,17 +97,39 @@ class AuthViewSet(viewsets.ViewSet):
 class UserViewSet(viewsets.ViewSet):
     queryset = get_user_model().objects.all()
 
-    @action(detail=True,methods=['get'],url_name="user_view",url_path="user")
-    def user_view(self,request,pk):
+    @action(detail=False,methods=['get'],url_name="user_view",url_path="user",permission_classes=[IsAuthenticated])
+    def user_view(self,request):
         response = {}
-        user = user_services.get_user(id=pk)
-        if user:
-            serializer = UserSerializer(user)
-            response = serializer.data
+        serializer = UserSerializer(request.user)
+        response = serializer.data
+        status_code = status.HTTP_200_OK
+        return Response(response,status=status_code)
+
+    @action(detail=False,methods=['post'],url_name="update_profile",url_path="user/update-profile",permission_classes=[IsAuthenticated])
+    def update_profile(self,request):
+        response = {}
+        serializer = UpdateProfileSerializer(data=request.data,context={'request':request})
+        if serializer.is_valid():
+            serializer.save()
+            data = serializer.validated_data
+            response['success'] = True
             status_code = status.HTTP_200_OK
         else:
-            response['error'] = "User does not exist"
-            status_code = status.HTTP_404_NOT_FOUND
+            response = serializer.errors
+            status_code = status.HTTP_400_BAD_REQUEST
+        return Response(response,status=status_code)
+
+    @action(detail=False,methods=['post'],url_name="update_profile",url_path="user/update-password",permission_classes=[IsAuthenticated])
+    def update_password(self,request):
+        response = {}
+        serializer = UpdatePasswordSerializer(data=request.data,context={'request':request})
+        if serializer.is_valid():
+            serializer.change_password()
+            response['success'] = True
+            status_code = status.HTTP_200_OK
+        else:
+            response = serializer.errors
+            status_code = status.HTTP_400_BAD_REQUEST
         return Response(response,status=status_code)
 
 

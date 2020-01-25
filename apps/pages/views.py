@@ -1,17 +1,22 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from .mixins import AuthenticatedRedirectMixin, UnAuthenticatedRedirectMixin
+from django.urls import reverse_lazy
 
 class HomeView(TemplateView):
     template_name="pages/home.html"
 
-class LoginView(TemplateView):
+class LoginView(AuthenticatedRedirectMixin,TemplateView):
     template_name="account/login.html"
+    redirect_url=reverse_lazy("pages:dashboard")
 
-class SignupView(TemplateView):
+class SignupView(AuthenticatedRedirectMixin,TemplateView):
     template_name="account/signup.html"
+    redirect_url=reverse_lazy("pages:dashboard")
 
-class DashboardView(TemplateView):
+class DashboardView(UnAuthenticatedRedirectMixin,TemplateView):
     template_name="pages/dashboard.html"
+    redirect_url=reverse_lazy("pages:login")
 
 class VerificationView(TemplateView):
     template_name="account/verification.html"

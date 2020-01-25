@@ -5,6 +5,7 @@ from apps.tution import selectors as tution_selectors
 from . import services as user_services
 from .validators import *
 from .selectors import *
+from .tokens import get_jwt_tokens_for_user
 from apps.mailers import utils as mailer_utils
 
 class UserRegistrationSerializer(serializers.Serializer):
@@ -41,7 +42,7 @@ class UserRegistrationSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('first_name','email','user_type')
+        fields = ('first_name','email','user_type','phone')
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
@@ -58,6 +59,9 @@ class LoginSerializer(serializers.Serializer):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 data['status'] = user_constants.ACCOUNT_ACTIVE
+                tokens = get_jwt_tokens_for_user(user)
+                data['access'] = tokens.get('access')
+                data['refresh'] = tokens.get('refresh')
                 login(request, user)
             else:
                 raise serializers.ValidationError({'status':user_constants.ACCOUNT_DOESNOTEXIST})
@@ -109,7 +113,7 @@ class PasswordResetSerializer(serializers.Serializer):
             mailer_utils.send_password_reset_mail(request,user)
         return user
 
-class ChangePasswordSerializer(serializers.Serializer):
+class SetPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     password = serializers.CharField(max_length=64,required=True)
     confirm_password = serializers.CharField(max_length=64,required=True)
@@ -135,4 +139,39 @@ class ChangePasswordSerializer(serializers.Serializer):
         user = self.validated_data.get('user')
         password = self.validated_data.get('password')
         user_services.change_user_password(user,password)
+        return user
+
+class UpdateProfileSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        email = request.user.email
+        users = user_services.update_profile(email,**validated_data)
+        return users
+
+class UpdatePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(max_length=64,required=True)
+    new_password = serializers.CharField(max_length=64,required=True)
+    confirm_new_password = serializers.CharField(max_length=64,required=True)
+
+    def validate(self,data):
+        old_password = data.get('old_password')
+        new_password = data.get('new_password')
+        confirm_new_password = data.get('confirm_new_password')
+        request = self.context.get('request')
+        user = authenticate(request, email=request.user.email, password=old_password)
+        data['user'] = user
+        if user is None:
+            raise serializers.ValidationError({'detail':"You provided a wrong current password"})
+        if new_password != confirm_new_password:
+            raise serializers.ValidationError({'detail':'New Passwords did not match'})
+        return data
+
+    def change_password(self):
+        password = self.validated_data.get('new_password')
+        user = self.validated_data.get('user')
+        request = self.context.get('request')
+        user = user_services.change_user_password(user,password)
+        login(request, user)
         return user

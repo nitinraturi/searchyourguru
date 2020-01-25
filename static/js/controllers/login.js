@@ -27,6 +27,9 @@ var main_app = new Vue({
           })
           .then((response) => {
             this.is_login_loading = false;
+            localStorage.setItem('user-token', response.data.access);
+            localStorage.setItem('user-token-refresh', response.data.refresh);
+            localStorage.setItem('user-is-authenticated', true);
             window.location = "/dashboard/";
           }, (error) => {
             let response =error.response.data.status[0];
