@@ -3,7 +3,6 @@ from django.db import models
 from django.utils import timezone
 from apps.users.managers import UserManager
 from . import constants as user_constants
-from apps.tution.models import Course, Subject
 
 class User(AbstractUser):
     username = None

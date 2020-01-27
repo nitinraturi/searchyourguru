@@ -10,4 +10,5 @@ urlpatterns = [
     path('verification/',VerificationView.as_view(),name="verification"),
     path('password-reset/',PasswordResetView.as_view(),name="password_reset"),
     path('dashboard/',DashboardView.as_view(),name="dashboard"),
+    path('search/',SearchView.as_view(),name="search"),
 ]

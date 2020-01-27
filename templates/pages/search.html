@@ -1,0 +1,227 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block body %}
+<div id="search_app">
+  <section class="hero is-info is-bold is-small">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <div class="box">
+              <form action="{% url 'pages:search' %}" method="get">
+                <div class="columns is-multiline">
+                  <div class="column is-3">
+                    <!-- City  -->
+                    <div class="field is-horizontal">
+                      <div class="field-body">
+                        <div class="field">
+                          <label class="label">City</label>
+                          <div class="control">
+                            <select name="city" class="input">
+                              <option value="0">Delhi</option>
+                              <option value="0">Delhi</option>
+                              <option value="0">Delhi</option>
+                              <option value="0">Delhi</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="column is-3">
+                    <!-- City  -->
+                    <div class="field is-horizontal">
+                      <div class="field-body">
+                        <div class="field">
+                          <label class="label">Looking</label>
+                          <div class="control">
+                            <select name="type" class="input">
+                              <option value="0">Tutors</option>
+                              <option value="0">Students</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="column is-3">
+                    <!-- City  -->
+                    <div class="field is-horizontal">
+                      <div class="field-body">
+                        <div class="field">
+                          <label class="label">Course</label>
+                          <div class="control">
+                            <select name="type" class="input">
+                              <option value="0">BCA</option>
+                              <option value="0">MCA</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="column is-3">
+                    <div class="field">
+                      <label for="" class="label">
+                        <span class="icon is-small is-left">
+                          <i class="fas fa-search"></i>
+                        </span>
+                      </label>
+                      <p class="control">
+                        <button type="submit" v-on:submit="signup" class="button is-success">
+                          Search
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-3">
+          <div class="card box">
+            <h1 class="title is-5 has-text-centered">Filters</h1>
+            <form action="#">
+              <div class="field">
+                <label for="" class="subtitle is-size-6 has-text-success">City / Pincode</label>
+                <div class="control">
+                  <input type="text" placeholder="" class="input is-small">
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="#" class="subtile is-6 has-text-success">Course</label>
+                <div class="control">
+                  <select name="" id="" class="input">
+                    <option value="0">Bca</option>
+                    <option value="0">Bca</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="#" class="subtile is-6 has-text-success">Subject</label>
+                <div class="control">
+                  <select name="" id="" class="input">
+                    <option value="0">Math</option>
+                    <option value="0">English</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="#" class="subtile is-6 has-text-success">Gender</label>
+                <div class="control">
+                  <select name="" id="" class="input">
+                    <option value="0">Male</option>
+                    <option value="0">Female</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="#" class="subtile is-6 has-text-success">Experience</label>
+                <div class="control">
+                  <select name="" id="" class="input">
+                    <option value="0">0 -2 Years</option>
+                    <option value="0">2 -5 Years</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="#" class="subtile is-6 has-text-success">Per Hour Fees</label>
+                <div class="control">
+                  <select name="" id="" class="input">
+                    <option value="0">Upto Rs 200</option>
+                    <option value="0">Rs 201 - Rs 500</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field is-grouped-centered is-grouped">
+                <p class="control">
+                  <button type="submit" v-on:submit="signup" class="button is-success">
+                    Apply
+                  </button>
+                </p>
+              </div>
+
+            </form>
+          </div>
+        </div>
+        <div class="column is-9">
+          <div class="columns is-multiline">
+            <div class="column is-4">
+              <div class="card box">
+                <div class="card-image">
+                  <div class="media">
+                    <div class="media-left">
+                      <figure class="image is-rounded is-96x96">
+                        <img src="https://previews.123rf.com/images/triken/triken1608/triken160800028/61320729-male-avatar-profile-picture-default-user-avatar-guest-avatar-simply-human-head-vector-illustration-i.jpg" alt="Placeholder image">
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <b>Prabhu Deva</b>
+                      <p>24 Years old, Male</p>
+                      <p>Exp: 2 Years</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-content">
+                  <p><b>Rating</b> - 1/5</p>
+                  <progress id="progress-bar" class="progress is-info is-large" value="20" max="100"></progress>
+                  <p>
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-home"></i>
+                    </span>
+                    Laxmi Nagar, Delhi
+                  </p>
+                  <p>
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-home"></i>
+                    </span>
+                    Post Graduate - MCA
+                  </p>
+                  <p>
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-home"></i>
+                    </span>
+                    All Subjects
+                  </p>
+                  <hr>
+                  <div class="field is-grouped is-grouped-centered">
+                    <div class="control">
+                      <button type="button" name="button" class="button is-info is-outlined">View Profile</button>
+                    </div>
+                    <div class="control">
+                      <button type="button" name="button" class="button is-info">Request a Demo</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/controllers/search.js' %}"></script>
+{% endblock %}
