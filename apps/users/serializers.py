@@ -6,6 +6,7 @@ from . import services as user_services
 from .validators import *
 from .selectors import *
 from .tokens import get_jwt_tokens_for_user
+from .models import UserProfile
 from apps.mailers import utils as mailer_utils
 
 class UserRegistrationSerializer(serializers.Serializer):
@@ -39,10 +40,10 @@ class UserRegistrationSerializer(serializers.Serializer):
         mailer_utils.send_account_activation_mail(request,user)
         return user
 
-class UserSerializer(serializers.ModelSerializer):
+class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = get_user_model()
-        fields = ('first_name','email','user_type','phone')
+        model = UserProfile
+        fields = ('name','email','phone')
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)

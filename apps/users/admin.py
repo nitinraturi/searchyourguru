@@ -22,12 +22,12 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('is_staff', 'is_active','is_superuser','user_type')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active','user_type','phone')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active','user_type')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'is_staff', 'is_active','user_type','phone')}
+            'fields': ('email', 'password1', 'password2', 'is_staff', 'is_active','user_type')}
         ),
     )
     def get_inline_instances(self, request, obj=None):

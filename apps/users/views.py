@@ -100,7 +100,8 @@ class UserViewSet(viewsets.ViewSet):
     @action(detail=False,methods=['get'],url_name="user_view",url_path="user",permission_classes=[IsAuthenticated])
     def user_view(self,request):
         response = {}
-        serializer = UserSerializer(request.user)
+        user_profile = user_selectors.get_user_profile(request.user.email)
+        serializer = UserProfileSerializer(user_profile)
         response = serializer.data
         status_code = status.HTTP_200_OK
         return Response(response,status=status_code)

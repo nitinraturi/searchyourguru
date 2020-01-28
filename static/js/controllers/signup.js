@@ -56,8 +56,8 @@ var main_app = new Vue({
             this.errors = error.response.data.errors;
             this.is_signup_loading = false;
 
-            if(this.errors.first_name){
-              this.signup_user_name_error=this.errors.first_name[0];
+            if(this.errors.name){
+              this.signup_user_name_error=this.errors.name[0];
             }
 
             if(this.errors.email){

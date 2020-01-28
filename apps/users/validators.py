@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from .models import UserProfile
 
 def isUniqueEmail(email):
     User = get_user_model()
@@ -15,5 +16,4 @@ def isUserActive(email):
 
 
 def isUniquePhone(phone):
-    User = get_user_model()
-    return not User.objects.filter(phone=phone).exists()
+    return not UserProfile.objects.filter(phone=phone).exists()

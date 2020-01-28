@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from .models import *
 
 def get_user(id=None,email=None):
     User = get_user_model()
@@ -13,3 +14,6 @@ def get_user(id=None,email=None):
     except User.DoesNotExist:
         pass
     return user
+
+def get_user_profile(email):
+    return UserProfile.objects.get(email=email)
