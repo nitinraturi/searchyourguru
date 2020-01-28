@@ -13,3 +13,13 @@ USER_TYPE_CHOICES = (
 ACCOUNT_ACTIVE = "active"
 ACCOUNT_INACTIVE = "inactive"
 ACCOUNT_DOESNOTEXIST = "doesnotexist"
+
+MALE = 1
+FEMALE = 2
+OTHER = 3
+
+GENDER_CHOICES = (
+    (MALE,"Male"),
+    (FEMALE,"Female"),
+    (OTHER,"Other")
+)

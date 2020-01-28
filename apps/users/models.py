@@ -23,6 +23,8 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=255,null=True,blank=True)
     email = models.EmailField(unique=True, db_index=True)
     phone = models.CharField(max_length=10,blank=True,null=True)
+    gender = models.PositiveSmallIntegerField(choices=user_constants.GENDER_CHOICES,null=True,blank=True)
+    experience = models.FloatField(default=0.0)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
