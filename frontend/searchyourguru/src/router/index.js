@@ -1,25 +1,37 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import Login from "../views/Login.vue";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
+import Signup from '../views/Signup.vue'
+import Verification from '../views/Verification.vue'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/",
-    name: "home",
+    path: '/',
+    name: 'home',
     component: Home
   },
   {
-    path: "/login/",
-    name: "login",
+    path: '/login/',
+    name: 'login',
     component: Login
   },
-];
+  {
+    path: '/signup/',
+    name: 'signup',
+    component: Signup
+  },
+  {
+    path: '/verification/',
+    name: 'verification',
+    component: Verification
+  }
+]
 
 const router = new VueRouter({
   routes
-});
+})
 
-export default router;
+export default router

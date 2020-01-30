@@ -10,14 +10,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-#Third Party Apps
+# Third Party Apps
 INSTALLED_APPS += [
     # 'debug_toolbar',
+    'corsheaders',
     'compressor',
     'rest_framework',
 ]
 
-#Custom Apps
+# Custom Apps
 INSTALLED_APPS += [
     'apps.users',
     'apps.pages',

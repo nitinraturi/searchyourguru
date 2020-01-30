@@ -8,11 +8,11 @@
               <p class="title">
                 SearchYourGuru
               </p>
-              <p class="subtitle">Login Now</p>
+              <p class="subtitle">Account Verification</p>
             </div>
             <div class="column is-6">
               <div class="box">
-                <LoginForm />
+                <VerificationForm />
               </div>
             </div>
           </div>
@@ -23,11 +23,11 @@
 </template>
 
 <script>
-import LoginForm from '@/components/forms/LoginForm.vue'
+import VerificationForm from '@/components/forms/VerificationForm.vue'
 export default {
-  name: 'Login',
+  name: 'Verification',
   components: {
-    LoginForm
+    VerificationForm
   }
 }
 </script>

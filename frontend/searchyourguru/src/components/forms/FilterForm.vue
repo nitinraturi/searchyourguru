@@ -62,10 +62,7 @@
             </span>
           </label>
           <p class="control">
-            <button
-              type="submit"
-              class="button is-success"
-            >
+            <button type="submit" class="button is-success">
               Search
             </button>
           </p>

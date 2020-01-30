@@ -9,7 +9,7 @@
                 SearchYourGuru
               </p>
               <div class="box">
-                <FilterForm/>
+                <FilterForm />
               </div>
             </div>
           </div>
@@ -79,7 +79,7 @@
 import FilterForm from '@/components/forms/FilterForm.vue'
 export default {
   name: 'home',
-  components:{
+  components: {
     FilterForm
   }
 }

@@ -1,18 +1,20 @@
 <template>
-  <div id="login_app">
+  <div id="signup_app">
     <section class="hero is-fullheight-with-navbar is-bold">
       <div class="hero-body">
         <div class="container">
           <div class="columns">
             <div class="column is-6">
               <p class="title">
-                SearchYourGuru
+                We Help Students and Tutors Find Each Other
               </p>
-              <p class="subtitle">Login Now</p>
+              <p class="subtitle">Free Registration</p>
             </div>
             <div class="column is-6">
-              <div class="box">
-                <LoginForm />
+              <div>
+                <div class="box">
+                  <SignupForm />
+                </div>
               </div>
             </div>
           </div>
@@ -23,11 +25,11 @@
 </template>
 
 <script>
-import LoginForm from '@/components/forms/LoginForm.vue'
+import SignupForm from '@/components/forms/SignupForm.vue'
 export default {
-  name: 'Login',
+  name: 'Signup',
   components: {
-    LoginForm
+    SignupForm
   }
 }
 </script>
