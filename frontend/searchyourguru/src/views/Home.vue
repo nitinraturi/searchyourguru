@@ -1,5 +1,5 @@
 <template>
-  <div id="home_view">
+  <div id="home_view" class="has-background-white">
     <section class="hero is-info is-bold is-medium">
       <div class="hero-body">
         <div class="container">
@@ -20,9 +20,9 @@
     <section class="section">
       <div class="container">
         <center>
-          <a href="#" class="button is-success">
+          <router-link to="/signup/" class="button is-success">
             Register & Get your 1st connection for free
-          </a>
+          </router-link>
         </center>
       </div>
     </section>
@@ -48,9 +48,9 @@
     <section class="section">
       <div class="container">
         <center>
-          <a href="#" class="button is-success">
+          <router-link to="/signup/" class="button is-success">
             Register For a Free Account Today
-          </a>
+          </router-link>
         </center>
       </div>
     </section>
