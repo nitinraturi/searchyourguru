@@ -6,7 +6,9 @@ export default {
       endpoints: {
         login: '/account/auth/login/',
         signup: '/account/auth/register/',
-        account_activation: '/account/auth/account-activation-link/'
+        account_activation: '/account/auth/account-activation-link/',
+        password_reset: '/account/auth/account-password-reset-link/',
+        change_password: '/account/auth/change-password/'
       }
     }
   },

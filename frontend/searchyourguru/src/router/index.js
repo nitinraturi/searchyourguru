@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
 import Verification from '../views/Verification.vue'
+import PasswordReset from '../views/PasswordReset.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/verification/',
     name: 'verification',
     component: Verification
+  },
+  {
+    path: '/password-reset/',
+    name: 'password_reset',
+    component: PasswordReset
   }
 ]
 

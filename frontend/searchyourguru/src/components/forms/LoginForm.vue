@@ -83,7 +83,7 @@
     </p>
     <p>
       Forgot password ?
-      <router-link to="/forgot-password/">Reset now</router-link>
+      <router-link to="/password-reset/">Reset now</router-link>
     </p>
   </div>
 </template>
