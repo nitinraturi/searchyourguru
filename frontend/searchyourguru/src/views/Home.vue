@@ -36,7 +36,7 @@
             <div class="columns">
               <div class="column is-full">
                 <figure class="image">
-                  <img src="../../public/img/student-h1.jpg" alt="" />
+                  <img src="@/assets/student-h1.jpg" alt="" />
                 </figure>
               </div>
             </div>
@@ -64,7 +64,7 @@
             <div class="columns">
               <div class="column is-full">
                 <figure class="image">
-                  <img src="../../public/img/banner1.jpg" alt="" />
+                  <img src="@/assets/banner1.jpg" alt="" />
                 </figure>
               </div>
             </div>
