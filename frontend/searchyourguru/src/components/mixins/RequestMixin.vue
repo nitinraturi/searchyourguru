@@ -2,12 +2,23 @@
 export default {
   methods: {
     guest_headers: function() {
-      // let token = localStorage.getItem('user-token')
       let config = {
         headers: {
           'Content-Type': 'application/json'
-          // Authorization: `Bearer ${token}`
         }
+      }
+      return config
+    },
+    get_headers: function(auth = true) {
+      let token = localStorage.getItem('user-token')
+      let headers = {}
+      if (auth == true) {
+        headers['Authorization'] = `Bearer ${token}`
+      }
+      headers['Content-Type'] = 'application/json'
+
+      let config = {
+        headers
       }
       return config
     }

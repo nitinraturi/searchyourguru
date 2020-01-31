@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
 import Verification from '../views/Verification.vue'
 import PasswordReset from '../views/PasswordReset.vue'
+import Dashboard from '../views/Dashboard.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/password-reset/',
     name: 'password_reset',
     component: PasswordReset
+  },
+  {
+    path: '/dashboard/',
+    name: 'dashboard',
+    component: Dashboard
   }
 ]
 

@@ -135,6 +135,7 @@ export default {
               localStorage.setItem('user-token', response.data.access)
               localStorage.setItem('user-token-refresh', response.data.refresh)
               localStorage.setItem('user-is-authenticated', true)
+              this.$router.push('/dashboard/')
             },
             error => {
               let response = error.response.data.status[0]
