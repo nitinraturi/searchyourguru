@@ -148,9 +148,9 @@ def activate_account(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        return render(request,'account/login.html',{'new_user':user,'account_activated':True})
+        return render(request,'account/activation.html',{'new_user':user,'account_activated':True})
     else:
-        return render(request,'account/login.html',{'new_user':user,'account_activated':False})
+        return render(request,'account/activation.html',{'new_user':user,'account_activated':False})
 
 def password_reset_verification(request, uidb64, token):
     from django.utils.encoding import force_text

@@ -8,16 +8,12 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>SearchYourGuru</title>
   <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
-  <script src="{% static 'js/vue.js' %}"></script>
-  <script src="{% static 'js/axios.js' %}"></script>
-  <script src="{% static 'js/utils.js' %}"></script>
 </head>
 
-<body class="has-background-light-er">
+<body class="has-navbar-fixed-top has-background-light-er">
   <div>
     {% block body %}{% endblock %}
   </div>
-  {% block extra_scripts %}{% endblock %}
 </body>
 
 </html>

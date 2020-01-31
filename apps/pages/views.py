@@ -6,17 +6,9 @@ from django.urls import reverse_lazy
 class HomeView(TemplateView):
     template_name="pages/home.html"
 
-class LoginView(AuthenticatedRedirectMixin,TemplateView):
-    template_name="account/login.html"
-    redirect_url=reverse_lazy("pages:dashboard")
-
-class SignupView(AuthenticatedRedirectMixin,TemplateView):
-    template_name="account/signup.html"
-    redirect_url=reverse_lazy("pages:dashboard")
-
-class DashboardView(UnAuthenticatedRedirectMixin,TemplateView):
-    template_name="pages/dashboard.html"
-    redirect_url=reverse_lazy("pages:login")
+# class DashboardView(UnAuthenticatedRedirectMixin,TemplateView):
+#     template_name="pages/dashboard.html"
+#     redirect_url=reverse_lazy("pages:login")
 
 class VerificationView(TemplateView):
     template_name="account/verification.html"
@@ -34,5 +26,5 @@ class PasswordResetView(TemplateView):
         context = super().get_context_data(**kwargs)
         return context
 
-class SearchView(TemplateView):
-    template_name = "pages/search.html"
+# class SearchView(TemplateView):
+#     template_name = "pages/search.html"

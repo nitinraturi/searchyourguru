@@ -1,0 +1,36 @@
+{% extends 'layouts/base2.html' %} {% block body %}
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-6">
+          <p class="title">
+            SearchYourGuru.
+          </p>
+          <p class="subtitle">Account Verification</p>
+
+          {% if account_activated == True %}
+          <article class="message is-success">
+            <div class="message-body">
+              <p>Account successfully activated</p>
+            </div>
+          </article>
+          {% endif %}
+
+          {% if account_activated == False %}
+          <article class="message is-danger">
+            <div class="message-body">
+              <p>Invalid Link</p>
+            </div>
+          </article>
+          {% endif %}
+
+        <a href="http://searchyourguru.com/login/" class="button is-info">Login now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
