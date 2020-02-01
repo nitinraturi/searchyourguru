@@ -5,6 +5,7 @@ export default {
       base_api_url: 'http://localhost:8005',
       endpoints: {
         login: '/account/auth/login/',
+        logout: '/account/auth/logout/',
         signup: '/account/auth/register/',
         account_activation: '/account/auth/account-activation-link/',
         password_reset: '/account/auth/account-password-reset-link/',

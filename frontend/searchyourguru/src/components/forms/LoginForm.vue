@@ -132,9 +132,12 @@ export default {
           .then(
             response => {
               this.is_login_loading = false
-              localStorage.setItem('user-token', response.data.access)
-              localStorage.setItem('user-token-refresh', response.data.refresh)
-              localStorage.setItem('user-is-authenticated', true)
+              localStorage.setItem('guru-user-token', response.data.access)
+              localStorage.setItem(
+                'guru-user-token-refresh',
+                response.data.refresh
+              )
+              this.$store.state.isAuthenticated = true
               this.$router.push('/dashboard/')
             },
             error => {

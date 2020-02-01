@@ -10,7 +10,7 @@ export default {
       return config
     },
     get_headers: function(auth = true) {
-      let token = localStorage.getItem('user-token')
+      let token = localStorage.getItem('guru-user-token')
       let headers = {}
       if (auth == true) {
         headers['Authorization'] = `Bearer ${token}`

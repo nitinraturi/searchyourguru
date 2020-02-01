@@ -30,22 +30,66 @@
             <router-link class="navbar-item" to="/">Blog</router-link>
           </div>
           <div class="navbar-end">
-            <router-link class="navbar-item" to="/login/">Login</router-link>
-            <router-link class="navbar-item" to="/signup/"
+            <router-link
+              class="navbar-item"
+              to="/login/"
+              v-if="isAuthenticated == false"
+              >Login</router-link
+            >
+            <router-link
+              class="navbar-item"
+              to="/signup/"
+              v-if="isAuthenticated == false"
               >Register</router-link
+            >
+            <router-link
+              class="navbar-item"
+              to="/dashboard/"
+              v-if="isAuthenticated == true"
+              >Dashboard</router-link
+            >
+            <a
+              class="navbar-item"
+              v-on:click.prevent="logout"
+              v-if="isAuthenticated == true"
+              >Logout</a
             >
           </div>
         </div>
       </div>
     </nav>
-    <!-- <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>-->
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import ValidatorsMixin from '@/components/mixins/ValidatorsMixin.vue'
+import EndpointsMixin from '@/components/mixins/EndpointsMixin.vue'
+import RequestMixin from '@/components/mixins/RequestMixin'
+
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  computed: {
+    isAuthenticated() {
+      return this.$store.state.isAuthenticated
+    }
+  },
+  methods: {
+    logout: function() {
+      axios
+        .post(this.get_endpoint(this.endpoints.logout), {}, this.get_headers())
+        .then(
+          () => {
+            localStorage.removeItem('guru-user-token')
+            localStorage.removeItem('guru-user-token-refresh')
+            this.$store.state.isAuthenticated = false
+            this.$router.push('/')
+          },
+          () => {}
+        )
+    }
+  },
+  mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin]
 }
 </script>
 
