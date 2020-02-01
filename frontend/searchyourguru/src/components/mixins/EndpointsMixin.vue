@@ -2,7 +2,7 @@
 export default {
   data: function() {
     return {
-      base_api_url: 'http://localhost:8005',
+      base_api_url: 'http://raturi.in:8005',
       endpoints: {
         login: '/account/auth/login/',
         logout: '/account/auth/logout/',
