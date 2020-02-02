@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from apps.users.managers import UserManager
 from . import constants as user_constants
-from apps.tution.models import Course, Subject
+
 
 class User(AbstractUser):
     username = None
@@ -11,7 +11,8 @@ class User(AbstractUser):
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
-    user_type = models.PositiveSmallIntegerField(choices=user_constants.USER_TYPE_CHOICES)
+    user_type = models.PositiveSmallIntegerField(
+        choices=user_constants.USER_TYPE_CHOICES)
 
     REQUIRED_FIELDS = []
     USERNAME_FIELD = 'email'
@@ -20,8 +21,18 @@ class User(AbstractUser):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,related_name="user_profile")
-    phone = models.CharField(max_length=255,blank=True,null=True)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True, related_name="user_profile")
+    name = models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField(unique=True, db_index=True)
+    phone = models.CharField(max_length=10, blank=True, null=True)
+    qualification = models.CharField(max_length=255, blank=True, null=True)
+    timing = models.PositiveIntegerField(
+        choices=user_constants.TUTION_TIMINGS, null=True, blank=True)
+    dob = models.DateField(null=True, blank=True)
+    gender = models.PositiveSmallIntegerField(
+        choices=user_constants.GENDER_CHOICES, null=True, blank=True)
+    experience = models.FloatField(default=0.0)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
