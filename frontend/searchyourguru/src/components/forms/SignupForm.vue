@@ -146,7 +146,7 @@
           </div>
         </div>
 
-        <!-- <div class="column is-full">
+        <div class="column is-full">
           <div class="columns is-multiline">
             <div class="column is-4">
               <div class="field">
@@ -176,16 +176,18 @@
               <div class="field">
                 <label class="label">Pincode/Zipcode</label>
                 <div class="control">
-                  <div class="select">
-                    <select>
-                      <option>India (+91)</option>
-                    </select>
-                  </div>
+                  <input
+                    class="input"
+                    type="number"
+                    placeholder="eg: 110092"
+                    :disabled="is_signup_loading"
+                    required
+                  />
                 </div>
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
 
         <div class="column is-full">
           <div class="columns is-multiline">
