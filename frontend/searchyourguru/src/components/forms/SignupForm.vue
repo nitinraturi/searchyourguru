@@ -21,154 +21,203 @@
       method="POST"
       v-if="verification_email == null"
     >
-      <!-- User Type -->
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">I am a ?</label>
+      <div class="columns is-multiline">
+        <div class="column is-full">
+          <!-- User Type -->
+          <div class="field is-horizontal">
+            <div class="field-label">
+              <label class="label">I am a ?</label>
+            </div>
+            <div class="field-body">
+              <div class="field is-narrow">
+                <div class="control">
+                  <label class="radio">
+                    <input
+                      type="radio"
+                      name="user_type"
+                      v-model="signup_user_type"
+                      value="3"
+                      :disabled="is_signup_loading"
+                      required
+                    />
+                    Student or Parent
+                  </label>
+                  <label class="radio">
+                    <input
+                      type="radio"
+                      name="user_type"
+                      v-model="signup_user_type"
+                      value="4"
+                      required
+                    />
+                    Tutor
+                  </label>
+                </div>
+                <p class="help is-danger" v-if="signup_user_type_error != null">
+                  {{ signup_user_type_error }}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="field-body">
-          <div class="field is-narrow">
+
+        <div class="column is-full">
+          <!-- Name -->
+          <div class="field">
+            <label class="label">Name</label>
+            <p class="control has-icons-left has-icons-right">
+              <input
+                v-model="signup_user_name"
+                class="input"
+                type="text"
+                placeholder="eg: Alex Williams"
+                :disabled="is_signup_loading"
+                required
+              />
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </p>
+            <p class="help is-danger" v-if="signup_user_name_error != null">
+              {{ signup_user_name_error }}
+            </p>
+          </div>
+        </div>
+
+        <div class="column is-full">
+          <div class="columns is-multiline">
+            <div class="column is-6">
+              <!-- Phone -->
+              <div class="field">
+                <label class="label">Phone</label>
+                <p class="control has-icons-left has-icons-right">
+                  <input
+                    v-model="signup_user_phone"
+                    class="input"
+                    type="number"
+                    placeholder="eg: 92*** (Without +91)"
+                    :disabled="is_signup_loading"
+                    required
+                  />
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </p>
+                <p
+                  class="help is-danger"
+                  v-if="signup_user_phone_error != null"
+                >
+                  {{ signup_user_phone_error }}
+                </p>
+              </div>
+            </div>
+
+            <div class="column is-6">
+              <!-- Email -->
+              <div class="field">
+                <label class="label">Email</label>
+                <p class="control has-icons-left has-icons-right">
+                  <input
+                    v-model="signup_email"
+                    class="input"
+                    type="email"
+                    placeholder="eg: hello@gmail.com"
+                    :disabled="is_signup_loading"
+                    required
+                  />
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </p>
+                <p class="help is-danger" v-if="signup_email_error != null">
+                  {{ signup_email_error }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-full">
+          <div class="columns is-multiline">
+            <div class="column is-6">
+              <!-- Password -->
+              <div class="field">
+                <label class="label">Password</label>
+                <p class="control has-icons-left">
+                  <input
+                    v-model="signup_password"
+                    class="input"
+                    type="password"
+                    placeholder="Password"
+                    :disabled="is_signup_loading"
+                    required
+                  />
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+                <p class="help is-danger" v-if="signup_password_error != null">
+                  {{ signup_password_error }}
+                </p>
+              </div>
+            </div>
+            <div class="column is-6">
+              <!-- Confirm Password -->
+              <div class="field">
+                <label class="label">Confirm Password</label>
+                <p class="control has-icons-left">
+                  <input
+                    v-model="signup_confirm_password"
+                    class="input"
+                    type="password"
+                    placeholder="Confirm Password"
+                    :disabled="is_signup_loading"
+                    required
+                  />
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-full">
+          <div class="field">
             <div class="control">
-              <label class="radio">
-                <input
-                  type="radio"
-                  name="user_type"
-                  v-model="signup_user_type"
-                  value="3"
-                  required
-                />
-                Student or Parent
-              </label>
-              <label class="radio">
-                <input
-                  type="radio"
-                  name="user_type"
-                  v-model="signup_user_type"
-                  value="4"
-                  required
-                />
-                Tutor
+              <label class="checkbox">
+                <input type="checkbox" :disabled="is_signup_loading" required />
+                I agree to the
+                <a href="#">terms and conditions</a>
               </label>
             </div>
-            <p class="help is-danger" v-if="signup_user_type_error != null">
-              {{ signup_user_type_error }}
-            </p>
           </div>
         </div>
       </div>
 
-      <!-- Name -->
-      <div class="field">
-        <p class="control has-icons-left has-icons-right">
-          <input
-            v-model="signup_user_name"
-            class="input"
-            type="text"
-            placeholder="Full Name"
-            required
-          />
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <span class="icon is-small is-right">
-            <i class="fas fa-check"></i>
-          </span>
-        </p>
-        <p class="help is-danger" v-if="signup_user_name_error != null">
-          {{ signup_user_name_error }}
-        </p>
-      </div>
-
-      <!-- Phone -->
-      <div class="field">
-        <p class="control has-icons-left has-icons-right">
-          <input
-            v-model="signup_user_phone"
-            class="input"
-            type="number"
-            placeholder="Your Mobile Number"
-            required
-          />
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <span class="icon is-small is-right">
-            <i class="fas fa-check"></i>
-          </span>
-        </p>
-        <p class="help is-danger" v-if="signup_user_phone_error != null">
-          {{ signup_user_phone_error }}
-        </p>
-      </div>
-
-      <!-- Email -->
-      <div class="field">
-        <p class="control has-icons-left has-icons-right">
-          <input
-            v-model="signup_email"
-            class="input"
-            type="email"
-            placeholder="Email"
-            required
-          />
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <span class="icon is-small is-right">
-            <i class="fas fa-check"></i>
-          </span>
-        </p>
-        <p class="help is-danger" v-if="signup_email_error != null">
-          {{ signup_email_error }}
-        </p>
-      </div>
-
-      <!-- Password -->
-      <div class="field">
-        <p class="control has-icons-left">
-          <input
-            v-model="signup_password"
-            class="input"
-            type="password"
-            placeholder="Password"
-            required
-          />
-          <span class="icon is-small is-left">
-            <i class="fas fa-lock"></i>
-          </span>
-        </p>
-        <p class="help is-danger" v-if="signup_password_error != null">
-          {{ signup_password_error }}
-        </p>
-      </div>
-
-      <!-- Confirm Password -->
-      <div class="field">
-        <p class="control has-icons-left">
-          <input
-            v-model="signup_confirm_password"
-            class="input"
-            type="password"
-            placeholder="Confirm Password"
-            required
-          />
-          <span class="icon is-small is-left">
-            <i class="fas fa-lock"></i>
-          </span>
-        </p>
-      </div>
-
-      <div class="field">
-        <p class="control">
-          <button
-            type="submit"
-            v-on:submit="signup"
-            class="button is-success"
-            v-bind:class="{ 'is-loading': is_signup_loading }"
-          >
-            Create Account
-          </button>
-        </p>
+      <div class="column is-full">
+        <div class="field">
+          <p class="control">
+            <button
+              type="submit"
+              v-on:submit="signup"
+              class="button is-success"
+              v-bind:class="{ 'is-loading': is_signup_loading }"
+            >
+              Create Account
+            </button>
+          </p>
+        </div>
       </div>
     </form>
     <hr />

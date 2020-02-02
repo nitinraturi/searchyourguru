@@ -20,60 +20,73 @@
       method="POST"
       v-if="verification_email == null"
     >
-      <div class="field">
-        <p class="control has-icons-left has-icons-right">
-          <input
-            v-model="login_email"
-            class="input"
-            type="email"
-            placeholder="Email"
-          />
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <span class="icon is-small is-right">
-            <i class="fas fa-check"></i>
-          </span>
-        </p>
-        <p class="help is-danger" v-if="login_email_error == true">
-          Please enter a valid email
-        </p>
-      </div>
-      <div class="field">
-        <p class="control has-icons-left">
-          <input
-            v-model="login_password"
-            class="input"
-            type="password"
-            placeholder="Password"
-          />
-          <span class="icon is-small is-left">
-            <i class="fas fa-lock"></i>
-          </span>
-        </p>
-        <p class="help is-danger" v-if="login_password_error == true">
-          Please enter password
-        </p>
-      </div>
-
-      <article class="message is-danger" v-if="login_error_message != null">
-        <div class="message-body">
-          {{ login_error_message }}
+      <div class="columns is-multiline">
+        <div class="column is-full">
+          <div class="field">
+            <label class="label">Email</label>
+            <p class="control has-icons-left has-icons-right">
+              <input
+                v-model="login_email"
+                class="input"
+                type="email"
+                placeholder="Email"
+              />
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </p>
+            <p class="help is-danger" v-if="login_email_error == true">
+              Please enter a valid email
+            </p>
+          </div>
         </div>
-      </article>
 
-      <div class="field">
-        <p class="control">
-          <button
-            type="submit"
-            v-on:submit="login"
-            id="login-btn"
-            class="button is-success"
-            v-bind:class="{ 'is-loading': is_login_loading }"
-          >
-            Login
-          </button>
-        </p>
+        <div class="column is-full">
+          <div class="field">
+            <label class="label">Password</label>
+            <p class="control has-icons-left">
+              <input
+                v-model="login_password"
+                class="input"
+                type="password"
+                placeholder="Password"
+              />
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </p>
+            <p class="help is-danger" v-if="login_password_error == true">
+              Please enter password
+            </p>
+          </div>
+        </div>
+
+        <div class="column is-full" v-if="login_error_message != null">
+          <article class="message is-danger" v-if="login_error_message != null">
+            <div class="message-body">
+              {{ login_error_message }}
+            </div>
+          </article>
+        </div>
+
+        <div class="column is-full">
+          <div class="field">
+            <p class="control">
+              <button
+                type="submit"
+                v-on:submit="login"
+                id="login-btn"
+                class="button is-success"
+                v-bind:class="{ 'is-loading': is_login_loading }"
+              >
+                Login
+              </button>
+            </p>
+          </div>
+        </div>
       </div>
     </form>
     <hr />
