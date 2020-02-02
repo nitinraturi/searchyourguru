@@ -146,6 +146,47 @@
           </div>
         </div>
 
+        <!-- <div class="column is-full">
+          <div class="columns is-multiline">
+            <div class="column is-4">
+              <div class="field">
+                <label class="label">Country</label>
+                <div class="control">
+                  <div class="select">
+                    <select>
+                      <option>India (+91)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column is-4">
+              <div class="field">
+                <label class="label">State</label>
+                <div class="control">
+                  <div class="select">
+                    <select>
+                      <option>India (+91)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column is-4">
+              <div class="field">
+                <label class="label">Pincode/Zipcode</label>
+                <div class="control">
+                  <div class="select">
+                    <select>
+                      <option>India (+91)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
         <div class="column is-full">
           <div class="columns is-multiline">
             <div class="column is-6">
