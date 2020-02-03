@@ -9,6 +9,22 @@
                 We Help Students and Tutors Find Each Other
               </p>
               <p class="subtitle">Free Registration</p>
+              <!-- <figure class="image">
+                <img src="@/assets/education2.png" alt="" />
+              </figure> -->
+              <article class="message is-success">
+                <div class="message-body">
+                  <p>
+                    If a child can’t learn the way we teach, maybe we should
+                    teach the way they learn.
+                  </p>
+                </div>
+              </article>
+              <hr />
+              <p>
+                Already have an account,
+                <router-link to="/login/">Login here</router-link>
+              </p>
             </div>
             <div class="column is-6">
               <div>
