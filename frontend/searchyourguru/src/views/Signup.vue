@@ -3,15 +3,15 @@
     <section class="hero is-fullheight-with-navbar is-bold">
       <div class="hero-body">
         <div class="container">
-          <div class="columns">
-            <div class="column is-6">
+          <div class="columns is-centered">
+            <!-- <div class="column is-6">
               <p class="title">
                 We Help Students and Tutors Find Each Other
               </p>
               <p class="subtitle">Free Registration</p>
-              <!-- <figure class="image">
-                <img src="@/assets/education2.png" alt="" />
-              </figure> -->
+              <figure class="image is-3by2">
+                <img src="@/assets/education3.png" alt="" />
+              </figure>
               <article class="message is-success">
                 <div class="message-body">
                   <p>
@@ -25,7 +25,7 @@
                 Already have an account,
                 <router-link to="/login/">Login here</router-link>
               </p>
-            </div>
+            </div> -->
             <div class="column is-6">
               <div>
                 <div class="box">

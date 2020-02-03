@@ -15,6 +15,56 @@
       </div>
     </article>
 
+    <div>
+      <ul class="steps">
+        <li
+          class="step-item is-success"
+          v-bind:class="{
+            'is-active': signup_step == 1,
+            'is-completed': signup_step >= 2
+          }"
+        >
+          <div class="step-marker">1</div>
+        </li>
+        <li
+          class="step-item is-info"
+          v-bind:class="{
+            'is-active': signup_step == 2,
+            'is-completed': signup_step >= 3
+          }"
+        >
+          <div class="step-marker">2</div>
+        </li>
+        <li
+          class="step-item is-warning"
+          v-bind:class="{
+            'is-active': signup_step == 3,
+            'is-completed': signup_step >= 4
+          }"
+        >
+          <div class="step-marker">3</div>
+        </li>
+        <li
+          class="step-item is-link"
+          v-bind:class="{
+            'is-active': signup_step == 4,
+            'is-completed': signup_step >= 5
+          }"
+        >
+          <div class="step-marker">4</div>
+        </li>
+        <li
+          class="step-item is-danger"
+          v-bind:class="{
+            'is-active': signup_step == 5,
+            'is-completed': signup_step >= 6
+          }"
+        >
+          <div class="step-marker">5</div>
+        </li>
+      </ul>
+    </div>
+    <hr />
     <form
       action="#"
       v-on:submit.prevent="signup"
@@ -25,7 +75,7 @@
         <!-- Step 1 -->
         <div class="column is-full" v-if="signup_step == 1">
           <h1 class="title is-4 has-text-centered">Signup</h1>
-          <div class="card">
+          <div class="">
             <div class="columns is-multiline">
               <div class="column is-7">
                 <h1 class="title is-6">I want to grow my business</h1>
@@ -45,7 +95,7 @@
             </div>
           </div>
           <hr />
-          <div class="card">
+          <div class="">
             <div class="columns is-multiline">
               <div class="column is-7">
                 <h1 class="title is-6">I need tutoring</h1>
@@ -66,7 +116,101 @@
           </div>
         </div>
 
-        <div class="column is-full" v-if="signup_step == 2">
+        <div
+          class="column is-full"
+          v-if="signup_step == 2 && signup_user_type == 4"
+        >
+          <h1 class="title is-5 has-text-centered">What do you teach?</h1>
+          <p class="subtitle is-6 has-text-centered">
+            You can edit these later if you'd like.
+          </p>
+          <nav class="panel">
+            <p class="panel-heading">
+              Course | Subject
+            </p>
+            <!-- <div class="panel-block">
+              <p class="control has-icons-left">
+                <input class="input" type="text" placeholder="Search" />
+                <span class="icon is-left">
+                  <i class="fas fa-search" aria-hidden="true"></i>
+                </span>
+              </p>
+            </div> -->
+            <p class="panel-tabs">
+              <a>Category</a>
+              <a>Sub Category</a>
+            </p>
+            <a class="panel-block is-active">
+              <span class="panel-icon">
+                <i class="fas fa-book" aria-hidden="true"></i>
+              </span>
+              bulma
+            </a>
+            <div class="panel-block">
+              <button
+                v-on:submit="signup"
+                class="button is-link is-outlined is-fullwidth"
+              >
+                Next
+              </button>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="column is-full" v-if="signup_step == 3">
+          <h1 class="title is-5 has-text-centered">Tution Location</h1>
+          <div class="columns is-multiline">
+            <div class="column is-full">
+              <div class="columns is-multiline">
+                <div class="column is-4">
+                  <div class="field">
+                    <label class="label">Country</label>
+                    <div class="control">
+                      <div class="select">
+                        <select>
+                          <option>India (+91)</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-4">
+                  <div class="field">
+                    <label class="label">State</label>
+                    <div class="control">
+                      <div class="select">
+                        <select>
+                          <option>India (+91)</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-4">
+                  <div class="field">
+                    <label class="label">Pincode/Zipcode</label>
+                    <div class="control">
+                      <input
+                        class="input"
+                        type="number"
+                        placeholder="eg: 110092"
+                        :disabled="is_signup_loading"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button v-on:submit="signup" class="button is-info">
+            Next
+          </button>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="column is-full" v-if="signup_step == 4">
           <h1 class="title is-4 has-text-centered">Personal Details</h1>
           <div class="columns is-multiline">
             <div class="column is-full">
@@ -136,60 +280,8 @@
           </button>
         </div>
 
-        <!-- Step 3 -->
-        <div class="column is-full" v-if="signup_step == 3">
-          <h1 class="title is-5 has-text-centered">Step 3</h1>
-          <div class="columns is-multiline">
-            <div class="column is-full">
-              <div class="columns is-multiline">
-                <div class="column is-4">
-                  <div class="field">
-                    <label class="label">Country</label>
-                    <div class="control">
-                      <div class="select">
-                        <select>
-                          <option>India (+91)</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="column is-4">
-                  <div class="field">
-                    <label class="label">State</label>
-                    <div class="control">
-                      <div class="select">
-                        <select>
-                          <option>India (+91)</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="column is-4">
-                  <div class="field">
-                    <label class="label">Pincode/Zipcode</label>
-                    <div class="control">
-                      <input
-                        class="input"
-                        type="number"
-                        placeholder="eg: 110092"
-                        :disabled="is_signup_loading"
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button v-on:submit="signup" class="button is-info">
-            Next
-          </button>
-        </div>
-
         <!-- Step 4 -->
-        <div class="column is-full" v-if="signup_step == 4">
+        <div class="column is-full" v-if="signup_step == 5">
           <h1 class="title is-5 has-text-centered">Final Step</h1>
           <div class="columns is-multiline">
             <div class="column is-full">
@@ -630,6 +722,10 @@ export default {
       this.verification_email = null
 
       if (this.signup_step == 2) {
+        this.signup_step = 3
+      } else if (this.signup_step == 3) {
+        this.signup_step = 4
+      } else if (this.signup_step == 4) {
         if (this.signup_user_name == null || this.signup_user_name == '') {
           this.signup_user_name_error = 'This field is required'
         } else if (
@@ -640,10 +736,10 @@ export default {
         } else if (this.signup_user_dob == null || this.signup_user_dob == '') {
           this.signup_user_dob_error = 'This field is required'
         } else {
-          this.signup_step = 3
+          this.signup_step = 5
         }
-      } else if (this.signup_step == 3) {
-        this.signup_step = 4
+      } else if (this.signup_step == 5) {
+        this.signup_step = 6
       }
 
       // if (this.signup_user_type == null) {
@@ -715,4 +811,547 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+@-webkit-keyframes spinAround {
+  from {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes spinAround {
+  from {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+.steps:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+.steps {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  font-size: 1rem;
+  min-height: 2rem;
+}
+.steps .step-item {
+  margin-top: 0;
+  position: relative;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -ms-flex-preferred-size: 0;
+  flex-basis: 0;
+}
+.steps .step-item:not(:first-child) {
+  -ms-flex-preferred-size: 1em;
+  flex-basis: 1em;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
+}
+.steps .step-item:not(:first-child)::before {
+  content: ' ';
+  display: block;
+  position: absolute;
+}
+.steps .step-item::before {
+  background: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(50%, #dbdbdb),
+    color-stop(50%, #00d1b2)
+  );
+  background: linear-gradient(to left, #dbdbdb 50%, #00d1b2 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+.steps .step-item::before .step-marker {
+  color: #fff;
+}
+.steps .step-item.is-active::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-active .step-marker {
+  background-color: #fff;
+  border-color: #00d1b2;
+  color: #00d1b2;
+}
+.steps .step-item.is-completed::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-completed .step-marker {
+  color: #fff;
+  background-color: #00d1b2;
+}
+.steps .step-item .step-marker {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 50%;
+  font-weight: 700;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: #b5b5b5;
+  color: #fff;
+  border: 0.2em solid #fff;
+  z-index: 1;
+}
+.steps .step-item .step-details {
+  text-align: center;
+}
+.steps .step-item.is-white::before {
+  background: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(50%, #dbdbdb),
+    color-stop(50%, #fff)
+  );
+  background: linear-gradient(to left, #dbdbdb 50%, #fff 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+.steps .step-item.is-white.is-active::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-white.is-active .step-marker {
+  background-color: #fff;
+  border-color: #fff;
+  color: #fff;
+}
+.steps .step-item.is-white.is-completed::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-white.is-completed .step-marker {
+  color: #0a0a0a;
+  background-color: #fff;
+}
+.steps .step-item.is-black::before {
+  background: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(50%, #dbdbdb),
+    color-stop(50%, #0a0a0a)
+  );
+  background: linear-gradient(to left, #dbdbdb 50%, #0a0a0a 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+.steps .step-item.is-black.is-active::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-black.is-active .step-marker {
+  background-color: #fff;
+  border-color: #0a0a0a;
+  color: #0a0a0a;
+}
+.steps .step-item.is-black.is-completed::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-black.is-completed .step-marker {
+  color: #fff;
+  background-color: #0a0a0a;
+}
+.steps .step-item.is-light::before {
+  background: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(50%, #dbdbdb),
+    color-stop(50%, #f5f5f5)
+  );
+  background: linear-gradient(to left, #dbdbdb 50%, #f5f5f5 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+.steps .step-item.is-light.is-active::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-light.is-active .step-marker {
+  background-color: #fff;
+  border-color: #f5f5f5;
+  color: #f5f5f5;
+}
+.steps .step-item.is-light.is-completed::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-light.is-completed .step-marker {
+  color: #363636;
+  background-color: #f5f5f5;
+}
+.steps .step-item.is-dark::before {
+  background: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(50%, #dbdbdb),
+    color-stop(50%, #363636)
+  );
+  background: linear-gradient(to left, #dbdbdb 50%, #363636 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+.steps .step-item.is-dark.is-active::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-dark.is-active .step-marker {
+  background-color: #fff;
+  border-color: #363636;
+  color: #363636;
+}
+.steps .step-item.is-dark.is-completed::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-dark.is-completed .step-marker {
+  color: #f5f5f5;
+  background-color: #363636;
+}
+.steps .step-item.is-primary::before {
+  background: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(50%, #dbdbdb),
+    color-stop(50%, #00d1b2)
+  );
+  background: linear-gradient(to left, #dbdbdb 50%, #00d1b2 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+.steps .step-item.is-primary.is-active::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-primary.is-active .step-marker {
+  background-color: #fff;
+  border-color: #00d1b2;
+  color: #00d1b2;
+}
+.steps .step-item.is-primary.is-completed::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-primary.is-completed .step-marker {
+  color: #fff;
+  background-color: #00d1b2;
+}
+.steps .step-item.is-link::before {
+  background: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(50%, #dbdbdb),
+    color-stop(50%, #3273dc)
+  );
+  background: linear-gradient(to left, #dbdbdb 50%, #3273dc 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+.steps .step-item.is-link.is-active::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-link.is-active .step-marker {
+  background-color: #fff;
+  border-color: #3273dc;
+  color: #3273dc;
+}
+.steps .step-item.is-link.is-completed::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-link.is-completed .step-marker {
+  color: #fff;
+  background-color: #3273dc;
+}
+.steps .step-item.is-info::before {
+  background: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(50%, #dbdbdb),
+    color-stop(50%, #209cee)
+  );
+  background: linear-gradient(to left, #dbdbdb 50%, #209cee 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+.steps .step-item.is-info.is-active::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-info.is-active .step-marker {
+  background-color: #fff;
+  border-color: #209cee;
+  color: #209cee;
+}
+.steps .step-item.is-info.is-completed::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-info.is-completed .step-marker {
+  color: #fff;
+  background-color: #209cee;
+}
+.steps .step-item.is-success::before {
+  background: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(50%, #dbdbdb),
+    color-stop(50%, #23d160)
+  );
+  background: linear-gradient(to left, #dbdbdb 50%, #23d160 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+.steps .step-item.is-success.is-active::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-success.is-active .step-marker {
+  background-color: #fff;
+  border-color: #23d160;
+  color: #23d160;
+}
+.steps .step-item.is-success.is-completed::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-success.is-completed .step-marker {
+  color: #fff;
+  background-color: #23d160;
+}
+.steps .step-item.is-warning::before {
+  background: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(50%, #dbdbdb),
+    color-stop(50%, #ffdd57)
+  );
+  background: linear-gradient(to left, #dbdbdb 50%, #ffdd57 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+.steps .step-item.is-warning.is-active::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-warning.is-active .step-marker {
+  background-color: #fff;
+  border-color: #ffdd57;
+  color: #ffdd57;
+}
+.steps .step-item.is-warning.is-completed::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-warning.is-completed .step-marker {
+  color: rgba(0, 0, 0, 0.7);
+  background-color: #ffdd57;
+}
+.steps .step-item.is-danger::before {
+  background: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(50%, #dbdbdb),
+    color-stop(50%, #ff3860)
+  );
+  background: linear-gradient(to left, #dbdbdb 50%, #ff3860 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+.steps .step-item.is-danger.is-active::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-danger.is-active .step-marker {
+  background-color: #fff;
+  border-color: #ff3860;
+  color: #ff3860;
+}
+.steps .step-item.is-danger.is-completed::before {
+  background-position: left bottom;
+}
+.steps .step-item.is-danger.is-completed .step-marker {
+  color: #fff;
+  background-color: #ff3860;
+}
+.steps .steps-content {
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -ms-flex-preferred-size: 100%;
+  flex-basis: 100%;
+  margin: 2rem 0;
+}
+.steps .steps-content .step-content {
+  display: none;
+}
+.steps .steps-content .step-content.is-active {
+  display: block;
+}
+.steps .steps-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -ms-flex-preferred-size: 100%;
+  flex-basis: 100%;
+}
+.steps .steps-actions .steps-action {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-preferred-size: 0;
+  flex-basis: 0;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin: 0.5rem;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.steps.is-animated .step-item::before {
+  -webkit-transition: all 2s ease;
+  transition: all 2s ease;
+}
+.steps.is-animated .step-item .step-marker {
+  -webkit-transition: all 0s ease;
+  transition: all 0s ease;
+  -webkit-transition-delay: 1.5s;
+  transition-delay: 1.5s;
+}
+.steps .step-item:not(:first-child)::before {
+  height: 0.2em;
+  width: 100%;
+  bottom: 0;
+  left: -50%;
+  top: 1rem;
+}
+.steps .step-item .step-marker {
+  height: 2rem;
+  width: 2rem;
+  position: absolute;
+  left: calc(50% - 1rem);
+}
+.steps .step-item .step-marker .icon * {
+  font-size: 1rem;
+}
+.steps .step-item .step-details {
+  margin-top: 2rem;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  padding-top: 0.2em;
+}
+.steps .step-item .step-details .step-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.steps.is-small {
+  font-size: 0.75rem;
+  min-height: 1.5rem;
+}
+.steps.is-small .step-item:not(:first-child)::before {
+  height: 0.2em;
+  width: 100%;
+  bottom: 0;
+  left: -50%;
+  top: 0.75rem;
+}
+.steps.is-small .step-item .step-marker {
+  height: 1.5rem;
+  width: 1.5rem;
+  position: absolute;
+  left: calc(50% - 0.75rem);
+}
+.steps.is-small .step-item .step-marker .icon * {
+  font-size: 0.75rem;
+}
+.steps.is-small .step-item .step-details {
+  margin-top: 1.5rem;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  padding-top: 0.2em;
+}
+.steps.is-small .step-item .step-details .step-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.steps.is-medium {
+  font-size: 1.25rem;
+  min-height: 2.5rem;
+}
+.steps.is-medium .step-item:not(:first-child)::before {
+  height: 0.2em;
+  width: 100%;
+  bottom: 0;
+  left: -50%;
+  top: 1.25rem;
+}
+.steps.is-medium .step-item .step-marker {
+  height: 2.5rem;
+  width: 2.5rem;
+  position: absolute;
+  left: calc(50% - 1.25rem);
+}
+.steps.is-medium .step-item .step-marker .icon * {
+  font-size: 1.25rem;
+}
+.steps.is-medium .step-item .step-details {
+  margin-top: 2.5rem;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  padding-top: 0.2em;
+}
+.steps.is-medium .step-item .step-details .step-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.steps.is-large {
+  font-size: 1.5rem;
+  min-height: 3rem;
+}
+.steps.is-large .step-item:not(:first-child)::before {
+  height: 0.2em;
+  width: 100%;
+  bottom: 0;
+  left: -50%;
+  top: 1.5rem;
+}
+.steps.is-large .step-item .step-marker {
+  height: 3rem;
+  width: 3rem;
+  position: absolute;
+  left: calc(50% - 1.5rem);
+}
+.steps.is-large .step-item .step-marker .icon * {
+  font-size: 1.5rem;
+}
+.steps.is-large .step-item .step-details {
+  margin-top: 3rem;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  padding-top: 0.2em;
+}
+.steps.is-large .step-item .step-details .step-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+</style>
