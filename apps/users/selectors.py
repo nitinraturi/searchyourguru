@@ -16,4 +16,7 @@ def get_user(id=None,email=None):
     return user
 
 def get_user_profile(email):
-    return UserProfile.objects.get(email=email)
+    try:
+        return UserProfile.objects.get(email=email)
+    except UserProfile.DoesNotExist:
+        return None
