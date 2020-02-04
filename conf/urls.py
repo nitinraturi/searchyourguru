@@ -18,6 +18,7 @@ urlpatterns = [
     path('auth/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 
     path('account/', include('apps.users.urls',namespace="account")),
+    path('tution/', include('apps.tution.urls', namespace="tution")),
 
     #django-rest_framework
     path('drf-api-auth/', include('rest_framework.urls')),

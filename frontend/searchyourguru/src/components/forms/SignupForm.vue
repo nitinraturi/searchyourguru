@@ -124,37 +124,33 @@
           <p class="subtitle is-6 has-text-centered">
             You can edit these later if you'd like.
           </p>
-          <nav class="panel">
-            <p class="panel-heading">
-              Course | Subject
-            </p>
-            <!-- <div class="panel-block">
-              <p class="control has-icons-left">
-                <input class="input" type="text" placeholder="Search" />
-                <span class="icon is-left">
-                  <i class="fas fa-search" aria-hidden="true"></i>
-                </span>
-              </p>
-            </div> -->
-            <p class="panel-tabs">
-              <a>Category</a>
-              <a>Sub Category</a>
-            </p>
-            <a class="panel-block is-active">
-              <span class="panel-icon">
-                <i class="fas fa-book" aria-hidden="true"></i>
+
+          <div>
+            <div class="tags">
+              <span class="tag is-info is-small"
+                >Bar
+                <button class="delete is-info"></button>
               </span>
-              bulma
-            </a>
-            <div class="panel-block">
-              <button
-                v-on:submit="signup"
-                class="button is-link is-outlined is-fullwidth"
-              >
-                Next
-              </button>
             </div>
-          </nav>
+          </div>
+
+          <div>
+            <hr />
+            <div>
+              <ul v-for="s in subjects" :key="s.subject.code">
+                <li>
+                  <input
+                    type="checkbox"
+                    v-model="selected_subjects"
+                    value="s.subject.code"
+                  />{{ s.subject.name }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <button v-on:submit="signup" class="button is-info is-outlined">
+            Next
+          </button>
         </div>
 
         <!-- Step 3 -->
@@ -674,7 +670,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import ValidatorsMixin from '@/components/mixins/ValidatorsMixin.vue'
 import EndpointsMixin from '@/components/mixins/EndpointsMixin.vue'
 import RequestMixin from '@/components/mixins/RequestMixin'
@@ -702,13 +698,28 @@ export default {
       signup_email_error: null,
       signup_password_error: null,
       errors: null,
-      verification_email: null
+      verification_email: null,
+      subjects: null,
+      selected_subjects: []
     }
   },
   methods: {
     set_user_mode: function(user_type) {
       this.signup_user_type = user_type
       this.signup_step = 2
+    },
+    get_subjects: function() {
+      axios
+        .get(this.get_endpoint(this.endpoints.subjects), this.guest_headers())
+        .then(
+          response => {
+            this.subjects = response.data.data
+            console.log(this.subjects)
+          },
+          err => {
+            console.log('err', err.response)
+          }
+        )
     },
     signup: function() {
       this.signup_user_type_error = null
@@ -806,6 +817,9 @@ export default {
       //     )
       // }
     }
+  },
+  mounted: function() {
+    this.get_subjects()
   },
   mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin]
 }

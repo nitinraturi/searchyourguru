@@ -39,3 +39,14 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.email
+
+class UserCategory(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    category = models.ForeignKey('tution.Category',on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.category.name
+
+    class Meta:
+        unique_together = ['user','category']
