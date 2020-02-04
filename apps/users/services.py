@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from .models import UserProfile
 
+
 def create_user(**kwargs):
     User = get_user_model()
     data = {}
@@ -9,13 +10,14 @@ def create_user(**kwargs):
     user_type = kwargs.get('user_type')
     email = kwargs.get('email')
     password = kwargs.get('password')
-    user = User.objects.create_user(email,password,first_name=name,user_type=user_type)
+    user = User.objects.create_user(email, password, first_name=name, user_type=user_type)
     if user:
         kwargs.pop('user_type')
-        create_or_update_user_profile(user,**kwargs)
+        create_or_update_user_profile(user, **kwargs)
     return user
 
-def create_or_update_user_profile(user,**kwargs):
+
+def create_or_update_user_profile(user, **kwargs):
     with transaction.atomic():
         try:
             profile = UserProfile.objects.get(user=user)
@@ -24,18 +26,25 @@ def create_or_update_user_profile(user,**kwargs):
             profile.phone = kwargs.get('phone')
             profile.save()
         except UserProfile.DoesNotExist:
-            profile = UserProfile.objects.create(user=user,email=user.email,name=user.first_name,**kwargs)
+            profile = UserProfile.objects.create(user=user, email=user.email, name=user.first_name, **kwargs)
         return profile
 
-def update_profile(email,**kwargs):
-    user_profile = UserProfile.objects.get(email=email)
-    user_profile.name = kwargs.get('name')
-    user_profile.user.first_name = kwargs.get('name')
-    user_profile.save()
-    user_profile.user.save()
-    return user_profile
 
-def change_user_password(user,password):
+def update_profile(email, **kwargs):
+    try:
+        user_profile = UserProfile.objects.get(email=email)
+        user_profile.name = kwargs.get('name')
+        user_profile.user.first_name = kwargs.get('name')
+        user_profile.save()
+        user_profile.user.save()
+        return user_profile
+    except UserProfile.DoesNotExist:
+        return None
+
+
+def change_user_password(user, password):
+    if not user:
+        return None
     user.set_password(password)
     user.save()
     return user
