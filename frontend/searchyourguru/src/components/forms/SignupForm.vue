@@ -116,36 +116,49 @@
           </div>
         </div>
 
-        <div
-          class="column is-full"
-          v-if="signup_step == 2 && signup_user_type == 4"
-        >
-          <h1 class="title is-5 has-text-centered">What do you teach?</h1>
+        <div class="column is-full" v-if="signup_step == 2">
+          <h1 class="title is-5 has-text-centered" v-if="signup_user_type == 4">
+            What do you teach?
+          </h1>
+          <h1 class="title is-5 has-text-centered" v-if="signup_user_type == 3">
+            What do you want to study?
+          </h1>
           <p class="subtitle is-6 has-text-centered">
             You can edit these later if you'd like.
           </p>
-
-          <div>
-            <div class="tags">
-              <span class="tag is-info is-small"
-                >Bar
-                <button class="delete is-info"></button>
-              </span>
-            </div>
-          </div>
           <hr />
+          <p class="help is-danger" v-if="signup_user_subjects_error != null">
+            {{ signup_user_subjects_error }}
+          </p>
+          <div v-if="selected_subjects.length > 0">
+            <h1 class="subtitle is-6">You have selected</h1>
+            <div class="tags">
+              <span v-for="s in selected_subjects" :key="s" class="tag is-light"
+                >{{ s
+                }}<button
+                  type="button"
+                  v-on:click="remove_selected_code(s)"
+                  class="delete is-small"
+                ></button
+              ></span>
+            </div>
+            <hr />
+          </div>
           <div id="tabs-with-content">
-            <div class="columns is-mobile">
-              <div class="column">
-                <h1 class="title is-6 has-text-centered">Categories</h1>
-                <ul v-for="s in subjects" :key="s.subject.code">
-                  <li>
-                    {{ s.subject.name }}
-                  </li>
-                </ul>
-              </div>
-              <div class="column">
-                <h1 class="title is-6 has-text-centered">Sub Categories</h1>
+            <h1 class="title is-6">Subjects</h1>
+            <div class="columns is-multiline is-mobile">
+              <div
+                class="column is-3"
+                v-for="s in subjects"
+                :key="s.subject.code"
+              >
+                <button
+                  type="button"
+                  class="button is-small is-info"
+                  v-on:click="show_subject_dialog(s)"
+                >
+                  {{ s.subject.name }}
+                </button>
               </div>
             </div>
           </div>
@@ -157,39 +170,74 @@
 
         <!-- Step 3 -->
         <div class="column is-full" v-if="signup_step == 3">
-          <h1 class="title is-5 has-text-centered">Tution Location</h1>
           <div class="columns is-multiline">
             <div class="column is-full">
+              <h1
+                class="title is-5 has-text-centered"
+                v-if="signup_user_type == 4"
+              >
+                Where do you prefer teaching your students?
+              </h1>
+              <h1
+                class="title is-5 has-text-centered"
+                v-if="signup_user_type == 3"
+              >
+                Where do you prefer studying?
+              </h1>
+              <h1 class="title is-6"></h1>
+              <div class="field">
+                <div class="control">
+                  <label class="checkbox">
+                    <input
+                      type="checkbox"
+                      :value="1"
+                      v-model="location_preferences"
+                    />
+                    <span v-if="signup_user_type == 4">At Student's Home</span>
+                    <span v-if="signup_user_type == 3">At My Home</span>
+                  </label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <label class="checkbox">
+                    <input
+                      type="checkbox"
+                      :value="2"
+                      v-model="location_preferences"
+                    />
+                    <span v-if="signup_user_type == 4">At My Home</span>
+                    <span v-if="signup_user_type == 3">At Tutors Home</span>
+                  </label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <label class="checkbox">
+                    <input
+                      type="checkbox"
+                      :value="3"
+                      v-model="location_preferences"
+                    />
+                    At Institute
+                  </label>
+                </div>
+              </div>
+              <p
+                class="help is-danger"
+                v-if="signup_location_preference_error != null"
+              >
+                {{ signup_location_preference_error }}
+              </p>
+            </div>
+            <div class="column is-full">
               <div class="columns is-multiline">
-                <div class="column is-4">
-                  <div class="field">
-                    <label class="label">Country</label>
-                    <div class="control">
-                      <div class="select">
-                        <select>
-                          <option>India (+91)</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="column is-4">
-                  <div class="field">
-                    <label class="label">State</label>
-                    <div class="control">
-                      <div class="select">
-                        <select>
-                          <option>India (+91)</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div class="column is-4">
                   <div class="field">
                     <label class="label">Pincode/Zipcode</label>
                     <div class="control">
                       <input
+                        v-model="signup_user_zipcode"
                         class="input"
                         type="number"
                         placeholder="eg: 110092"
@@ -198,35 +246,69 @@
                       />
                     </div>
                   </div>
+                  <p
+                    class="help is-danger"
+                    v-if="signup_user_zipcode_error != null"
+                  >
+                    {{ signup_user_zipcode_error }}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-          <button v-on:submit="signup" class="button is-info">
+          <button v-on:submit="signup" class="button is-info is-outlined">
             Next
           </button>
         </div>
 
         <!-- Step 4 -->
         <div class="column is-full" v-if="signup_step == 4">
-          <h1 class="title is-4 has-text-centered">Personal Details</h1>
+          <h1 class="title is-4 has-text-centered">Few More Details</h1>
           <div class="columns is-multiline">
             <div class="column is-full">
-              <div class="field">
-                <label class="label">Name</label>
-                <p class="control">
-                  <input
-                    v-model="signup_user_name"
-                    class="input"
-                    type="text"
-                    placeholder="eg: Alex Williams"
-                    :disabled="is_signup_loading"
-                    required
-                  />
-                </p>
-                <p class="help is-danger" v-if="signup_user_name_error != null">
-                  {{ signup_user_name_error }}
-                </p>
+              <div class="columns is-multiline">
+                <div class="column is-6">
+                  <div class="field">
+                    <label class="label">Name</label>
+                    <p class="control">
+                      <input
+                        v-model="signup_user_name"
+                        class="input"
+                        type="text"
+                        placeholder="eg: Alex Williams"
+                        :disabled="is_signup_loading"
+                        required
+                      />
+                    </p>
+                    <p
+                      class="help is-danger"
+                      v-if="signup_user_name_error != null"
+                    >
+                      {{ signup_user_name_error }}
+                    </p>
+                  </div>
+                </div>
+                <div class="column is-6">
+                  <div class="field">
+                    <label class="label">Preferred Timings</label>
+                    <div class="control">
+                      <div class="select is-fullwidth">
+                        <select v-model="signup_user_timing" required>
+                          <option value="1">Morning</option>
+                          <option value="2">Afternoon</option>
+                          <option value="3">Evening</option>
+                          <option value="4">Anytime (7 AM - 7 PM)</option>
+                        </select>
+                      </div>
+                    </div>
+                    <p
+                      class="help is-danger"
+                      v-if="signup_user_timings_error != null"
+                    >
+                      {{ signup_user_timing_error }}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -260,6 +342,7 @@
                         type="date"
                         class="input"
                         v-model="signup_user_dob"
+                        required
                       />
                     </div>
                     <p
@@ -267,6 +350,43 @@
                       v-if="signup_user_dob_error != null"
                     >
                       {{ signup_user_dob_error }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-full">
+              <div class="columns is-multiline">
+                <div class="column is-6" v-if="signup_user_type == 4">
+                  <div class="field">
+                    <label class="label">Experience (Years)</label>
+                    <div class="control">
+                      <input
+                        type="number"
+                        class="input"
+                        v-model="experience"
+                        required
+                      />
+                    </div>
+                    <p class="help is-danger" v-if="experience_error != null">
+                      {{ experience_error }}
+                    </p>
+                  </div>
+                </div>
+                <div class="column is-6">
+                  <div class="field">
+                    <label class="label">Hourly Price</label>
+                    <div class="control">
+                      <input
+                        type="number"
+                        class="input"
+                        v-model="price"
+                        required
+                      />
+                    </div>
+                    <p class="help is-danger" v-if="price_error != null">
+                      {{ price_error }}
                     </p>
                   </div>
                 </div>
@@ -402,272 +522,45 @@
               </div>
             </div>
           </div>
-          <button v-on:submit="signup" class="button is-info">
+          <button
+            v-on:submit="signup"
+            class="button is-success"
+            v-bind:class="{ 'is-loading': is_signup_loading }"
+          >
             Submit
           </button>
         </div>
-        <!-- <div class="column is-full">
-          <div class="field is-horizontal">
-            <div class="field-label">
-              <label class="label">I am a ?</label>
-            </div>
-            <div class="field-body">
-              <div class="field is-narrow">
-                <div class="control">
-                  <label class="radio">
-                    <input
-                      type="radio"
-                      name="user_type"
-                      v-model="signup_user_type"
-                      value="3"
-                      :disabled="is_signup_loading"
-                      required
-                    />
-                    Student or Parent
-                  </label>
-                  <label class="radio">
-                    <input
-                      type="radio"
-                      name="user_type"
-                      v-model="signup_user_type"
-                      value="4"
-                      required
-                    />
-                    Tutor
-                  </label>
-                </div>
-                <p class="help is-danger" v-if="signup_user_type_error != null">
-                  {{ signup_user_type_error }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="column is-full">
-          <div class="field">
-            <label class="label">Name</label>
-            <p class="control has-icons-left has-icons-right">
-              <input
-                v-model="signup_user_name"
-                class="input"
-                type="text"
-                placeholder="eg: Alex Williams"
-                :disabled="is_signup_loading"
-                required
-              />
-              <span class="icon is-small is-left">
-                <i class="fas fa-envelope"></i>
-              </span>
-              <span class="icon is-small is-right">
-                <i class="fas fa-check"></i>
-              </span>
-            </p>
-            <p class="help is-danger" v-if="signup_user_name_error != null">
-              {{ signup_user_name_error }}
-            </p>
-          </div>
-        </div>
-
-        <div class="column is-full">
-          <div class="columns is-multiline">
-            <div class="column is-6">
-              <div class="field">
-                <label class="label">Phone</label>
-                <p class="control has-icons-left has-icons-right">
-                  <input
-                    v-model="signup_user_phone"
-                    class="input"
-                    type="number"
-                    placeholder="eg: 92*** (Without +91)"
-                    :disabled="is_signup_loading"
-                    required
-                  />
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                  </span>
-                  <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
-                  </span>
-                </p>
-                <p
-                  class="help is-danger"
-                  v-if="signup_user_phone_error != null"
-                >
-                  {{ signup_user_phone_error }}
-                </p>
-              </div>
-            </div>
-
-            <div class="column is-6">
-              <div class="field">
-                <label class="label">Email</label>
-                <p class="control has-icons-left has-icons-right">
-                  <input
-                    v-model="signup_email"
-                    class="input"
-                    type="email"
-                    placeholder="eg: hello@gmail.com"
-                    :disabled="is_signup_loading"
-                    required
-                  />
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                  </span>
-                  <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
-                  </span>
-                </p>
-                <p class="help is-danger" v-if="signup_email_error != null">
-                  {{ signup_email_error }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="column is-full">
-          <div class="columns is-multiline">
-            <div class="column is-6">
-              <div class="field">
-                <label class="label">Gender</label>
-                <div class="control">
-                  <div class="select">
-                    <select>
-                      <option value="1">Male</option>
-                      <option value="2">Female</option>
-                      <option value="3">Other</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="column is-6">
-              <div class="field">
-                <label class="label">Date Of Birth</label>
-                <div class="control">
-                  <input type="date" class="input" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="column is-full">
-          <div class="columns is-multiline">
-            <div class="column is-4">
-              <div class="field">
-                <label class="label">Country</label>
-                <div class="control">
-                  <div class="select">
-                    <select>
-                      <option>India (+91)</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="column is-4">
-              <div class="field">
-                <label class="label">State</label>
-                <div class="control">
-                  <div class="select">
-                    <select>
-                      <option>India (+91)</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="column is-4">
-              <div class="field">
-                <label class="label">Pincode/Zipcode</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    type="number"
-                    placeholder="eg: 110092"
-                    :disabled="is_signup_loading"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="column is-full">
-          <div class="columns is-multiline">
-            <div class="column is-6">
-              <div class="field">
-                <label class="label">Password</label>
-                <p class="control has-icons-left">
-                  <input
-                    v-model="signup_password"
-                    class="input"
-                    type="password"
-                    placeholder="Password"
-                    :disabled="is_signup_loading"
-                    required
-                  />
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                  </span>
-                </p>
-                <p class="help is-danger" v-if="signup_password_error != null">
-                  {{ signup_password_error }}
-                </p>
-              </div>
-            </div>
-            <div class="column is-6">
-              <div class="field">
-                <label class="label">Confirm Password</label>
-                <p class="control has-icons-left">
-                  <input
-                    v-model="signup_confirm_password"
-                    class="input"
-                    type="password"
-                    placeholder="Confirm Password"
-                    :disabled="is_signup_loading"
-                    required
-                  />
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="column is-full">
-          <div class="field">
-            <div class="control">
-              <label class="checkbox">
-                <input type="checkbox" :disabled="is_signup_loading" required />
-                I agree to the
-                <a href="#">terms and conditions</a>
-              </label>
-            </div>
-          </div>
-        </div> -->
       </div>
-
-      <!-- <div class="column is-full">
-        <div class="field">
-          <p class="control">
-            <button
-              type="submit"
-              v-on:submit="signup"
-              class="button is-success"
-              v-bind:class="{ 'is-loading': is_signup_loading }"
-            >
-              {{ signup_btn_text }}
-            </button>
-          </p>
-        </div>
-      </div> -->
     </form>
+
+    <!-- Modal for subjects dialog -->
+    <div class="modal" v-bind:class="{ 'is-active': isActiveSubjectDialog }">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="card box">
+          <div>
+            <ul v-for="t in subject_based_topics" :key="t.child.code">
+              <li>
+                <label class="checkbox">
+                  <input
+                    type="checkbox"
+                    :id="t.child.code"
+                    :value="t.child.code"
+                    v-model="selected_subjects"
+                  />
+                  {{ t.child.name }}
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <button
+        class="modal-close is-large"
+        aria-label="close"
+        v-on:click="hide_subject_dialog"
+      ></button>
+    </div>
   </div>
 </template>
 
@@ -684,6 +577,8 @@ export default {
       signup_step: 1,
       signup_btn_text: 'Next',
       signup_user_type: null,
+      signup_user_zipcode: null,
+      location_preferences: [],
       signup_user_name: null,
       signup_user_dob: null,
       signup_user_gender: null,
@@ -692,6 +587,8 @@ export default {
       signup_password: null,
       signup_confirm_password: null,
       is_signup_loading: false,
+      signup_user_zipcode_error: null,
+      signup_location_preference_error: null,
       signup_user_type_error: null,
       signup_user_name_error: null,
       signup_user_dob_error: null,
@@ -702,7 +599,15 @@ export default {
       errors: null,
       verification_email: null,
       subjects: null,
-      selected_subjects: []
+      selected_subjects: [],
+      isActiveSubjectDialog: false,
+      subject_based_topics: null,
+      signup_user_subjects_error: null,
+      signup_user_timing: null,
+      experience: null,
+      experience_error: null,
+      price: null,
+      price_error: null
     }
   },
   methods: {
@@ -723,6 +628,20 @@ export default {
           }
         )
     },
+    show_subject_dialog: function(subject) {
+      this.subject_based_topics = subject.categories
+      this.isActiveSubjectDialog = true
+      this.signup_user_subjects_error = null
+    },
+    hide_subject_dialog: function() {
+      this.isActiveSubjectDialog = false
+      this.signup_user_subjects_error = null
+    },
+    remove_selected_code: function(code) {
+      this.selected_subjects = this.selected_subjects.filter(elem => {
+        return elem !== code
+      })
+    },
     signup: function() {
       this.signup_user_type_error = null
       this.signup_user_name_error = null
@@ -733,14 +652,36 @@ export default {
       this.signup_password_error = null
       this.errors = null
       this.verification_email = null
+      this.signup_user_subjects_error = null
+      this.signup_user_zipcode_error = null
+      this.signup_location_preference_error = null
+      this.signup_user_timing_error = null
+      this.price_error = null
+      this.experience_error = null
 
       if (this.signup_step == 2) {
-        this.signup_step = 3
+        if (this.selected_subjects.length < 1) {
+          this.signup_user_subjects_error =
+            'Please select atleast one subject topic'
+        } else {
+          this.signup_step = 3
+        }
       } else if (this.signup_step == 3) {
-        this.signup_step = 4
+        if (this.location_preferences.length < 1) {
+          this.signup_location_preference_error = 'Select atleast one choice'
+        } else if (
+          this.signup_user_zipcode == null ||
+          this.signup_user_zipcode == ''
+        ) {
+          this.signup_user_zipcode_error = 'Please enter a valid zipcode'
+        } else {
+          this.signup_step = 4
+        }
       } else if (this.signup_step == 4) {
         if (this.signup_user_name == null || this.signup_user_name == '') {
           this.signup_user_name_error = 'This field is required'
+        } else if (this.signup_user_timing == null) {
+          this.signup_user_timing_error = 'Please select a valid timing'
         } else if (
           this.signup_user_gender == null ||
           this.signup_user_gender == ''
@@ -748,6 +689,10 @@ export default {
           this.signup_user_gender_error = 'This field is required'
         } else if (this.signup_user_dob == null || this.signup_user_dob == '') {
           this.signup_user_dob_error = 'This field is required'
+        } else if (this.experience == null || this.experience == '') {
+          this.experience_error = 'Please enter a valid experience'
+        } else if (this.price == null || this.price == '') {
+          this.price_error = 'Please enter a valid price'
         } else {
           this.signup_step = 5
         }
@@ -755,69 +700,69 @@ export default {
         this.signup_step = 6
       }
 
-      // if (this.signup_user_type == null) {
-      //   this.signup_user_type_error = 'This field is required'
-      // } else if (this.signup_user_name == null) {
-      //   this.signup_user_name_error = 'This field is required'
-      // } else if (this.signup_user_phone == null) {
-      //   this.signup_user_phone_error = 'This field is required'
-      // } else if (this.signup_user_phone.toString().length != 10) {
-      //   this.signup_user_phone_error = 'Phone number should be of 10 digits'
-      // } else if (this.validEmail(this.signup_email) == false) {
-      //   this.signup_email_error = 'Please enter a valid email'
-      // } else if (
-      //   this.signup_password == null ||
-      //   this.signup_confirm_password == null
-      // ) {
-      //   this.signup_password_error =
-      //     'Please fill in the password and confirm_password both'
-      // } else {
-      //   this.is_signup_loading = true
-      //   let data = {
-      //     name: this.signup_user_name,
-      //     email: this.signup_email,
-      //     password: this.signup_password,
-      //     confirm_password: this.signup_confirm_password,
-      //     phone: this.signup_user_phone,
-      //     user_type: this.signup_user_type
-      //   }
-      //   axios
-      //     .post(
-      //       this.get_endpoint(this.endpoints.signup),
-      //       data,
-      //       this.guest_headers()
-      //     )
-      //     .then(
-      //       response => {
-      //         this.is_signup_loading = false
-      //         this.verification_email = response.data.email
-      //       },
-      //       error => {
-      //         this.errors = error.response.data.errors
-      //         this.is_signup_loading = false
+      if (this.signup_user_type == null) {
+        this.signup_user_type_error = 'This field is required'
+      } else if (this.signup_user_name == null) {
+        this.signup_user_name_error = 'This field is required'
+      } else if (this.signup_user_phone == null) {
+        this.signup_user_phone_error = 'This field is required'
+      } else if (this.signup_user_phone.toString().length != 10) {
+        this.signup_user_phone_error = 'Phone number should be of 10 digits'
+      } else if (this.validEmail(this.signup_email) == false) {
+        this.signup_email_error = 'Please enter a valid email'
+      } else if (
+        this.signup_password == null ||
+        this.signup_confirm_password == null
+      ) {
+        this.signup_password_error =
+          'Please fill in the password and confirm_password both'
+      } else {
+        this.is_signup_loading = true
+        let data = {
+          name: this.signup_user_name,
+          email: this.signup_email,
+          password: this.signup_password,
+          confirm_password: this.signup_confirm_password,
+          phone: this.signup_user_phone,
+          user_type: this.signup_user_type
+        }
+        axios
+          .post(
+            this.get_endpoint(this.endpoints.signup),
+            data,
+            this.guest_headers()
+          )
+          .then(
+            response => {
+              this.is_signup_loading = false
+              this.verification_email = response.data.email
+            },
+            error => {
+              this.errors = error.response.data.errors
+              this.is_signup_loading = false
 
-      //         if (this.errors.name) {
-      //           this.signup_user_name_error = this.errors.name[0]
-      //         }
+              if (this.errors.name) {
+                this.signup_user_name_error = this.errors.name[0]
+              }
 
-      //         if (this.errors.email) {
-      //           this.signup_email_error = this.errors.email[0]
-      //         }
+              if (this.errors.email) {
+                this.signup_email_error = this.errors.email[0]
+              }
 
-      //         if (this.errors.phone) {
-      //           this.signup_user_phone_error = this.errors.phone[0]
-      //         }
+              if (this.errors.phone) {
+                this.signup_user_phone_error = this.errors.phone[0]
+              }
 
-      //         if (this.errors.password) {
-      //           this.signup_password_error = this.errors.password[0]
-      //         }
+              if (this.errors.password) {
+                this.signup_password_error = this.errors.password[0]
+              }
 
-      //         if (this.errors.user_type) {
-      //           this.signup_user_type_error = this.errors.user_type[0]
-      //         }
-      //       }
-      //     )
-      // }
+              if (this.errors.user_type) {
+                this.signup_user_type_error = this.errors.user_type[0]
+              }
+            }
+          )
+      }
     }
   },
   mounted: function() {
