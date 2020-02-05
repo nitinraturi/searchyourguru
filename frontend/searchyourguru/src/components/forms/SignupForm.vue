@@ -190,11 +190,10 @@
                   <label class="checkbox">
                     <input
                       type="checkbox"
-                      :value="1"
+                      :value="2"
                       v-model="location_preferences"
                     />
-                    <span v-if="signup_user_type == 4">At Student's Home</span>
-                    <span v-if="signup_user_type == 3">At My Home</span>
+                    <span> At Student's Home</span>
                   </label>
                 </div>
               </div>
@@ -203,11 +202,10 @@
                   <label class="checkbox">
                     <input
                       type="checkbox"
-                      :value="2"
+                      :value="1"
                       v-model="location_preferences"
                     />
-                    <span v-if="signup_user_type == 4">At My Home</span>
-                    <span v-if="signup_user_type == 3">At Tutors Home</span>
+                    <span> At Tutors Home</span>
                   </label>
                 </div>
               </div>
@@ -294,16 +292,16 @@
                     <div class="control">
                       <div class="select is-fullwidth">
                         <select v-model="signup_user_timing" required>
-                          <option value="1">Morning</option>
-                          <option value="2">Afternoon</option>
-                          <option value="3">Evening</option>
-                          <option value="4">Anytime (7 AM - 7 PM)</option>
+                          <option value="2">Morning</option>
+                          <option value="3">Afternoon</option>
+                          <option value="4">Evening</option>
+                          <option value="1">Anytime (7 AM - 7 PM)</option>
                         </select>
                       </div>
                     </div>
                     <p
                       class="help is-danger"
-                      v-if="signup_user_timings_error != null"
+                      v-if="signup_user_timing_error != null"
                     >
                       {{ signup_user_timing_error }}
                     </p>
@@ -621,7 +619,6 @@ export default {
         .then(
           response => {
             this.subjects = response.data.data
-            console.log(this.subjects)
           },
           err => {
             console.log('err', err.response)
@@ -697,71 +694,74 @@ export default {
           this.signup_step = 5
         }
       } else if (this.signup_step == 5) {
-        this.signup_step = 6
-      }
+        if (this.signup_user_phone == null) {
+          this.signup_user_phone_error = 'This field is required'
+        } else if (this.signup_user_phone.toString().length != 10) {
+          this.signup_user_phone_error = 'Phone number should be of 10 digits'
+        } else if (this.validEmail(this.signup_email) == false) {
+          this.signup_email_error = 'Please enter a valid email'
+        } else if (
+          this.signup_password == null ||
+          this.signup_confirm_password == null
+        ) {
+          this.signup_password_error =
+            'Please fill in the password and confirm_password both'
+        } else {
+          this.is_signup_loading = true
+          let data = {
+            name: this.signup_user_name,
+            email: this.signup_email,
+            password: this.signup_password,
+            confirm_password: this.signup_confirm_password,
+            phone: this.signup_user_phone,
+            user_type: this.signup_user_type,
+            subjects: this.selected_subjects,
+            gender: this.signup_user_gender,
+            timing: this.signup_user_timing,
+            location_preferences: this.location_preferences,
+            zipcode: this.signup_user_zipcode,
+            dob: this.signup_user_dob,
+            experience: this.experience,
+            price_per_hour: this.price
+          }
+          axios
+            .post(
+              this.get_endpoint(this.endpoints.signup),
+              data,
+              this.guest_headers()
+            )
+            .then(
+              response => {
+                this.signup_step = 6
+                this.is_signup_loading = false
+                this.verification_email = response.data.email
+              },
+              error => {
+                this.errors = error.response.data.errors
+                this.is_signup_loading = false
 
-      if (this.signup_user_type == null) {
-        this.signup_user_type_error = 'This field is required'
-      } else if (this.signup_user_name == null) {
-        this.signup_user_name_error = 'This field is required'
-      } else if (this.signup_user_phone == null) {
-        this.signup_user_phone_error = 'This field is required'
-      } else if (this.signup_user_phone.toString().length != 10) {
-        this.signup_user_phone_error = 'Phone number should be of 10 digits'
-      } else if (this.validEmail(this.signup_email) == false) {
-        this.signup_email_error = 'Please enter a valid email'
-      } else if (
-        this.signup_password == null ||
-        this.signup_confirm_password == null
-      ) {
-        this.signup_password_error =
-          'Please fill in the password and confirm_password both'
-      } else {
-        this.is_signup_loading = true
-        let data = {
-          name: this.signup_user_name,
-          email: this.signup_email,
-          password: this.signup_password,
-          confirm_password: this.signup_confirm_password,
-          phone: this.signup_user_phone,
-          user_type: this.signup_user_type
+                if (this.errors.name) {
+                  this.signup_user_name_error = this.errors.name[0]
+                }
+
+                if (this.errors.email) {
+                  this.signup_email_error = this.errors.email[0]
+                }
+
+                if (this.errors.phone) {
+                  this.signup_user_phone_error = this.errors.phone[0]
+                }
+
+                if (this.errors.password) {
+                  this.signup_password_error = this.errors.password[0]
+                }
+
+                if (this.errors.user_type) {
+                  this.signup_user_type_error = this.errors.user_type[0]
+                }
+              }
+            )
         }
-        axios
-          .post(
-            this.get_endpoint(this.endpoints.signup),
-            data,
-            this.guest_headers()
-          )
-          .then(
-            response => {
-              this.is_signup_loading = false
-              this.verification_email = response.data.email
-            },
-            error => {
-              this.errors = error.response.data.errors
-              this.is_signup_loading = false
-
-              if (this.errors.name) {
-                this.signup_user_name_error = this.errors.name[0]
-              }
-
-              if (this.errors.email) {
-                this.signup_email_error = this.errors.email[0]
-              }
-
-              if (this.errors.phone) {
-                this.signup_user_phone_error = this.errors.phone[0]
-              }
-
-              if (this.errors.password) {
-                this.signup_password_error = this.errors.password[0]
-              }
-
-              if (this.errors.user_type) {
-                this.signup_user_type_error = this.errors.user_type[0]
-              }
-            }
-          )
       }
     }
   },

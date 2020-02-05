@@ -18,8 +18,20 @@ class UserRegistrationSerializer(serializers.Serializer):
     confirm_password = serializers.CharField(max_length=64)
     user_type = serializers.ChoiceField(
         choices=[user_constants.STUDENT, user_constants.TUTOR])
+    subjects = serializers.ListField(
+        child=serializers.CharField(max_length=50)
+    )
+    gender = serializers.ChoiceField(choices=user_constants.GENDER_CHOICES)
+    timing = serializers.ChoiceField(choices=user_constants.TUTION_TIMINGS)
+    location_preferences = serializers.ListField(serializers.ChoiceField(
+        choices=user_constants.LOCATION_PREFERENCE))
+    zipcode = serializers.IntegerField()
+    dob = serializers.DateField()
+    experience = serializers.FloatField(required=False)
+    price_per_hour = serializers.FloatField(required=False)
 
     def validate(self, data):
+        print("data", data)
         password = data.get('password')
         confirm_password = data.get('confirm_password')
         if password != confirm_password:
@@ -41,6 +53,10 @@ class UserRegistrationSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         user = user_services.create_user(**validated_data)
+        user_services.create_user_category(user,
+                                           category_codes=validated_data.get('subjects'))
+        user_services.create_user_location_preference(user,
+                                                      location_preferences=validated_data.get('location_preferences'))
         request = self.context.get('request')
         mailer_utils.send_account_activation_mail(request, user)
         return user
