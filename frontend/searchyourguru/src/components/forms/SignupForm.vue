@@ -133,21 +133,23 @@
               </span>
             </div>
           </div>
-
-          <div>
-            <hr />
-            <div>
-              <ul v-for="s in subjects" :key="s.subject.code">
-                <li>
-                  <input
-                    type="checkbox"
-                    v-model="selected_subjects"
-                    value="s.subject.code"
-                  />{{ s.subject.name }}
-                </li>
-              </ul>
+          <hr />
+          <div id="tabs-with-content">
+            <div class="columns is-mobile">
+              <div class="column">
+                <h1 class="title is-6 has-text-centered">Categories</h1>
+                <ul v-for="s in subjects" :key="s.subject.code">
+                  <li>
+                    {{ s.subject.name }}
+                  </li>
+                </ul>
+              </div>
+              <div class="column">
+                <h1 class="title is-6 has-text-centered">Sub Categories</h1>
+              </div>
             </div>
           </div>
+          <hr />
           <button v-on:submit="signup" class="button is-info is-outlined">
             Next
           </button>
