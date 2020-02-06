@@ -116,6 +116,7 @@
           </div>
         </div>
 
+        <!-- Step 2 -->
         <div class="column is-full" v-if="signup_step == 2">
           <h1 class="title is-5 has-text-centered" v-if="signup_user_type == 4">
             What do you teach?
@@ -261,7 +262,7 @@
 
         <!-- Step 4 -->
         <div class="column is-full" v-if="signup_step == 4">
-          <h1 class="title is-4 has-text-centered">Few More Details</h1>
+          <h1 class="title is-4 has-text-centered">Personal Information</h1>
           <div class="columns is-multiline">
             <div class="column is-full">
               <div class="columns is-multiline">
@@ -354,9 +355,9 @@
               </div>
             </div>
 
-            <div class="column is-full">
+            <div class="column is-full" v-if="signup_user_type == 4">
               <div class="columns is-multiline">
-                <div class="column is-6" v-if="signup_user_type == 4">
+                <div class="column is-6">
                   <div class="field">
                     <label class="label">Experience (Years)</label>
                     <div class="control">
@@ -686,9 +687,15 @@ export default {
           this.signup_user_gender_error = 'This field is required'
         } else if (this.signup_user_dob == null || this.signup_user_dob == '') {
           this.signup_user_dob_error = 'This field is required'
-        } else if (this.experience == null || this.experience == '') {
+        } else if (
+          (this.experience == null || this.experience == '') &&
+          this.user_type == 4
+        ) {
           this.experience_error = 'Please enter a valid experience'
-        } else if (this.price == null || this.price == '') {
+        } else if (
+          (this.price == null || this.price == '') &&
+          this.user_type == 3
+        ) {
           this.price_error = 'Please enter a valid price'
         } else {
           this.signup_step = 5
@@ -724,6 +731,7 @@ export default {
             experience: this.experience,
             price_per_hour: this.price
           }
+          console.log('data', data)
           axios
             .post(
               this.get_endpoint(this.endpoints.signup),

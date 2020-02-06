@@ -23,15 +23,14 @@ class UserRegistrationSerializer(serializers.Serializer):
     )
     gender = serializers.ChoiceField(choices=user_constants.GENDER_CHOICES)
     timing = serializers.ChoiceField(choices=user_constants.TUTION_TIMINGS)
-    location_preferences = serializers.ListField(serializers.ChoiceField(
+    location_preferences = serializers.ListField(child=serializers.ChoiceField(
         choices=user_constants.LOCATION_PREFERENCE))
     zipcode = serializers.IntegerField()
     dob = serializers.DateField()
-    experience = serializers.FloatField(required=False)
-    price_per_hour = serializers.FloatField(required=False)
+    experience = serializers.FloatField(required=False, allow_null=True)
+    price_per_hour = serializers.FloatField(required=False, allow_null=True)
 
     def validate(self, data):
-        print("data", data)
         password = data.get('password')
         confirm_password = data.get('confirm_password')
         if password != confirm_password:

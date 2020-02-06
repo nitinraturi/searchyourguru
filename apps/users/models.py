@@ -35,7 +35,6 @@ class UserProfile(models.Model):
     dob = models.DateField(null=True, blank=True)
     gender = models.PositiveSmallIntegerField(
         choices=user_constants.GENDER_CHOICES, null=True, blank=True)
-    experience = models.FloatField(default=0.0)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
