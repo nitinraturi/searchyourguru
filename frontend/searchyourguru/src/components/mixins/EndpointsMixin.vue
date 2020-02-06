@@ -12,7 +12,8 @@ export default {
         change_password: '/account/auth/change-password/',
         user_profile: '/account/user/',
         update_user_profile: '/account/user/update-profile/',
-        update_password: '/account/user/update-password/'
+        update_password: '/account/user/update-password/',
+        subjects: '/tution/subjects/'
       }
     }
   },

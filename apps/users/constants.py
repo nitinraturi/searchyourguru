@@ -35,3 +35,13 @@ TUTION_TIMINGS = (
     (AFTERNOON, "Afternoon"),
     (EVENING, "Evening")
 )
+
+AT_TUTOR_HOME = 1
+AT_STUDENT_HOME = 2
+AT_INSTITUTE = 3
+
+LOCATION_PREFERENCE = (
+    (AT_TUTOR_HOME, "At Tutor Home"),
+    (AT_STUDENT_HOME, "At Student Home"),
+    (AT_INSTITUTE, "At Insitute")
+)

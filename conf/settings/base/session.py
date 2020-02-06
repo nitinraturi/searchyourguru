@@ -7,4 +7,4 @@ SESSION_COOKIE_NAME = 'sid'
 SESSION_COOKIE_AGE = 86400 * 60  # 2 months. Very important to remember users.
 
 if PRODUCTION:
-    SESSION_COOKIE_DOMAIN = '.your production hostname prepended with dot (RFC)'
+    SESSION_COOKIE_DOMAIN = 'searchyourguru.com'
