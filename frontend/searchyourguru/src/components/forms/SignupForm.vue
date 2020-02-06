@@ -1,20 +1,5 @@
 <template>
   <div>
-    <article class="message is-success" v-if="verification_email != null">
-      <div class="message-body">
-        <p>Hii {{ verification_email }},</p>
-        <p>
-          We have sent an email verification link to your inbox, kindly open it
-          to activate your account.
-        </p>
-        <p>If not received within 60 seconds, click on button below</p>
-        <hr />
-        <router-link class="button is-info" to="/verification/"
-          >Verify Account</router-link
-        >
-      </div>
-    </article>
-
     <div>
       <ul class="steps">
         <li
@@ -64,6 +49,20 @@
         </li>
       </ul>
     </div>
+    <article class="message is-success" v-if="verification_email != null">
+      <div class="message-body">
+        <p>Hii {{ verification_email }},</p>
+        <p>
+          We have sent an email verification link to your inbox, kindly open it
+          to activate your account.
+        </p>
+        <p>If not received within 60 seconds, click on button below</p>
+        <hr />
+        <router-link class="button is-info" to="/verification/"
+          >Verify Account</router-link
+        >
+      </div>
+    </article>
     <hr />
     <form
       action="#"
@@ -87,7 +86,7 @@
                 <button
                   type="button"
                   v-on:click="set_user_mode(4)"
-                  class="button is-info"
+                  class="button is-success"
                 >
                   Register as tutor
                 </button>
@@ -107,7 +106,7 @@
                 <button
                   type="button"
                   v-on:click="set_user_mode(3)"
-                  class="button is-info"
+                  class="button is-success"
                 >
                   Register as student
                 </button>
@@ -164,7 +163,7 @@
             </div>
           </div>
           <hr />
-          <button v-on:submit="signup" class="button is-info is-outlined">
+          <button v-on:submit="signup" class="button is-success">
             Next
           </button>
         </div>
@@ -193,6 +192,7 @@
                       type="checkbox"
                       :value="2"
                       v-model="location_preferences"
+                      :disabled="is_signup_loading"
                     />
                     <span> At Student's Home</span>
                   </label>
@@ -205,6 +205,7 @@
                       type="checkbox"
                       :value="1"
                       v-model="location_preferences"
+                      :disabled="is_signup_loading"
                     />
                     <span> At Tutors Home</span>
                   </label>
@@ -217,6 +218,7 @@
                       type="checkbox"
                       :value="3"
                       v-model="location_preferences"
+                      :disabled="is_signup_loading"
                     />
                     At Institute
                   </label>
@@ -255,7 +257,7 @@
               </div>
             </div>
           </div>
-          <button v-on:submit="signup" class="button is-info is-outlined">
+          <button v-on:submit="signup" class="button is-success">
             Next
           </button>
         </div>
@@ -292,7 +294,11 @@
                     <label class="label">Preferred Timings</label>
                     <div class="control">
                       <div class="select is-fullwidth">
-                        <select v-model="signup_user_timing" required>
+                        <select
+                          v-model="signup_user_timing"
+                          :disabled="is_signup_loading"
+                          required
+                        >
                           <option value="2">Morning</option>
                           <option value="3">Afternoon</option>
                           <option value="4">Evening</option>
@@ -318,7 +324,11 @@
                     <label class="label">Gender</label>
                     <div class="control">
                       <div class="select is-fullwidth">
-                        <select v-model="signup_user_gender" required>
+                        <select
+                          v-model="signup_user_gender"
+                          :disabled="is_signup_loading"
+                          required
+                        >
                           <option value="1">Male</option>
                           <option value="2">Female</option>
                           <option value="3">Other</option>
@@ -341,6 +351,7 @@
                         type="date"
                         class="input"
                         v-model="signup_user_dob"
+                        :disabled="is_signup_loading"
                         required
                       />
                     </div>
@@ -365,6 +376,7 @@
                         type="number"
                         class="input"
                         v-model="experience"
+                        :disabled="is_signup_loading"
                         required
                       />
                     </div>
@@ -381,6 +393,7 @@
                         type="number"
                         class="input"
                         v-model="price"
+                        :disabled="is_signup_loading"
                         required
                       />
                     </div>
@@ -392,7 +405,7 @@
               </div>
             </div>
           </div>
-          <button v-on:submit="signup" class="button is-info">
+          <button v-on:submit="signup" class="button is-success">
             Next
           </button>
         </div>
@@ -546,6 +559,7 @@
                     :id="t.child.code"
                     :value="t.child.code"
                     v-model="selected_subjects"
+                    :disabled="is_signup_loading"
                   />
                   {{ t.child.name }}
                 </label>
@@ -731,7 +745,6 @@ export default {
             experience: this.experience,
             price_per_hour: this.price
           }
-          console.log('data', data)
           axios
             .post(
               this.get_endpoint(this.endpoints.signup),
