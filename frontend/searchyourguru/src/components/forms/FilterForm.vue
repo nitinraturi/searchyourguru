@@ -6,14 +6,15 @@
         <div class="field is-horizontal">
           <div class="field-body">
             <div class="field">
-              <label class="label">City</label>
+              <label class="label">City | Pincode</label>
               <div class="control">
-                <select name="city" class="input">
-                  <option value="0">Delhi</option>
-                  <option value="0">Delhi</option>
-                  <option value="0">Delhi</option>
-                  <option value="0">Delhi</option>
-                </select>
+                <input
+                  type="text"
+                  class="input"
+                  placeholder="eg: Delhi or 110092"
+                  v-model="location_keyword"
+                  required
+                />
               </div>
             </div>
           </div>
@@ -25,11 +26,11 @@
         <div class="field is-horizontal">
           <div class="field-body">
             <div class="field">
-              <label class="label">Looking</label>
+              <label class="label">Looking For</label>
               <div class="control">
-                <select name="type" class="input">
-                  <option value="0">Tutors</option>
-                  <option value="0">Students</option>
+                <select name="type" class="input" v-model="user_type">
+                  <option value="4">Tutors</option>
+                  <option value="3">Students</option>
                 </select>
               </div>
             </div>
@@ -44,10 +45,13 @@
             <div class="field">
               <label class="label">Course</label>
               <div class="control">
-                <select name="type" class="input">
-                  <option value="0">BCA</option>
-                  <option value="0">MCA</option>
-                </select>
+                <input
+                  type="text"
+                  class="input"
+                  placeholder="eg:Math"
+                  v-model="category"
+                  required
+                />
               </div>
             </div>
           </div>
@@ -79,6 +83,13 @@
 <script>
 export default {
   name: 'FilterForm',
+  data: function() {
+    return {
+      location_keyword: '',
+      user_type: 4,
+      category: ''
+    }
+  },
   methods: {
     search: function() {
       this.$router.push('/search/')

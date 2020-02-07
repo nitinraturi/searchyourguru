@@ -13,7 +13,8 @@ export default {
         user_profile: '/account/user/',
         update_user_profile: '/account/user/update-profile/',
         update_password: '/account/user/update-password/',
-        subjects: '/tution/subjects/'
+        subjects: '/tution/subjects/',
+        tution_search: '/tution/search/'
       }
     }
   },

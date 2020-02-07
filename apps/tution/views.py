@@ -25,3 +25,11 @@ class TutionViewSet(viewsets.ViewSet):
                 })
 
         return Response({'data': json_data}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'], url_name="search", url_path="search")
+    def search(self, request):
+        serializer = SearchSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = tution_selectors.filtered_tution_data(
+            **serializer.validated_data)
+        return Response({'data': data}, status=status.HTTP_200_OK)

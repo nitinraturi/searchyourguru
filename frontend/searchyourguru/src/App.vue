@@ -19,7 +19,7 @@ export default {
 <style>
 body {
   background: #f5f4f3 !important;
-  font-size: .95em !important;
+  font-size: 0.95em !important;
 }
 
 .box {
