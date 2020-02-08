@@ -13,7 +13,7 @@ class TutionViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['get'], url_name="get_subjects", url_path="subjects")
     def subjects(self, request):
-        data = tution_selectors.get_subjects()
+        data = tution_selectors.get_category_groups()
         json_data = []
         for subject, categories in data:
             categories_data = CategoryRelationSerializer(

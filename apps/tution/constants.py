@@ -1,13 +1,9 @@
-SUBJECT = 1
-SUBJECT_CATEGORY = 2
-COURSE = 3
-GRADE = 4
-GROUP = 5
+TAG = 1
+GROUP = 2
+SEARCH_TAG = 3
 
 TAG_TYPES = (
-    (SUBJECT,"Subject"),
-    (COURSE,"Course"),
-    (SUBJECT_CATEGORY,"Subject Category"),
-    (GRADE,"Grade"),
-    (GROUP,"Group")
+    (TAG, "Tag"),
+    (GROUP, "Group"),
+    (SEARCH_TAG, "Search Tag"),
 )

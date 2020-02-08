@@ -3,13 +3,14 @@ from . import constants as tution_constants
 from apps.users import models as users_models
 
 
-def get_subjects():
-    subjects = Category.objects.filter(tag_type=tution_constants.SUBJECT)
+def get_category_groups():
+    groups = Category.objects.filter(
+        tag_type=tution_constants.GROUP, is_active=True).order_by('order')
     subject_categories = []
-    for subject in subjects:
-        cr = CategoryRelation.objects.filter(
-            parent=subject, child__tag_type=tution_constants.SUBJECT_CATEGORY)
-        subject_categories.append((subject, cr))
+    for group in groups:
+        childrens = CategoryRelation.objects.filter(
+            parent=group, child__tag_type=tution_constants.TAG, child__is_active=True).order_by('order')
+        subject_categories.append((group, childrens))
 
     return subject_categories
 
