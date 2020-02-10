@@ -22,13 +22,15 @@ class SearchSerializer(serializers.Serializer):
         max_length=50)
     # zipcode = serializers.CharField(
     #     max_length=10, required=False, allow_null=True)
-    user_type = serializers.ChoiceField(
-        choices=user_constants.USER_TYPE_CHOICES)
+    # user_type = serializers.ChoiceField(
+    #     choices=user_constants.USER_TYPE_CHOICES)
     category = serializers.CharField(max_length=50)
-    experience = serializers.FloatField(required=False, allow_null=True)
+    experience = serializers.IntegerField(required=False, allow_null=True)
     price_per_hour = serializers.FloatField(required=False, allow_null=True)
     qualification = serializers.CharField(
         max_length=255, required=False, allow_null=True)
+    location_preferences = serializers.ChoiceField(
+        choices=user_constants.LOCATION_PREFERENCE, required=False, allow_null=True)
     timing = serializers.ChoiceField(
         choices=user_constants.TUTION_TIMINGS, required=False, allow_null=True)
     gender = serializers.ChoiceField(

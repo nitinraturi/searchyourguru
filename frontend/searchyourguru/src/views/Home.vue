@@ -1,10 +1,10 @@
 <template>
   <div id="home_view" class="has-background-white">
-    <section class="hero is-info is-bold is-medium">
+    <section class="hero is-info is-bold is-small">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-centered">
-            <div class="column is-8">
+            <div class="column is-6">
               <p class="title">
                 SearchYourGuru
               </p>

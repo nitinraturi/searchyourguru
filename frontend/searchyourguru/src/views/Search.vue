@@ -43,7 +43,11 @@
             </section>
             <br />
             <div class="columns is-multiline">
-              <div class="column is-4">
+              <div
+                class="column is-4"
+                v-for="user in filtered_users"
+                :key="user.user_id"
+              >
                 <div class="card box is-paddingless is-small">
                   <div class="card-content">
                     <div class="media">
@@ -57,9 +61,12 @@
                       </div>
                       <div class="media-content">
                         <p class="title is-size-6">
-                          Prabhu Deva <span class="tag is-primary">New</span>
+                          {{ user.name }}
+                          <span class="tag is-primary">New</span>
                         </p>
-                        <p class="subtitle is-size-7">24 Years old, Male</p>
+                        <p class="subtitle is-size-7">
+                          {{ user.dob }}, {{ user.gender }}
+                        </p>
                       </div>
                     </div>
                     <p class="is-size-7">
@@ -71,10 +78,14 @@
                       value="20"
                       max="100"
                     ></progress>
-                    <p class="is-size-7"><b>Exp</b>: 2Y</p>
-                    <p class="is-size-7"><b>Locality</b>: Laxmi Nagar, Delhi</p>
-                    <p class="is-size-7"><b>Fees</b>: &#8377; 300 / Hour</p>
-                    <p class="is-size-7"><b>Qualification</b>: Phd</p>
+                    <p class="is-size-7"><b>Exp</b>: {{ user.experience }}Y</p>
+                    <p class="is-size-7"><b>Locality</b>: {{ user.zipcode }}</p>
+                    <p class="is-size-7">
+                      <b>Fees</b>: &#8377; {{ user.price_per_hour }} / Hour
+                    </p>
+                    <p class="is-size-7">
+                      <b>Qualification</b>: {{ user.qualification }}
+                    </p>
                     <p class="is-size-7"><b>Subject</b>: Mathematics</p>
                     <br />
                     <div class="field is-grouped is-grouped-centered">
@@ -176,6 +187,9 @@ export default {
   computed: {
     isAuthenticated() {
       return this.$store.state.isAuthenticated
+    },
+    filtered_users() {
+      return this.$store.state.filtered_users
     }
   },
   methods: {

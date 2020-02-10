@@ -1,6 +1,8 @@
 from .models import *
 from . import constants as tution_constants
+from apps.users import constants as user_constants
 from apps.users import models as users_models
+from django.db.models import Q
 
 
 def get_category_groups():
@@ -21,7 +23,6 @@ def get_categories():
 
 def filtered_tution_data(**kwargs):
     location_keyword = kwargs.get('location_keyword')
-    user_type = kwargs.get('user_type')
     category = kwargs.get('category')
     experience = kwargs.get('experience')
     price_per_hour = kwargs.get('price_per_hour')
@@ -30,9 +31,9 @@ def filtered_tution_data(**kwargs):
     gender = kwargs.get('gender')
 
     # Required fields for minimum search functionality
-    if user_type is None or category is None or location_keyword is None:
+    if category is None or location_keyword is None:
         raise Exception(
-            "user_type, category and location_keyword are required keyword arguments")
+            "category and location_keyword are required keyword arguments")
 
     zipcode = None
 
@@ -45,14 +46,14 @@ def filtered_tution_data(**kwargs):
 
     # Gettings subject related users id
     valid_category_user_ids = users_models.UserCategory.objects.filter(
-        user__is_active=True,
-        user__user_type=user_type,
-        category__code=category
+        Q(user__is_active=True) &
+        Q(user__user_type=user_constants.TUTOR) &
+        Q(category__name__icontains=category)
     ).values_list('user__id', flat=True)
 
     user_qs = users_models.UserProfile.objects.filter(
         user__is_active=True,
-        user__user_type=kwargs.get('user_type'),
+        user__user_type=user_constants.TUTOR,
         user__id__in=valid_category_user_ids
     )
 
@@ -60,10 +61,10 @@ def filtered_tution_data(**kwargs):
         user_qs = user_qs.filter(zipcode__icontains=zipcode)
 
     if experience:
-        user_qs = user_qs.filter(experience=experience)
+        user_qs = user_qs.filter(experience__lte=experience)
 
     if price_per_hour:
-        user_qs = user_qs.filter(price_per_hour=price_per_hour)
+        user_qs = user_qs.filter(price_per_hour__lte=price_per_hour)
 
     if qualification:
         user_qs = user_qs.filter(qualification__icontains=qualification)
@@ -74,5 +75,5 @@ def filtered_tution_data(**kwargs):
     if gender:
         user_qs = user_qs.filter(gender=gender)
 
-    return user_qs.values('user__user_type', 'gender', 'qualification', 'dob',
+    return user_qs.values('user__id', 'user__user_type', 'gender', 'qualification', 'dob',
                           'price_per_hour', 'name', 'timing', 'experience', 'zipcode')
