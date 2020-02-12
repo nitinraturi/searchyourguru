@@ -79,5 +79,5 @@ def filtered_tution_data(**kwargs):
                           'price_per_hour', 'name', 'timing', 'experience', 'zipcode')
 
 
-def is_valid_connection_request(from_user_id, to_user_id):
-    return not TutionRequest.objects.filter(from_user__id=from_user_id, to_user__id=to_user_id).exists()
+def is_valid_connection_request(tutor, student):
+    return not TutionRequest.objects.filter(tutor=tutor, student=student).exists()

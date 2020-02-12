@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.mixins import LoginRequiredMixin
 from . import selectors as tution_selectors
+from . import services as tution_services
 from .serializers import *
 
 
@@ -34,9 +35,16 @@ class TutionViewSet(viewsets.ViewSet):
             **serializer.validated_data)
         return Response({'data': data}, status=status.HTTP_200_OK)
 
-    @action(detail=False, methods=['post'], url_name="connection_add", url_path="connection/add/", permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['post'], url_name="connection_add", url_path="connection/add", permission_classes=[IsAuthenticated])
     def connection_add(self, request):
-        request.data['from_user_id'] = request.user.id
+        request.data['student_id'] = request.user.id
         serializer = TutionRequestSerializer(data=request.data)
         if serializer.is_valid():
-            pass
+            tution_request = tution_services.add_tution_connection(
+                serializer.validated_data.get('tutor'), request.user)
+            data = {'success': 1}
+            status_code = status.HTTP_200_OK
+        else:
+            data = serializer.errors
+            status_code = status.HTTP_400_BAD_REQUEST
+        return Response(data, status=status_code)

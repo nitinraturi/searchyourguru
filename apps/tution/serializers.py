@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from apps.users import constants as user_constants
+from apps.users import selectors as user_selectors
 from . import selectors as tution_selectors
 
 
@@ -39,15 +40,28 @@ class SearchSerializer(serializers.Serializer):
 
 
 class TutionRequestSerializer(serializers.Serializer):
-    from_user_id = serializers.IntegerField()
-    to_user_id = serializers.IntegerField()
+    tutor_id = serializers.IntegerField()
+    student_id = serializers.IntegerField()
 
     def validate(self, data):
-        from_user_id = data.get('from_user_id')
-        to_user_id = data.get('to_user_id')
+        tutor_id = data.get('tutor_id')
+        student_id = data.get('student_id')
 
-        is_valid_req = tution_selectors.is_valid_connection_request(
-            from_user_id, to_user_id)
+        tutor = user_selectors.get_user(id=tutor_id)
+        student = user_selectors.get_user(id=student_id)
+        data['tutor'] = tutor
+        data['student'] = student
+
+        if tutor is None:
+            raise serializers.ValidationError({'detail': 'No such user'})
+        elif tutor.user_type != user_constants.TUTOR:
+            raise serializers.ValidationError({'detail': 'Not a valid tutor'})
+        elif student.user_type != user_constants.STUDENT:
+            raise serializers.ValidationError(
+                {'detail': 'Not a valid student'})
+        else:
+            is_valid_req = tution_selectors.is_valid_connection_request(
+                tutor, student)
 
         if not is_valid_req:
             raise serializers.ValidationError(

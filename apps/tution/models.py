@@ -31,14 +31,14 @@ class CategoryRelation(models.Model):
 
 
 class TutionRequest(models.Model):
-    for_user = models.ForeignKey(get_user_model(
-    ), related_name="tution_request_for_user", on_delete=models.CASCADE)
-    from_user = models.ForeignKey(get_user_model(
-    ), related_name="tution_request_from_user", on_delete=models.CASCADE)
+    tutor = models.ForeignKey(get_user_model(
+    ), related_name="tution_request_user1", on_delete=models.CASCADE)
+    student = models.ForeignKey(get_user_model(
+    ), related_name="tution_request_user2", on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     is_accepted = models.BooleanField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.from_user.email)+str(self.for_user.email)
+        return str(self.tutor.email)+str(self.student.email)
