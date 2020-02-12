@@ -77,3 +77,7 @@ def filtered_tution_data(**kwargs):
 
     return user_qs.values('user__id', 'user__user_type', 'gender', 'qualification', 'dob',
                           'price_per_hour', 'name', 'timing', 'experience', 'zipcode')
+
+
+def is_valid_connection_request(from_user_id, to_user_id):
+    return not TutionRequest.objects.filter(from_user__id=from_user_id, to_user__id=to_user_id).exists()

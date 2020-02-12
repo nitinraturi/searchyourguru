@@ -28,3 +28,17 @@ class CategoryRelation(models.Model):
 
     def __str__(self):
         return self.parent.code+"-"+self.child.code
+
+
+class TutionRequest(models.Model):
+    for_user = models.ForeignKey(get_user_model(
+    ), related_name="tution_request_for_user", on_delete=models.CASCADE)
+    from_user = models.ForeignKey(get_user_model(
+    ), related_name="tution_request_from_user", on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
+    is_accepted = models.BooleanField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.from_user.email)+str(self.for_user.email)
