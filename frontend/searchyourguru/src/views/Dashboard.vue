@@ -27,6 +27,17 @@
                     </li>
                     <!-- <li><a v-on:click.prevent.stop="set_app_state('change_email')">Change Email</a></li> -->
                   </ul>
+                  <p class="menu-label">Connection</p>
+                  <ul class="menu-list">
+                    <li>
+                      <a
+                        v-on:click.prevent.stop="
+                          set_app_state('tution_request')
+                        "
+                        >Request Received</a
+                      >
+                    </li>
+                  </ul>
                 </aside>
               </div>
               <div class="column is-8">
@@ -37,6 +48,10 @@
                 <div class="box" v-if="app_state == 'change_password'">
                   <h1 class="title is-6">Change Password</h1>
                   <ChangePasswordForm />
+                </div>
+                <div class="box" v-if="app_state == 'tution_request'">
+                  <h1 class="title is-6">Tution Requests</h1>
+                  <TutionRequestForm />
                 </div>
               </div>
             </div>
@@ -50,6 +65,7 @@
 <script>
 import UpdateProfileForm from '@/components/forms/UpdateProfileForm.vue'
 import ChangePasswordForm from '@/components/forms/ChangePasswordForm.vue'
+import TutionRequestForm from '@/components/forms/TutionRequestForm.vue'
 
 export default {
   name: 'Dashboard',
@@ -65,7 +81,8 @@ export default {
   },
   components: {
     UpdateProfileForm,
-    ChangePasswordForm
+    ChangePasswordForm,
+    TutionRequestForm
   }
 }
 </script>

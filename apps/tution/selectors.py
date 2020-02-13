@@ -81,3 +81,14 @@ def filtered_tution_data(**kwargs):
 
 def is_valid_connection_request(tutor, student):
     return not TutionRequest.objects.filter(tutor=tutor, student=student).exists()
+
+
+def get_connection_list(user):
+    queryset = None
+    user_type = user.user_type
+    if user_type == user_constants.TUTOR:
+        queryset = TutionRequest.objects.filter(tutor=user, is_active=True)
+    if user_type == user_constants.STUDENT:
+        queryset = TutionRequest.objects.filter(student=user, is_active=True)
+
+    return queryset

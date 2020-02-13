@@ -38,7 +38,7 @@ class TutionViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'], url_name="connection_add", url_path="connection/add", permission_classes=[IsAuthenticated])
     def connection_add(self, request):
         request.data['student_id'] = request.user.id
-        serializer = TutionRequestSerializer(data=request.data)
+        serializer = ConnectionAddSerializer(data=request.data)
         if serializer.is_valid():
             tution_request = tution_services.add_tution_connection(
                 serializer.validated_data.get('tutor'), request.user)
@@ -48,3 +48,9 @@ class TutionViewSet(viewsets.ViewSet):
             data = serializer.errors
             status_code = status.HTTP_400_BAD_REQUEST
         return Response(data, status=status_code)
+
+    @action(detail=False, methods=['get'], url_name="connection_list", url_path="connection/list", permission_classes=[IsAuthenticated])
+    def connection_list(self, request):
+        queryset = tution_selectors.get_connection_list(request.user)
+        serializer = TutionRequestSerializer(queryset, many=True)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)

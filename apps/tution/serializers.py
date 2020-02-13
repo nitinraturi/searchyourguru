@@ -3,6 +3,7 @@ from .models import *
 from apps.users import constants as user_constants
 from apps.users import selectors as user_selectors
 from . import selectors as tution_selectors
+from apps.users import serializers as users_serializers
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -39,7 +40,7 @@ class SearchSerializer(serializers.Serializer):
         choices=user_constants.GENDER_CHOICES, required=False, allow_null=True)
 
 
-class TutionRequestSerializer(serializers.Serializer):
+class ConnectionAddSerializer(serializers.Serializer):
     tutor_id = serializers.IntegerField()
     student_id = serializers.IntegerField()
 
@@ -54,9 +55,9 @@ class TutionRequestSerializer(serializers.Serializer):
 
         if tutor is None:
             raise serializers.ValidationError({'detail': 'No such user'})
-        elif tutor.user_type != user_constants.TUTOR:
+        elif tutor.user_type not in [user_constants.TUTOR, user_constants.SUPERUSER]:
             raise serializers.ValidationError({'detail': 'Not a valid tutor'})
-        elif student.user_type != user_constants.STUDENT:
+        elif student.user_type not in [user_constants.STUDENT, user_constants.SUPERUSER]:
             raise serializers.ValidationError(
                 {'detail': 'Not a valid student'})
         else:
@@ -67,4 +68,22 @@ class TutionRequestSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 {'detail': 'Either you are already connected or your previous request is not accepted yet'})
 
+        return data
+
+
+class TutionRequestSerializer(serializers.ModelSerializer):
+    student = users_serializers.UserProfileSerializer()
+
+    class Meta:
+        model = TutionRequest
+        fields = ('id', 'student', 'is_accepted', 'created_at')
+
+
+class ConnectionAcceptSerializer(serializers.Serializer):
+    tution_id = serializers.IntegerField()
+
+    def validate(self, data):
+        request = self.context.get('request')
+        if request.user.user_type not in [user_constants.TUTOR, user_constants.SUPERUSER]:
+            raise serializers.ValidationError({'detail': 'Not a valid tutor'})
         return data

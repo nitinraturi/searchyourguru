@@ -1,6 +1,6 @@
 <template>
   <div id="home_view" class="has-background-white">
-    <section class="hero is-info is-bold is-small">
+    <section class="hero is-link is-bold is-small">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-centered">

@@ -15,7 +15,9 @@ export default {
         update_user_profile: '/account/user/update-profile/',
         update_password: '/account/user/update-password/',
         subjects: '/tution/subjects/',
-        tution_search: '/tution/search/'
+        tution_search: '/tution/search/',
+        tution_request_add: '/tution/connection/add/',
+        tution_request_list: '/tution/connection/list/'
       }
     }
   },

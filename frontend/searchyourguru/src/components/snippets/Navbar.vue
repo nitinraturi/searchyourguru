@@ -1,7 +1,7 @@
 <template>
   <div id="navbar">
     <nav
-      class="navbar is-fixed-top"
+      class="navbar is-fixed-top is-link is-bold"
       role="navigation"
       aria-label="main navigation"
     >
@@ -27,7 +27,7 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
-            <router-link class="navbar-item" to="/">Blog</router-link>
+            <router-link class="navbar-item" to="/">FAQ</router-link>
           </div>
           <div class="navbar-end">
             <router-link
