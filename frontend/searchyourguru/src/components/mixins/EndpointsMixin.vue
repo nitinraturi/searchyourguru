@@ -13,6 +13,7 @@ export default {
         user_profile: '/account/user/',
         update_user_profile: '/account/user/update-profile/',
         update_password: '/account/user/update-password/',
+        zipcode_check: '/account/user/zipcode-check/',
         subjects: '/tution/subjects/'
       }
     }
