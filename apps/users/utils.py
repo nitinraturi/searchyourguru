@@ -1,4 +1,6 @@
 from rest_framework_simplejwt.tokens import RefreshToken
+import requests
+
 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
@@ -7,3 +9,11 @@ def get_tokens_for_user(user):
         'refresh': str(refresh),
         'access': str(refresh.access_token),
     }
+
+
+def fetch_zipcode_from_api(zipcode):
+    zipcode_api_endpoint = f"https://api.postalpincode.in/pincode/{zipcode}"
+    response = requests.get(zipcode_api_endpoint)
+    if response.status_code == 200:
+        result = response.json()[0]
+        return result['PostOffice'] if result['Status'] == 'Success' else None

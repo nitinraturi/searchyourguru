@@ -36,7 +36,8 @@ def create_or_update_user_profile(user, **kwargs):
             profile.experience = kwargs.get('experience')
             profile.save()
         except UserProfile.DoesNotExist:
-            profile = UserProfile.objects.create(user=user, email=user.email, name=user.first_name, **kwargs)
+            profile = UserProfile.objects.create(
+                user=user, email=user.email, name=user.first_name, **kwargs)
         return profile
 
 
@@ -75,5 +76,10 @@ def create_user_location_preference(user, location_preferences=None):
 
 
 def insert_zipcodes_in_db(zipcodes, user_zipcode):
-    districts = [zipcode['Name'] for zipcode in zipcodes]
-    AllZipCode.objects.create(zipcode=user_zipcode, city=[str(district) for district in districts])
+    objects = []
+    for zipcode in zipcodes:
+        obj = AllZipCode(po_name=zipcode.get('Name'), district=zipcode.get(
+            'District'), state=zipcode.get('District'), country=zipcode.get('Country'), zipcode=zipcode.get('Pincode'))
+        objects.append(obj)
+    data = AllZipCode.objects.bulk_create(objects)
+    return data

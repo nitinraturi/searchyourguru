@@ -26,8 +26,8 @@ class UserRegistrationSerializer(serializers.Serializer):
     location_preferences = serializers.ListField(child=serializers.ChoiceField(
         choices=user_constants.LOCATION_PREFERENCE))
     zipcode = serializers.IntegerField()
-    city = serializers.CharField(max_length=20)
-    location = serializers.CharField(max_length=30)
+    # city = serializers.CharField(max_length=20)
+    # location = serializers.CharField(max_length=30)
     dob = serializers.DateField()
     experience = serializers.FloatField(required=False, allow_null=True)
     price_per_hour = serializers.FloatField(required=False, allow_null=True)

@@ -3,6 +3,7 @@ export default {
   data: function() {
     return {
       base_api_url: 'http://localhost:8005',
+      // base_api_url: 'http://raturi.in:8005',
       endpoints: {
         login: '/account/auth/login/',
         logout: '/account/auth/logout/',
@@ -14,7 +15,10 @@ export default {
         update_user_profile: '/account/user/update-profile/',
         update_password: '/account/user/update-password/',
         zipcode_check: '/account/user/zipcode-check/',
-        subjects: '/tution/subjects/'
+        subjects: '/tution/subjects/',
+        tution_search: '/tution/search/',
+        tution_request_add: '/tution/connection/add/',
+        tution_request_list: '/tution/connection/list/'
       }
     }
   },

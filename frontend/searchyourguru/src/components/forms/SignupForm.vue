@@ -257,7 +257,12 @@
               </div>
             </div>
           </div>
-          <button v-on:submit="signup" class="button is-success">
+          <button
+            v-on:submit="signup"
+            class="button is-success"
+            v-bind:class="{ 'is-loading': is_signup_loading }"
+            :disabled="is_signup_loading"
+          >
             Next
           </button>
         </div>
@@ -687,17 +692,26 @@ export default {
         ) {
           this.signup_user_zipcode_error = 'Please enter a valid zipcode'
         } else {
-            let data = {
-                zipcode: this.signup_user_zipcode
-            }
-            axios.post(
-                this.get_endpoint(this.endpoints.zipcode_check),
-                data,
-                this.guest_headers()
-             ).then(response => {
-             console.log(response.data)
-             this.signup_step = 4
-            }, err => {console.log(err)})
+          this.is_signup_loading = true
+          let data = {
+            zipcode: this.signup_user_zipcode
+          }
+          axios
+            .post(
+              this.get_endpoint(this.endpoints.zipcode_check),
+              data,
+              this.guest_headers()
+            )
+            .then(
+              () => {
+                this.signup_step = 4
+                this.is_signup_loading = false
+              },
+              () => {
+                this.is_signup_loading = false
+                this.signup_user_zipcode_error = 'Please enter a valid zipcode'
+              }
+            )
         }
       } else if (this.signup_step == 4) {
         if (this.signup_user_name == null || this.signup_user_name == '') {

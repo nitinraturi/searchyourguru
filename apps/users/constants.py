@@ -45,3 +45,13 @@ LOCATION_PREFERENCE = (
     (AT_STUDENT_HOME, "At Student Home"),
     (AT_INSTITUTE, "At Insitute")
 )
+
+BELOW_2_YEARS = 1
+BETWEEN2AND5YEARS = 2
+ABOVE5YEARS = 3
+
+EXPERIENCE_CHOICES = (
+    (BELOW_2_YEARS, "Below 2 years"),
+    (BETWEEN2AND5YEARS, "Between 2 and 5 Years"),
+    (ABOVE5YEARS, "5+ Years")
+)

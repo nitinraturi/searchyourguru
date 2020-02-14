@@ -27,8 +27,9 @@ class UserProfile(models.Model):
     email = models.EmailField(unique=True, db_index=True)
     phone = models.CharField(max_length=10, blank=True, null=True)
     zipcode = models.CharField(max_length=10, blank=True, null=True)
-    location = models.CharField(max_length=30, blank=True, null=True)  # Area
-    city = models.CharField(max_length=20, blank=True, null=True)  # City or District
+    # location = models.CharField(max_length=30, blank=True, null=True)  # Area
+    # city = models.CharField(max_length=20, blank=True,
+    #                         null=True)  # City or District
     experience = models.FloatField(null=True, blank=True)
     price_per_hour = models.FloatField(null=True, blank=True)
     qualification = models.CharField(max_length=255, blank=True, null=True)
@@ -72,7 +73,13 @@ class UserLocationPreference(models.Model):
 
 class AllZipCode(models.Model):
     zipcode = models.CharField(max_length=10, blank=True, null=True)
-    city = models.TextField(blank=True, null=True)
+    po_name = models.CharField(max_length=255, null=True, blank=True)
+    district = models.CharField(max_length=255, null=True, blank=True)
+    country = models.CharField(max_length=255, null=True, blank=True)
+    state = models.CharField(max_length=255, null=True, blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    city = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.zipcode
