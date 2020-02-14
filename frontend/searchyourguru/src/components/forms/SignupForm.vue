@@ -687,7 +687,17 @@ export default {
         ) {
           this.signup_user_zipcode_error = 'Please enter a valid zipcode'
         } else {
-          this.signup_step = 4
+            let data = {
+                zipcode: this.signup_user_zipcode
+            }
+            axios.post(
+                this.get_endpoint(this.endpoints.zipcode_check),
+                data,
+                this.guest_headers()
+             ).then(response => {
+             console.log(response.data)
+             this.signup_step = 4
+            }, err => {console.log(err)})
         }
       } else if (this.signup_step == 4) {
         if (this.signup_user_name == null || this.signup_user_name == '') {
