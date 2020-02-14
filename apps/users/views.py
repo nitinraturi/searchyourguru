@@ -133,6 +133,17 @@ class UserViewSet(viewsets.ViewSet):
             status_code = status.HTTP_400_BAD_REQUEST
         return Response(response,status=status_code)
 
+    @action(detail=False, methods=['post'], url_name="zipcode_check", url_path="user/zipcode-check")
+    def check_zipcode(self, request):
+        db_zipcode = user_selectors.get_zipcode(request.data['zipcode'])
+        if not db_zipcode:
+            user_selectors.fetch_zipcode_from_api(request.data['zipcode'])
+            return Response({
+                "zipcode": f"{request.data['zipcode']} not found in database"
+            }, status=status.HTTP_200_OK)
+        serializer = ZipCodeSerializer(db_zipcode)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 def activate_account(request, uidb64, token):
     from django.utils.encoding import force_text
