@@ -35,14 +35,6 @@ def get_zipcode(zipcode):
 def fetch_zipcode_from_api(zipcode):
     zipcode_api_endpoint = f"https://api.postalpincode.in/pincode/{zipcode}"
     response = requests.get(zipcode_api_endpoint)
-    print(response.status_code)
-    print(response.headers['content-type'])
-    print(response.encoding)
-    print(response.text)
-    print(response.json())
-
-
-
-
-
-
+    if response.status_code == 200:
+        result = response.json()[0]
+        return result['PostOffice'] if result['Status'] == 'Success' else None
