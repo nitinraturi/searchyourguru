@@ -27,6 +27,8 @@ class UserProfile(models.Model):
     email = models.EmailField(unique=True, db_index=True)
     phone = models.CharField(max_length=10, blank=True, null=True)
     zipcode = models.CharField(max_length=10, blank=True, null=True)
+    location = models.CharField(max_length=30, blank=True, null=True)  # Area
+    city = models.CharField(max_length=20, blank=True, null=True)  # City or District
     experience = models.FloatField(null=True, blank=True)
     price_per_hour = models.FloatField(null=True, blank=True)
     qualification = models.CharField(max_length=255, blank=True, null=True)
@@ -66,3 +68,8 @@ class UserLocationPreference(models.Model):
 
     class Meta:
         unique_together = ['user', 'location_preference']
+
+
+class AllZipCode(models.Model):
+    zipcode = models.CharField(max_length=10, blank=True, null=True)
+    city = models.CharField(max_length=20, blank=True, null=True)
