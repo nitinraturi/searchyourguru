@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model,logout
+from ast import literal_eval
 from .serializers import *
 from . import services as user_services
 from . import selectors as user_selectors
@@ -137,12 +138,15 @@ class UserViewSet(viewsets.ViewSet):
     def check_zipcode(self, request):
         db_zipcode = user_selectors.get_zipcode(request.data['zipcode'])
         if not db_zipcode:
-            user_selectors.fetch_zipcode_from_api(request.data['zipcode'])
-            return Response({
-                "zipcode": f"{request.data['zipcode']} not found in database"
-            }, status=status.HTTP_200_OK)
+            api_zipcodes = user_selectors.fetch_zipcode_from_api(request.data['zipcode'])
+            if api_zipcodes is None:
+                return Response({
+                    "Zipcode": f"Failed to find {request.data['zipcode']} zipcode"
+                }, status=status.HTTP_200_OK)
+            user_services.insert_zipcodes_in_db(api_zipcodes, request.data['zipcode'])
+            db_zipcode = user_selectors.get_zipcode(request.data['zipcode'])
         serializer = ZipCodeSerializer(db_zipcode)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({'districts': literal_eval(serializer.data['city'])}, status=status.HTTP_200_OK)
 
 
 def activate_account(request, uidb64, token):
