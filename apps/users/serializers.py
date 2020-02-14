@@ -6,7 +6,7 @@ from . import services as user_services
 from .validators import *
 from .selectors import *
 from .tokens import get_jwt_tokens_for_user
-from .models import UserProfile
+from .models import UserProfile, AllZipCode
 from apps.mailers import utils as mailer_utils
 
 
@@ -26,6 +26,8 @@ class UserRegistrationSerializer(serializers.Serializer):
     location_preferences = serializers.ListField(child=serializers.ChoiceField(
         choices=user_constants.LOCATION_PREFERENCE))
     zipcode = serializers.IntegerField()
+    city = serializers.CharField(max_length=20)
+    location = serializers.CharField(max_length=30)
     dob = serializers.DateField()
     experience = serializers.FloatField(required=False, allow_null=True)
     price_per_hour = serializers.FloatField(required=False, allow_null=True)
@@ -215,3 +217,9 @@ class UpdatePasswordSerializer(serializers.Serializer):
         user = user_services.change_user_password(user, password)
         login(request, user)
         return user
+
+
+class ZipCodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AllZipCode
+        fields = '__all__'
