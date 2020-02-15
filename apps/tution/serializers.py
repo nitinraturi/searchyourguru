@@ -87,3 +87,13 @@ class ConnectionAcceptSerializer(serializers.Serializer):
         if request.user.user_type not in [user_constants.TUTOR, user_constants.SUPERUSER]:
             raise serializers.ValidationError({'detail': 'Not a valid tutor'})
         return data
+
+
+class CitySuggestionSerializer(serializers.Serializer):
+    location_keyword = serializers.CharField(
+        max_length=50)
+
+
+class SubjectSuggestionSerializer(serializers.Serializer):
+    subject_keyword = serializers.CharField(
+        max_length=50)

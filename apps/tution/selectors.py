@@ -92,3 +92,31 @@ def get_connection_list(user):
         queryset = TutionRequest.objects.filter(student=user, is_active=True)
 
     return queryset
+
+
+def get_suggested_cities(location_keyword):
+    try:
+        isinstance(int(location_keyword), int)
+        zipcode = str(location_keyword)
+    except:
+        zipcode = False
+
+    if zipcode != False:
+        data = users_models.AllZipCode.objects.filter(
+            zipcode__icontains=int(zipcode))
+    else:
+        data = users_models.AllZipCode.objects.filter(
+            Q(po_name__icontains=location_keyword) |
+            Q(district__icontains=location_keyword) |
+            Q(state__icontains=location_keyword))
+    return data
+
+
+def get_suggested_subjects(subject_keyword):
+    subjects = Category.objects.filter(
+        Q(name__icontains=subject_keyword) |
+        Q(code__icontains=subject_keyword) |
+        Q(tag_type=tution_constants.TAG) |
+        Q(tag_type=tution_constants.SEARCH_TAG))
+
+    return subjects

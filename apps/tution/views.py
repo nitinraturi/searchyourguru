@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from . import selectors as tution_selectors
 from . import services as tution_services
 from .serializers import *
+from apps.users.serializers import *
 
 
 class TutionViewSet(viewsets.ViewSet):
@@ -54,3 +55,21 @@ class TutionViewSet(viewsets.ViewSet):
         queryset = tution_selectors.get_connection_list(request.user)
         serializer = TutionRequestSerializer(queryset, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'], url_name="suggested_cities", url_path="suggested-cities")
+    def suggested_cities(self, request):
+        serializer = CitySuggestionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        queryset = tution_selectors.get_suggested_cities(
+            serializer.validated_data.get('location_keyword'))
+        zc_serializer = ZipCodeSerializer(queryset, many=True)
+        return Response({'data': zc_serializer.data}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'], url_name="suggested_subjects", url_path="suggested-subjects")
+    def suggested_subjects(self, request):
+        serializer = SubjectSuggestionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        queryset = tution_selectors.get_suggested_subjects(
+            serializer.validated_data.get('subject_keyword'))
+        sc_serializer = CategorySerializer(queryset, many=True)
+        return Response({'data': sc_serializer.data}, status=status.HTTP_200_OK)
