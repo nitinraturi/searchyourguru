@@ -54,7 +54,7 @@
                       <div class="media-left">
                         <figure class="image is-rounded is-48x48">
                           <img
-                            src="https://previews.123rf.com/images/triken/triken1608/triken160800028/61320729-male-avatar-profile-picture-default-user-avatar-guest-avatar-simply-human-head-vector-illustration-i.jpg"
+                            src="https://image.flaticon.com/icons/png/512/13/13471.png"
                             alt="Placeholder image"
                           />
                         </figure>
@@ -65,28 +65,35 @@
                           <span class="tag is-primary">New</span>
                         </p>
                         <p class="subtitle is-size-7">
-                          {{ user.dob }}, {{ user.gender }}
+                          <span v-if="user.gender == 1"><b>Gen</b>: Male</span>
+                          <span v-if="user.gender == 2"
+                            ><b>Gen</b>: Female</span
+                          >
+                          <span v-if="user.gender == 3"><b>Gen</b>: Other</span>
                         </p>
                       </div>
                     </div>
-                    <p class="is-size-7">
+                    <!-- <p class="is-size-7">
                       <b>Rating</b> - <span class="has-text-info">1</span>/5
-                    </p>
-                    <progress
+                    </p> -->
+                    <!-- <progress
                       id="progress-bar"
                       class="progress is-info is-small"
                       value="20"
                       max="100"
-                    ></progress>
+                    ></progress> -->
                     <p class="is-size-7"><b>Exp</b>: {{ user.experience }}Y</p>
-                    <p class="is-size-7"><b>Locality</b>: {{ user.zipcode }}</p>
+                    <p class="is-size-7"><b>Pincode</b>: {{ user.zipcode }}</p>
                     <p class="is-size-7">
                       <b>Fees</b>: &#8377; {{ user.price_per_hour }} / Hour
                     </p>
-                    <p class="is-size-7">
+                    <!-- <p class="is-size-7">
                       <b>Qualification</b>: {{ user.qualification }}
+                    </p> -->
+                    <!-- <p class="is-size-7"><b>Subject</b>: Mathematics</p> -->
+                    <p class="subtitle is-size-7">
+                      <b>Date of Birth</b>: {{ user.dob }}
                     </p>
-                    <p class="is-size-7"><b>Subject</b>: Mathematics</p>
                     <br />
                     <div class="field is-grouped is-grouped-centered">
                       <div class="control">
@@ -94,7 +101,7 @@
                           type="button"
                           name="button"
                           class="button is-info is-outlined is-small"
-                          v-on:click="ShowProfileQuickView"
+                          v-on:click="ShowProfileQuickView(user)"
                         >
                           View Profile
                         </button>
@@ -110,7 +117,11 @@
     </section>
 
     <!-- Modal for profile quickview -->
-    <div class="modal" v-bind:class="{ 'is-active': isActiveProfileQuickView }">
+    <div
+      class="modal"
+      v-bind:class="{ 'is-active': isActiveProfileQuickView }"
+      v-if="user != null"
+    >
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="card box is-paddingless is-small">
@@ -119,32 +130,44 @@
               <div class="media-left">
                 <figure class="image is-rounded is-48x48">
                   <img
-                    src="https://previews.123rf.com/images/triken/triken1608/triken160800028/61320729-male-avatar-profile-picture-default-user-avatar-guest-avatar-simply-human-head-vector-illustration-i.jpg"
+                    src="https://image.flaticon.com/icons/png/512/13/13471.png"
                     alt="Placeholder image"
                   />
                 </figure>
               </div>
               <div class="media-content">
                 <p class="title is-size-6">
-                  Prabhu Deva <span class="tag is-primary">New</span>
+                  {{ user.name }}
+                  <span class="tag is-primary">New</span>
                 </p>
-                <p class="subtitle is-size-7">24 Years old, Male</p>
+                <p class="subtitle is-size-7">
+                  <span v-if="user.gender == 1"><b>Gen</b>: Male</span>
+                  <span v-if="user.gender == 2"><b>Gen</b>: Female</span>
+                  <span v-if="user.gender == 3"><b>Gen</b>: Other</span>
+                </p>
               </div>
             </div>
+            <!-- <p class="is-size-7">
+                      <b>Rating</b> - <span class="has-text-info">1</span>/5
+                    </p> -->
+            <!-- <progress
+                      id="progress-bar"
+                      class="progress is-info is-small"
+                      value="20"
+                      max="100"
+                    ></progress> -->
+            <p class="is-size-7"><b>Exp</b>: {{ user.experience }}Y</p>
+            <p class="is-size-7"><b>Pincode</b>: {{ user.zipcode }}</p>
             <p class="is-size-7">
-              <b>Rating</b> - <span class="has-text-info">1</span>/5
+              <b>Fees</b>: &#8377; {{ user.price_per_hour }} / Hour
             </p>
-            <progress
-              id="progress-bar"
-              class="progress is-info is-small"
-              value="20"
-              max="100"
-            ></progress>
-            <p class="is-size-7"><b>Exp</b>: 2Y</p>
-            <p class="is-size-7"><b>Locality</b>: Laxmi Nagar, Delhi</p>
-            <p class="is-size-7"><b>Fees</b>: &#8377; 300 / Hour</p>
-            <p class="is-size-7"><b>Qualification</b>: Phd</p>
-            <p class="is-size-7"><b>Subject</b>: Mathematics</p>
+            <!-- <p class="is-size-7">
+                      <b>Qualification</b>: {{ user.qualification }}
+                    </p> -->
+            <!-- <p class="is-size-7"><b>Subject</b>: Mathematics</p> -->
+            <p class="subtitle is-size-7">
+              <b>Date of Birth</b>: {{ user.dob }}
+            </p>
             <br />
             <div class="field is-grouped is-grouped-centered">
               <div class="control">
@@ -181,7 +204,8 @@ import AdvancedFilterForm from '@/components/forms/AdvancedFilterForm.vue'
 export default {
   data: function() {
     return {
-      isActiveProfileQuickView: false
+      isActiveProfileQuickView: false,
+      user: null
     }
   },
   computed: {
@@ -193,8 +217,9 @@ export default {
     }
   },
   methods: {
-    ShowProfileQuickView: function() {
+    ShowProfileQuickView: function(user) {
       this.isActiveProfileQuickView = true
+      this.user = user
     },
     HideProfileQuickView: function() {
       this.isActiveProfileQuickView = false
