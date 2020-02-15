@@ -301,7 +301,6 @@ export default {
         }
 
         if (this.selected_locations.length > 0) {
-          console.log('sl', this.selected_locations)
           payload['location_preferences'] = this.selected_locations
         }
 

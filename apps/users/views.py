@@ -45,6 +45,7 @@ class AuthViewSet(viewsets.ViewSet):
             response['status'] = data.get('status')
             response['access'] = data.get('access')
             response['refresh'] = data.get('refresh')
+            response['user_type'] = data.get('user').user_type
             status_code = status.HTTP_200_OK
         else:
             response = serializer.errors

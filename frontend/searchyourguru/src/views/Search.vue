@@ -169,13 +169,21 @@
               <b>Date of Birth</b>: {{ user.dob }}
             </p>
             <br />
+            <p
+              class="subtitle is-6 has-text-info has-text-centered"
+              v-if="connection_response != null"
+            >
+              {{ connection_response }}
+            </p>
             <div class="field is-grouped is-grouped-centered">
               <div class="control">
                 <button
                   type="button"
                   name="button"
                   class="button is-info is-small"
-                  :disabled="isAuthenticated == false"
+                  :disabled="isAuthenticated == false || is_loading == true"
+                  v-bind:class="{ 'is-loading': is_loading }"
+                  v-on:click="AddConnection"
                 >
                   Connect
                 </button>
@@ -199,13 +207,19 @@
 
 <script>
 // import FilterForm from '@/components/forms/FilterForm.vue'
+import axios from 'axios'
+import ValidatorsMixin from '@/components/mixins/ValidatorsMixin.vue'
+import EndpointsMixin from '@/components/mixins/EndpointsMixin.vue'
+import RequestMixin from '@/components/mixins/RequestMixin'
 import AdvancedFilterForm from '@/components/forms/AdvancedFilterForm.vue'
 import LoginForm from '@/components/forms/LoginForm.vue'
 export default {
   data: function() {
     return {
       isActiveProfileQuickView: false,
-      user: null
+      user: null,
+      connection_response: null,
+      is_loading: false
     }
   },
   computed: {
@@ -223,13 +237,42 @@ export default {
     },
     HideProfileQuickView: function() {
       this.isActiveProfileQuickView = false
+      this.user = null
+    },
+    AddConnection: function() {
+      this.connection_response = null
+      if (this.user != null) {
+        this.is_loading = true
+        axios
+          .post(
+            this.get_endpoint(this.endpoints.tution_request_add),
+            {
+              tutor_id: this.user.user__id
+            },
+            this.get_headers()
+          )
+          .then(
+            response => {
+              console.log(response)
+              this.connection_response =
+                "Successfully Connected, Check your dashboard to see tutor's contact information"
+              this.is_loading = false
+            },
+            err => {
+              console.log(err)
+              this.connection_response = err.response.data.detail[0]
+              this.is_loading = false
+            }
+          )
+      }
     }
   },
   components: {
     // FilterForm,
     AdvancedFilterForm,
     LoginForm
-  }
+  },
+  mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin]
 }
 </script>
 

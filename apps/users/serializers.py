@@ -83,6 +83,7 @@ class LoginSerializer(serializers.Serializer):
                 {"status": user_constants.ACCOUNT_INACTIVE})
         else:
             user = authenticate(request, email=email, password=password)
+            data['user'] = user
             if user is not None:
                 data['status'] = user_constants.ACCOUNT_ACTIVE
                 tokens = get_jwt_tokens_for_user(user)

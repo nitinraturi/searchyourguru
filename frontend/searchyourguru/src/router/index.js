@@ -15,12 +15,20 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
+    beforeEnter(to, from, next) {
+      if (store.getters.is_user_tutor) next('/dashboard/')
+      else next()
+    }
   },
   {
     path: '/search/',
     name: 'search',
-    component: Search
+    component: Search,
+    beforeEnter(to, from, next) {
+      if (store.getters.is_user_tutor) next('/dashboard/')
+      else next()
+    }
   },
   {
     path: '/login/',

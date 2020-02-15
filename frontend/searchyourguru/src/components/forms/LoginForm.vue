@@ -153,6 +153,7 @@ export default {
                 'guru-user-token-refresh',
                 response.data.refresh
               )
+              localStorage.setItem('syg_user_type', response.data.user_type)
               this.$store.state.isAuthenticated = true
               if (this.redirectTo != null) {
                 this.$router.push(this.redirectTo)
