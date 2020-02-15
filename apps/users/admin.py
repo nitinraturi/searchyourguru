@@ -53,5 +53,12 @@ class CustomUserAdmin(UserAdmin):
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)
 
 
+class AllZipCodeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'zipcode', 'po_name', 'latitude',
+                    'longitude', 'district', 'state', 'country')
+    search_fields = ('zipcode',)
+    list_display_links = ('id', 'zipcode', 'po_name')
+
+
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(AllZipCode)
+admin.site.register(AllZipCode, AllZipCodeAdmin)
