@@ -79,7 +79,7 @@ def insert_zipcodes_in_db(zipcodes, user_zipcode):
     objects = []
     for zipcode in zipcodes:
         obj = AllZipCode(po_name=zipcode.get('Name'), district=zipcode.get(
-            'District'), state=zipcode.get('District'), country=zipcode.get('Country'), zipcode=zipcode.get('Pincode'))
+            'District'), state=zipcode.get('state'), country=zipcode.get('Country'), zipcode=zipcode.get('Pincode'))
         objects.append(obj)
     data = AllZipCode.objects.bulk_create(objects)
     return data
