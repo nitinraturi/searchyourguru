@@ -21,7 +21,7 @@
       v-if="verification_email == null"
     >
       <div class="columns is-multiline">
-        <div class="column is-full">
+        <div class="column is-5">
           <div class="field">
             <label class="label">Email</label>
             <p class="control has-icons-left has-icons-right">
@@ -29,6 +29,7 @@
                 v-model="login_email"
                 class="input"
                 type="email"
+                :disabled="is_login_loading == true"
                 placeholder="Email"
               />
               <span class="icon is-small is-left">
@@ -44,7 +45,7 @@
           </div>
         </div>
 
-        <div class="column is-full">
+        <div class="column is-5">
           <div class="field">
             <label class="label">Password</label>
             <p class="control has-icons-left">
@@ -52,6 +53,7 @@
                 v-model="login_password"
                 class="input"
                 type="password"
+                :disabled="is_login_loading == true"
                 placeholder="Password"
               />
               <span class="icon is-small is-left">
@@ -64,16 +66,9 @@
           </div>
         </div>
 
-        <div class="column is-full" v-if="login_error_message != null">
-          <article class="message is-danger" v-if="login_error_message != null">
-            <div class="message-body">
-              {{ login_error_message }}
-            </div>
-          </article>
-        </div>
-
-        <div class="column is-full">
+        <div class="column is-2">
           <div class="field">
+            <label class="label">...</label>
             <p class="control">
               <button
                 type="submit"
@@ -86,6 +81,14 @@
               </button>
             </p>
           </div>
+        </div>
+
+        <div class="column is-full" v-if="login_error_message != null">
+          <article class="message is-danger" v-if="login_error_message != null">
+            <div class="message-body">
+              {{ login_error_message }}
+            </div>
+          </article>
         </div>
       </div>
     </form>

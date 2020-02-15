@@ -3,14 +3,12 @@
     <section class="hero is-fullheight-with-navbar is-bold">
       <div class="hero-body">
         <div class="container">
-          <div class="columns">
+          <div class="columns is-centered">
             <div class="column is-6">
               <p class="title">
                 SearchYourGuru
               </p>
               <p class="subtitle">Login Now</p>
-            </div>
-            <div class="column is-6">
               <div class="box">
                 <LoginForm />
               </div>

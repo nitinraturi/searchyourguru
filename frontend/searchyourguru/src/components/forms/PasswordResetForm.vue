@@ -7,12 +7,13 @@
     </article>
     <form action="#" v-on:submit.prevent="resend_reset_email" method="POST">
       <div class="field">
+        <label class="label">Email</label>
         <p class="control has-icons-left has-icons-right">
           <input
             v-model="reset_email"
             class="input"
             type="email"
-            placeholder="Email"
+            placeholder="eg: abc@gmail.com"
             required
           />
           <span class="icon is-small is-left">

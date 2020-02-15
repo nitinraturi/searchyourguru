@@ -20,6 +20,7 @@ INSTALLED_APPS += [
 
 # Custom Apps
 INSTALLED_APPS += [
+    'apps.custom_admin',
     'apps.users',
     'apps.pages',
     'apps.tution',
