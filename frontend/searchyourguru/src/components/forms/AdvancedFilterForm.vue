@@ -10,9 +10,19 @@
             type="text"
             class="input is-small"
             placeholder="eg: Delhi or 110092"
+            list="cities_list"
             :disabled="is_search_loading"
             v-model="search_filters.location_keyword"
+            v-on:keyup="location_keyword_changed"
           />
+          <datalist id="cities_list">
+            <option
+              v-for="city in suggested_cities"
+              :key="city.id"
+              :value="city.po_name"
+              >{{ city.po_name }}</option
+            >
+          </datalist>
         </div>
       </div>
 
@@ -23,9 +33,19 @@
             type="text"
             class="input is-small"
             placeholder="eg:Math"
+            list="subjects_list"
             :disabled="is_search_loading"
             v-model="search_filters.category"
+            v-on:keyup="subject_keyword_changed"
           />
+          <datalist id="subjects_list">
+            <option
+              v-for="sub in suggested_subjects"
+              :key="sub.code"
+              :value="sub.name"
+              >{{ sub.name }}</option
+            >
+          </datalist>
         </div>
       </div>
 
@@ -142,6 +162,7 @@
             v-on:submit="search"
             type="submit"
             class="button is-success is-small"
+            :disabled="is_search_loading"
             v-bind:class="{ 'is-loading': is_search_loading }"
           >
             Apply
@@ -165,7 +186,9 @@ export default {
       category: '',
       location_keyword_error: null,
       category_error: null,
-      selected_locations: []
+      selected_locations: [],
+      suggested_cities: [],
+      suggested_subjects: []
     }
   },
   computed: {
@@ -198,6 +221,46 @@ export default {
             error => {
               console.log(error)
             }
+          )
+      }
+    },
+    location_keyword_changed: function() {
+      if (
+        this.search_filters.location_keyword != null &&
+        this.search_filters.location_keyword != '' &&
+        this.search_filters.location_keyword.length > 3
+      ) {
+        axios
+          .post(
+            this.get_endpoint(this.endpoints.suggested_cities),
+            { location_keyword: this.search_filters.location_keyword },
+            this.guest_headers()
+          )
+          .then(
+            response => {
+              this.suggested_cities = response.data.data
+            },
+            err => console.log(err)
+          )
+      }
+    },
+    subject_keyword_changed: function() {
+      if (
+        this.search_filters.category != null &&
+        this.search_filters.category != '' &&
+        this.search_filters.category.length > 2
+      ) {
+        axios
+          .post(
+            this.get_endpoint(this.endpoints.suggested_subjects),
+            { subject_keyword: this.search_filters.category },
+            this.guest_headers()
+          )
+          .then(
+            response => {
+              this.suggested_subjects = response.data.data
+            },
+            err => console.log(err)
           )
       }
     },

@@ -29,6 +29,7 @@ def filtered_tution_data(**kwargs):
     qualification = kwargs.get('qualification')
     timing = kwargs.get('timing')
     gender = kwargs.get('gender')
+    location_preferences = kwargs.get('location_preferences')
 
     # Required fields for minimum search functionality
     if category is None or location_keyword is None:
@@ -57,8 +58,25 @@ def filtered_tution_data(**kwargs):
         user__id__in=valid_category_user_ids
     )
 
-    if zipcode:
+    if zipcode == False:
+        valid_zipcode_qs = users_models.AllZipcode.objects.filter(
+            Q(po_name__icontains=location_keyword) |
+            Q(district__icontains=location_keyword) |
+            Q(state__icontains=location_keyword)
+        ).first()
+        if valid_category_user_ids is not None:
+            user_qs = user_qs.filter(
+                zipcode__icontains=valid_zipcode_qs.zipcode)
+    else:
         user_qs = user_qs.filter(zipcode__icontains=zipcode)
+
+    if location_preferences:
+        valid_location_preferences_user_ids = users_models.UserLocationPreference.objects.filter(
+            user__id__in=location_preferences).values_list('id', flat=True)
+
+        if valid_location_preferences_user_ids:
+            user_qs = user_qs.filter(
+                user__id__in=valid_location_preferences_user_ids)
 
     if experience:
         user_qs = user_qs.filter(experience__lte=experience)

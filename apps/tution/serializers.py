@@ -32,8 +32,10 @@ class SearchSerializer(serializers.Serializer):
     price_per_hour = serializers.FloatField(required=False, allow_null=True)
     qualification = serializers.CharField(
         max_length=255, required=False, allow_null=True)
-    location_preferences = serializers.ChoiceField(
-        choices=user_constants.LOCATION_PREFERENCE, required=False, allow_null=True)
+    location_preferences = serializers.ListField(
+        child=serializers.ChoiceField(
+            choices=user_constants.LOCATION_PREFERENCE), required=False, allow_null=True
+    )
     timing = serializers.ChoiceField(
         choices=user_constants.TUTION_TIMINGS, required=False, allow_null=True)
     gender = serializers.ChoiceField(
