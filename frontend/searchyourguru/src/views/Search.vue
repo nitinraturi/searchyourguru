@@ -180,11 +180,10 @@
                   Connect
                 </button>
               </div>
-              <div class="control" v-if="isAuthenticated == false">
-                <router-link to="/login/">
-                  Login to connect
-                </router-link>
-              </div>
+            </div>
+            <div class="" v-if="isAuthenticated == false">
+              <h1 class="title is-5 has-text-danger">Login to Connect</h1>
+              <LoginForm />
             </div>
           </div>
         </div>
@@ -201,6 +200,7 @@
 <script>
 // import FilterForm from '@/components/forms/FilterForm.vue'
 import AdvancedFilterForm from '@/components/forms/AdvancedFilterForm.vue'
+import LoginForm from '@/components/forms/LoginForm.vue'
 export default {
   data: function() {
     return {
@@ -227,7 +227,8 @@ export default {
   },
   components: {
     // FilterForm,
-    AdvancedFilterForm
+    AdvancedFilterForm,
+    LoginForm
   }
 }
 </script>

@@ -10,7 +10,7 @@
               </p>
               <p class="subtitle">Login Now</p>
               <div class="box">
-                <LoginForm />
+                <LoginForm redirectTo="/dashboard/" />
               </div>
             </div>
           </div>

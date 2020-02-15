@@ -154,7 +154,9 @@ export default {
                 response.data.refresh
               )
               this.$store.state.isAuthenticated = true
-              this.$router.push('/dashboard/')
+              if (this.redirectTo != null) {
+                this.$router.push(this.redirectTo)
+              }
             },
             error => {
               let response = error.response.data.status[0]
@@ -171,7 +173,8 @@ export default {
       }
     }
   },
-  mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin]
+  mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin],
+  props: ['redirectTo']
 }
 </script>
 
