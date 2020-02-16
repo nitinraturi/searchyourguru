@@ -24,7 +24,7 @@
         <div class="column is-5">
           <div class="field">
             <label class="label">Email</label>
-            <p class="control has-icons-left has-icons-right">
+            <p class="control">
               <input
                 v-model="login_email"
                 class="input"
@@ -32,12 +32,6 @@
                 :disabled="is_login_loading == true"
                 placeholder="Email"
               />
-              <span class="icon is-small is-left">
-                <i class="fas fa-envelope"></i>
-              </span>
-              <span class="icon is-small is-right">
-                <i class="fas fa-check"></i>
-              </span>
             </p>
             <p class="help is-danger" v-if="login_email_error == true">
               Please enter a valid email
@@ -48,7 +42,7 @@
         <div class="column is-5">
           <div class="field">
             <label class="label">Password</label>
-            <p class="control has-icons-left">
+            <p class="control">
               <input
                 v-model="login_password"
                 class="input"
@@ -56,9 +50,6 @@
                 :disabled="is_login_loading == true"
                 placeholder="Password"
               />
-              <span class="icon is-small is-left">
-                <i class="fas fa-lock"></i>
-              </span>
             </p>
             <p class="help is-danger" v-if="login_password_error == true">
               Please enter password

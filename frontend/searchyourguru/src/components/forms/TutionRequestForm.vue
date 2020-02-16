@@ -100,7 +100,8 @@ export default {
   data: function() {
     return {
       tution_requests: [],
-      isActiveRequestQuickView: false
+      isActiveRequestQuickView: false,
+      user: null
     }
   },
   mounted: function() {
