@@ -252,14 +252,12 @@ export default {
             this.get_headers()
           )
           .then(
-            response => {
-              console.log(response)
+            () => {
               this.connection_response =
                 "Successfully Connected, Check your dashboard to see tutor's contact information"
               this.is_loading = false
             },
             err => {
-              console.log(err)
               this.connection_response = err.response.data.detail[0]
               this.is_loading = false
             }

@@ -122,11 +122,11 @@ export default {
         )
         .then(
           response => {
-            console.log(response)
+            // console.log(response)
             this.tution_requests = response.data.data
           },
-          err => {
-            console.log(err)
+          () => {
+            // console.log(err)
           }
         )
     }
