@@ -49,14 +49,7 @@
               <div class="field">
                 <label class="label">City or Pincode</label>
                 <div class="control">
-                  <input
-                    type="text"
-                    class="input"
-                    v-model="tution.area"
-                    :disabled="is_loading"
-                    required
-                    placeholder="eg: 110092 or Laxmi Nagar or Delhi"
-                  />
+                    <GoogleMapPlaces />
                 </div>
               </div>
             </div>
@@ -177,15 +170,17 @@ import axios from 'axios'
 import ValidatorsMixin from '@/components/mixins/ValidatorsMixin.vue'
 import EndpointsMixin from '@/components/mixins/EndpointsMixin.vue'
 import RequestMixin from '@/components/mixins/RequestMixin'
+import GoogleMapPlaces from '@/components/maps/GoogleMapPlaces'
+
+
 export default {
-  name: 'TutionRequestForm',
+  name: 'CreateTutionForm',
   data: function() {
     return {
       tution: {
         title: null,
         description: null,
         subject: null,
-        area: null,
         timing: null,
         location: null,
         batch_size: 1,
@@ -237,7 +232,8 @@ export default {
         )
     }
   },
-  mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin]
+  mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin],
+  components: {GoogleMapPlaces}
 }
 </script>
 

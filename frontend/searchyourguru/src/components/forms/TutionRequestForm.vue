@@ -131,7 +131,7 @@ export default {
         )
     }
   },
-  mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin]
+  mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin],
 }
 </script>
 
