@@ -17,7 +17,7 @@ export default {
         zipcode_check: '/account/user/zipcode-check/',
         subjects: '/tution/subjects/',
         tution_search: '/tution/search/',
-        tution_request_add: '/tution/connection/add/',
+        tution_create: '/tution/create/',
         tution_request_list: '/tution/connection/list/',
         suggested_cities: '/tution/suggested-cities/',
         suggested_subjects: '/tution/suggested-subjects/'

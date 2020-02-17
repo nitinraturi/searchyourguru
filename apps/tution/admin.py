@@ -20,6 +20,11 @@ class CategoryAdmin(admin.ModelAdmin):
         return super(CategoryAdmin, self).get_inline_instances(request, obj)
 
 
+class TutionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'tutor', 'title')
+    list_display_links = ('id', 'title')
+
+
 class TutionRequestAdmin(admin.ModelAdmin):
     list_display = ('id', 'tutor', 'student', 'is_accepted',
                     'is_active', 'created_at', 'updated_at')
@@ -29,3 +34,4 @@ class TutionRequestAdmin(admin.ModelAdmin):
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(TutionRequest, TutionRequestAdmin)
+admin.site.register(Tution, TutionAdmin)

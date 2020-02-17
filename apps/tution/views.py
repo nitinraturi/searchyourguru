@@ -13,6 +13,14 @@ class TutionViewSet(viewsets.ViewSet):
     queryset = tution_selectors.get_categories()
     renderer_classes = [renderers.JSONRenderer]
 
+    @action(detail=False, methods=['post'], url_name="create_tution", url_path="create")
+    def create_tution(self, request):
+        serializer = TutionCreateSerializer(
+            data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save(tutor=request.user)
+        return Response({'status': 1}, status=status.HTTP_200_OK)
+
     @action(detail=False, methods=['get'], url_name="get_subjects", url_path="subjects")
     def subjects(self, request):
         data = tution_selectors.get_category_groups()

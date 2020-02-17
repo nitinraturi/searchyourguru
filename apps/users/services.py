@@ -25,15 +25,6 @@ def create_or_update_user_profile(user, **kwargs):
             profile = UserProfile.objects.get(user=user)
             profile.name = user.first_name
             profile.email = user.email
-            profile.phone = kwargs.get('phone')
-            profile.zipcode = kwargs.get('zipcode')
-            profile.experience = kwargs.get('experience')
-            profile.price_per_hour = kwargs.get('price_per_hour')
-            profile.qualification = kwargs.get('qualification')
-            profile.timing = kwargs.get('timing')
-            profile.dob = kwargs.get('dob')
-            profile.gender = kwargs.get('gender')
-            profile.experience = kwargs.get('experience')
             profile.save()
         except UserProfile.DoesNotExist:
             profile = UserProfile.objects.create(

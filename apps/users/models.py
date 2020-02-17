@@ -26,15 +26,6 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(unique=True, db_index=True)
     phone = models.CharField(max_length=10, blank=True, null=True)
-    zipcode = models.CharField(max_length=10, blank=True, null=True)
-    # location = models.CharField(max_length=30, blank=True, null=True)  # Area
-    # city = models.CharField(max_length=20, blank=True,
-    #                         null=True)  # City or District
-    experience = models.FloatField(null=True, blank=True)
-    price_per_hour = models.FloatField(null=True, blank=True)
-    qualification = models.CharField(max_length=255, blank=True, null=True)
-    timing = models.PositiveSmallIntegerField(
-        choices=user_constants.TUTION_TIMINGS, null=True, blank=True)
     dob = models.DateField(null=True, blank=True)
     gender = models.PositiveSmallIntegerField(
         choices=user_constants.GENDER_CHOICES, null=True, blank=True)

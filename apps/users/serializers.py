@@ -13,24 +13,10 @@ from apps.mailers import utils as mailer_utils
 class UserRegistrationSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
     email = serializers.EmailField()
-    phone = serializers.CharField(max_length=10)
     password = serializers.CharField(max_length=64)
     confirm_password = serializers.CharField(max_length=64)
     user_type = serializers.ChoiceField(
         choices=[user_constants.STUDENT, user_constants.TUTOR])
-    subjects = serializers.ListField(
-        child=serializers.CharField(max_length=50)
-    )
-    gender = serializers.ChoiceField(choices=user_constants.GENDER_CHOICES)
-    timing = serializers.ChoiceField(choices=user_constants.TUTION_TIMINGS)
-    location_preferences = serializers.ListField(child=serializers.ChoiceField(
-        choices=user_constants.LOCATION_PREFERENCE))
-    zipcode = serializers.IntegerField()
-    # city = serializers.CharField(max_length=20)
-    # location = serializers.CharField(max_length=30)
-    dob = serializers.DateField()
-    experience = serializers.FloatField(required=False, allow_null=True)
-    price_per_hour = serializers.FloatField(required=False, allow_null=True)
 
     def validate(self, data):
         password = data.get('password')
@@ -46,18 +32,8 @@ class UserRegistrationSerializer(serializers.Serializer):
                 "Account with this email already exists")
         return val
 
-    def validate_phone(self, val):
-        if not isUniquePhone(val):
-            raise serializers.ValidationError(
-                "Account with this phone already exists")
-        return val
-
     def create(self, validated_data):
         user = user_services.create_user(**validated_data)
-        user_services.create_user_category(user,
-                                           category_codes=validated_data.get('subjects'))
-        user_services.create_user_location_preference(user,
-                                                      location_preferences=validated_data.get('location_preferences'))
         request = self.context.get('request')
         mailer_utils.send_account_activation_mail(request, user)
         return user

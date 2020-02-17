@@ -23,10 +23,6 @@ class CategoryRelationSerializer(serializers.ModelSerializer):
 class SearchSerializer(serializers.Serializer):
     location_keyword = serializers.CharField(
         max_length=50)
-    # zipcode = serializers.CharField(
-    #     max_length=10, required=False, allow_null=True)
-    # user_type = serializers.ChoiceField(
-    #     choices=user_constants.USER_TYPE_CHOICES)
     category = serializers.CharField(max_length=50)
     experience = serializers.IntegerField(required=False, allow_null=True)
     price_per_hour = serializers.FloatField(required=False, allow_null=True)
@@ -99,3 +95,15 @@ class CitySuggestionSerializer(serializers.Serializer):
 class SubjectSuggestionSerializer(serializers.Serializer):
     subject_keyword = serializers.CharField(
         max_length=50)
+
+
+class TutionCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tution
+        fields = '__all__'
+
+    def validate(self, data):
+        request = self.context.get('request')
+        if request.user.user_type not in [user_constants.TUTOR, user_constants.SUPERUSER]:
+            raise serializers.ValidationError({'detail': 'Not a valid tutor'})
+        return data

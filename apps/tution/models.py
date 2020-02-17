@@ -30,6 +30,28 @@ class CategoryRelation(models.Model):
         return self.parent.code+"-"+self.child.code
 
 
+class Tution(models.Model):
+    tutor = models.ForeignKey(
+        get_user_model(), related_name="tution_tutor", on_delete=models.SET_NULL, null=True)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True)
+    price = models.FloatField()
+    area = models.CharField(max_length=255)
+    timing = models.PositiveSmallIntegerField(
+        choices=tution_constants.TUTION_TIMINGS)
+    location = models.PositiveSmallIntegerField(
+        choices=tution_constants.LOCATION_PREFERENCE)
+    batch_size = models.IntegerField()
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
 class TutionRequest(models.Model):
     tutor = models.ForeignKey(get_user_model(
     ), related_name="tution_request_user1", on_delete=models.CASCADE)

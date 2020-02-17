@@ -25,16 +25,22 @@
                         >Change Password</a
                       >
                     </li>
-                    <!-- <li><a v-on:click.prevent.stop="set_app_state('change_email')">Change Email</a></li> -->
                   </ul>
-                  <p class="menu-label">Connection</p>
+                  <p class="menu-label">Tution</p>
                   <ul class="menu-list">
+                    <li>
+                      <a
+                        v-on:click.prevent.stop="set_app_state('create_tution')"
+                        class="button is-link has-text-left is-outlined"
+                        >Create Tution +</a
+                      >
+                    </li>
                     <li>
                       <a
                         v-on:click.prevent.stop="
                           set_app_state('tution_request')
                         "
-                        >Request Received</a
+                        >Tution Request</a
                       >
                     </li>
                   </ul>
@@ -49,8 +55,14 @@
                   <h1 class="title is-6">Change Password</h1>
                   <ChangePasswordForm />
                 </div>
+                <div class="box" v-if="app_state == 'create_tution'">
+                  <h1 class="title is-6 has-text-centered has-text-link">
+                    Create a Tution
+                  </h1>
+                  <CreateTutionForm />
+                </div>
                 <div class="box" v-if="app_state == 'tution_request'">
-                  <h1 class="title is-6">Tution Requests</h1>
+                  <h1 class="title is-6">Tution Request</h1>
                   <TutionRequestForm />
                 </div>
               </div>
@@ -66,6 +78,7 @@
 import UpdateProfileForm from '@/components/forms/UpdateProfileForm.vue'
 import ChangePasswordForm from '@/components/forms/ChangePasswordForm.vue'
 import TutionRequestForm from '@/components/forms/TutionRequestForm.vue'
+import CreateTutionForm from '@/components/forms/CreateTutionForm.vue'
 
 export default {
   name: 'Dashboard',
@@ -82,7 +95,8 @@ export default {
   components: {
     UpdateProfileForm,
     ChangePasswordForm,
-    TutionRequestForm
+    TutionRequestForm,
+    CreateTutionForm
   }
 }
 </script>

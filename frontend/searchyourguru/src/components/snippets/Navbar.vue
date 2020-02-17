@@ -1,7 +1,7 @@
 <template>
   <div id="navbar">
     <nav
-      class="navbar is-fixed-top is-link is-bold"
+      class="navbar is-fixed-top is-white is-bold"
       role="navigation"
       aria-label="main navigation"
     >
