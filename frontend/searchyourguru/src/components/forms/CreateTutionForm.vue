@@ -188,10 +188,31 @@ export default {
       },
       tution_created: false,
       is_loading: false,
-      suggested_subjects: []
+      suggested_subjects: [],
+      suggested_cities: []
     }
   },
   methods: {
+    location_keyword_changed: function() {
+      if (
+        this.tution.location != null &&
+        this.tution.location != '' &&
+        this.tution.location.length > 3
+      ) {
+        axios
+          .post(
+            this.get_endpoint(this.endpoints.suggested_cities),
+            { location_keyword: this.tution.location },
+            this.guest_headers()
+          )
+          .then(
+            response => {
+              this.suggested_cities = response.data.data
+            },
+            err => console.log(err)
+          )
+      }
+    },
     subject_keyword_changed: function() {
       if (
         this.tution.subject != null &&

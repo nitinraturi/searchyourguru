@@ -12,7 +12,7 @@ def get_tokens_for_user(user):
 
 
 def fetch_zipcode_from_api(zipcode):
-    zipcode_api_endpoint = f"https://api.postalpincode.in/pincode/{zipcode}"
+    zipcode_api_endpoint = "https://api.postalpincode.in/pincode/{zipcode}".format(zipcode=zipcode)
     response = requests.get(zipcode_api_endpoint)
     if response.status_code == 200:
         result = response.json()[0]

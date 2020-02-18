@@ -227,7 +227,8 @@ export default {
       signup_user_name_error: null,
       signup_email_error: null,
       signup_password_error: null,
-      errors: null
+      errors: null,
+      verification_email: null
     }
   },
   methods: {

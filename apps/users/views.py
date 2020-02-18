@@ -152,12 +152,12 @@ class UserViewSet(viewsets.ViewSet):
                 request.data['zipcode'])
             if api_zipcodes is None:
                 return Response({
-                    "Zipcode": f"Invalid zipcode"
+                    "Zipcode": "Invalid zipcode"
                 }, status=status.HTTP_400_BAD_REQUEST)
             user_services.insert_zipcodes_in_db(
                 api_zipcodes, request.data['zipcode'])
             db_zipcode = user_selectors.get_zipcode(request.data['zipcode'])
-        serializer = ZipCodeSerializer(db_zipcode, many=True)
+        serializer = ZipCodeSerializer("https://www.clovia.com/active-wear/s/db_zipcode", many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
 
