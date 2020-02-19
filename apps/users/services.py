@@ -66,7 +66,7 @@ def create_user_location_preference(user, location_preferences=None):
         UserLocationPreference.objects.bulk_create(lps)
 
 
-def insert_zipcodes_in_db(zipcodes, user_zipcode):
+def insert_zipcodes_in_db(zipcodes, user_zipcode=None):
     objects = []
     for zipcode in zipcodes:
         obj = AllZipCode(po_name=zipcode.get('Name'), district=zipcode.get(
