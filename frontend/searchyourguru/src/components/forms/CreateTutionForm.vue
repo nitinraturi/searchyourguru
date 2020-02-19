@@ -49,7 +49,22 @@
               <div class="field">
                 <label class="label">City or Pincode</label>
                 <div class="control">
-                    <GoogleMapPlaces />
+                  <input
+                    type="text"
+                    class="input"
+                    list="cities_list"
+                    placeholder="eg: Delhi or 110092"
+                    v-model="tution.area"
+                    v-on:keyup="location_keyword_changed"
+                  />
+                  <datalist id="cities_list">
+                    <option
+                      v-for="city in suggested_cities"
+                      :key="city.id"
+                      :value="city.po_name"
+                      >{{ city.po_name }}</option
+                    >
+                  </datalist>
                 </div>
               </div>
             </div>
@@ -170,8 +185,6 @@ import axios from 'axios'
 import ValidatorsMixin from '@/components/mixins/ValidatorsMixin.vue'
 import EndpointsMixin from '@/components/mixins/EndpointsMixin.vue'
 import RequestMixin from '@/components/mixins/RequestMixin'
-import GoogleMapPlaces from '@/components/maps/GoogleMapPlaces'
-
 
 export default {
   name: 'CreateTutionForm',
@@ -180,6 +193,7 @@ export default {
       tution: {
         title: null,
         description: null,
+        area: null,
         subject: null,
         timing: null,
         location: null,
@@ -195,14 +209,14 @@ export default {
   methods: {
     location_keyword_changed: function() {
       if (
-        this.tution.location != null &&
-        this.tution.location != '' &&
-        this.tution.location.length > 3
+        this.tution.area != null &&
+        this.tution.area != '' &&
+        this.tution.area.length > 3
       ) {
         axios
           .post(
             this.get_endpoint(this.endpoints.suggested_cities),
-            { location_keyword: this.tution.location },
+            { location_keyword: this.tution.area },
             this.guest_headers()
           )
           .then(
@@ -253,8 +267,7 @@ export default {
         )
     }
   },
-  mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin],
-  components: {GoogleMapPlaces}
+  mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin]
 }
 </script>
 

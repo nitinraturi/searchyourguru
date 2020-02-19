@@ -28,7 +28,7 @@
                   </ul>
                   <p class="menu-label">Tution</p>
                   <ul class="menu-list">
-                    <li>
+                    <li v-if="isUserTutor == true">
                       <a
                         v-on:click.prevent.stop="set_app_state('create_tution')"
                         class="button is-link has-text-left is-outlined"
@@ -90,6 +90,11 @@ export default {
   methods: {
     set_app_state: function(state) {
       this.app_state = state
+    }
+  },
+  computed: {
+    isUserTutor() {
+      return this.$store.getters.is_user_tutor
     }
   },
   components: {

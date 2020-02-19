@@ -6,3 +6,7 @@ def add_tution_connection(tutor, student):
         tutor=tutor, student=student)
 
     return tution_request
+
+
+def get_tutions(user):
+    return Tution.objects.filter(is_active=True, tutor=user)

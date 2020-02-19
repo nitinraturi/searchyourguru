@@ -107,3 +107,15 @@ class TutionCreateSerializer(serializers.ModelSerializer):
         if request.user.user_type not in [user_constants.TUTOR, user_constants.SUPERUSER]:
             raise serializers.ValidationError({'detail': 'Not a valid tutor'})
         return data
+
+
+class TutionListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tution
+        fields = '__all__'
+
+    def validate(self, data):
+        request = self.context.get('request')
+        if request.user.user_type not in [user_constants.TUTOR, user_constants.SUPERUSER]:
+            raise serializers.ValidationError({'detail': 'Not a valid tutor'})
+        return data
