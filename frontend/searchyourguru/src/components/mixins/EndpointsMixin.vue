@@ -18,6 +18,7 @@ export default {
         subjects: '/tution/subjects/',
         tution_search: '/tution/search/',
         tution_create: '/tution/create/',
+        tution_list: '/tution/list/',
         tution_request_list: '/tution/connection/list/',
         suggested_cities: '/tution/suggested-cities/',
         suggested_subjects: '/tution/suggested-subjects/'

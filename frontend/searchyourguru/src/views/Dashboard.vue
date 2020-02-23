@@ -3,93 +3,103 @@
     <section class="section has-background-white">
       <div class="container">
         <div class="columns is-centered">
-          <div class="column is-10">
-            <div class="columns is-centered">
-              <div class="column is-4">
-                <aside class="menu">
-                  <p class="menu-label">Account</p>
-                  <ul class="menu-list">
-                    <li>
-                      <a
-                        v-on:click.prevent.stop="
-                          set_app_state('general_settings')
-                        "
-                        >General</a
-                      >
-                    </li>
-                    <li>
-                      <a
-                        v-on:click.prevent.stop="
-                          set_app_state('change_password')
-                        "
-                        >Change Password</a
-                      >
-                    </li>
-                  </ul>
-                  <p class="menu-label">Tution</p>
-                  <ul class="menu-list">
-                    <li v-if="isUserTutor == true">
-                      <a
-                        v-on:click.prevent.stop="set_app_state('create_tution')"
-                        class="button is-link has-text-left is-outlined"
-                        >Create Tution +</a
-                      >
-                    </li>
-                    <li>
-                      <a
-                        v-on:click.prevent.stop="
-                          set_app_state('tution_request')
-                        "
-                        >Tution Request</a
-                      >
-                    </li>
-                  </ul>
-                </aside>
+          <div class="column is-8">
+            <h1 class="title is-5 has-text-centered">Manage</h1>
+            <hr />
+            <div class="columns is-multiline">
+              <div class="column is-3">
+                <a v-on:click.prevent.stop="set_app_state('general_settings')">
+                  <figure class="image is-48x48">
+                    <img src="@/assets/general_settings1.svg" alt="" />
+                  </figure>
+                  <p class="subtitle has-text-link">General</p>
+                </a>
               </div>
-              <div class="column is-8">
-                <div class="box" v-if="app_state == 'general_settings'">
-                  <h1 class="title is-6">General Settings</h1>
-                  <UpdateProfileForm />
-                </div>
-                <div class="box" v-if="app_state == 'change_password'">
-                  <h1 class="title is-6">Change Password</h1>
-                  <ChangePasswordForm />
-                </div>
-                <div class="box" v-if="app_state == 'create_tution'">
-                  <h1 class="title is-6 has-text-centered has-text-link">
-                    Create a Tution
-                  </h1>
-                  <CreateTutionForm />
-                </div>
-                <div class="box" v-if="app_state == 'tution_request'">
-                  <h1 class="title is-6">Tution Request</h1>
-                  <TutionRequestForm />
-                </div>
+              <div class="column is-3">
+                <a v-on:click.prevent.stop="set_app_state('change_password')">
+                  <figure class="image is-48x48">
+                    <img src="@/assets/change_password.svg" alt="" />
+                  </figure>
+                  <p class="subtitle has-text-link">Change Password</p>
+                </a>
+              </div>
+              <div class="column is-3" v-if="isUserTutor == true">
+                <a v-on:click.prevent.stop="set_app_state('create_tution')">
+                  <figure class="image is-48x48">
+                    <img src="@/assets/create_tution.svg" alt="" />
+                  </figure>
+                  <p class="subtitle has-text-link">
+                    New Tution <span class="has-text-danger">+</span>
+                  </p>
+                </a>
+              </div>
+              <div class="column is-3">
+                <a v-on:click.prevent.stop="set_app_state('notification')">
+                  <figure class="image is-48x48">
+                    <img src="@/assets/notification1.svg" alt="" />
+                  </figure>
+                  <p class="subtitle has-text-link">Notifications</p>
+                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <section class="section has-background-white">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <h1 class="title is-5 has-text-centered">Tutions</h1>
+            <TutionManageForm />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="modal" v-bind:class="{ 'is-active': quickview != null }">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="card box is-paddingless is-small">
+          <div class="card-content">
+            <UpdateProfileForm v-if="app_state == 'general_settings'" />
+            <ChangePasswordForm v-if="app_state == 'change_password'" />
+            <CreateTutionForm v-if="app_state == 'create_tution'" />
+          </div>
+        </div>
+      </div>
+      <button
+        class="modal-close is-large"
+        aria-label="close"
+        v-on:click="HideQuickView"
+      ></button>
+    </div>
   </div>
 </template>
 
 <script>
 import UpdateProfileForm from '@/components/forms/UpdateProfileForm.vue'
 import ChangePasswordForm from '@/components/forms/ChangePasswordForm.vue'
-import TutionRequestForm from '@/components/forms/TutionRequestForm.vue'
 import CreateTutionForm from '@/components/forms/CreateTutionForm.vue'
+import TutionManageForm from '@/components/forms/TutionManageForm.vue'
 
 export default {
   name: 'Dashboard',
   data: function() {
     return {
-      app_state: 'general_settings'
+      app_state: 'general_settings',
+      quickview: null
     }
   },
   methods: {
     set_app_state: function(state) {
       this.app_state = state
+      this.quickview = state
+    },
+    HideQuickView: function() {
+      this.app_state = null
+      this.quickview = null
     }
   },
   computed: {
@@ -100,8 +110,8 @@ export default {
   components: {
     UpdateProfileForm,
     ChangePasswordForm,
-    TutionRequestForm,
-    CreateTutionForm
+    CreateTutionForm,
+    TutionManageForm
   }
 }
 </script>

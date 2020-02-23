@@ -59,7 +59,7 @@ def filtered_tution_data(**kwargs):
     )
 
     if zipcode == False:
-        valid_zipcode_qs = users_models.AllZipcode.objects.filter(
+        valid_zipcode_qs = users_models.AllZipCode.objects.filter(
             Q(po_name__icontains=location_keyword) |
             Q(district__icontains=location_keyword) |
             Q(state__icontains=location_keyword)
