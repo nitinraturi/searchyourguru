@@ -1,5 +1,34 @@
 <template>
   <div id="search_app">
+    <div>
+      <a
+        v-on:click.prevent.stop="show_mobile_filter"
+        class="filter_icon_mobile is-hidden-desktop"
+      >
+        <figure class="image is-48x48">
+          <img src="@/assets/filter.svg" alt="" />
+        </figure>
+      </a>
+      <div
+        class="modal"
+        v-bind:class="{ 'is-active': isActiveFilterQuickView }"
+      >
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <div class="card box">
+            <div class="card-content">
+              <AdvancedFilterForm />
+            </div>
+          </div>
+        </div>
+        <button
+          class="modal-close is-large"
+          aria-label="close"
+          v-on:click="hide_mobile_filter"
+        ></button>
+      </div>
+    </div>
+
     <section class="section">
       <div class="container is-fluid">
         <div class="columns is-centered">
@@ -23,7 +52,7 @@
             <section class="hero is-info is-bold is-small">
               <div class="hero-body">
                 <h1 class="title is-6 has-text-centered">
-                  Finding tutions is made easy
+                  Finding a tution made easy
                 </h1>
               </div>
             </section>
@@ -155,7 +184,8 @@ export default {
       isActiveProfileQuickView: false,
       tution: null,
       connection_response: null,
-      is_loading: false
+      is_loading: false,
+      isActiveFilterQuickView: false
     }
   },
   computed: {
@@ -167,6 +197,12 @@ export default {
     }
   },
   methods: {
+    show_mobile_filter: function() {
+      this.isActiveFilterQuickView = true
+    },
+    hide_mobile_filter: function() {
+      this.isActiveFilterQuickView = false
+    },
     ShowProfileQuickView: function(tution) {
       this.isActiveProfileQuickView = true
       this.tution = tution
@@ -202,7 +238,6 @@ export default {
     }
   },
   components: {
-    // FilterForm,
     AdvancedFilterForm,
     LoginForm
   },
@@ -217,5 +252,10 @@ export default {
 }
 html {
   scroll-behavior: smooth;
+}
+.filter_icon_mobile {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
 }
 </style>

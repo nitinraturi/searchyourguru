@@ -5,9 +5,10 @@ from . import constants as tution_constants
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(db_index=True, max_length=255)
     code = models.CharField(max_length=7, db_index=True, unique=True)
-    tag_type = models.IntegerField(choices=tution_constants.TAG_TYPES)
+    tag_type = models.IntegerField(
+        db_index=True, choices=tution_constants.TAG_TYPES)
     order = models.PositiveSmallIntegerField(default=0)
     is_active = models.BooleanField(default=True)
 
@@ -38,7 +39,7 @@ class Tution(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True)
     price = models.FloatField()
-    area = models.CharField(max_length=255)
+    area = models.CharField(db_index=True, max_length=255)
     timing = models.PositiveSmallIntegerField(
         choices=tution_constants.TUTION_TIMINGS)
     location = models.PositiveSmallIntegerField(
@@ -50,17 +51,3 @@ class Tution(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class TutionRequest(models.Model):
-    tutor = models.ForeignKey(get_user_model(
-    ), related_name="tution_request_user1", on_delete=models.CASCADE)
-    student = models.ForeignKey(get_user_model(
-    ), related_name="tution_request_user2", on_delete=models.CASCADE)
-    is_active = models.BooleanField(default=True)
-    is_accepted = models.BooleanField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return str(self.tutor.email)+str(self.student.email)

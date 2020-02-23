@@ -52,20 +52,6 @@ def change_user_password(user, password):
     return user
 
 
-def create_user_category(user, category_codes=None):
-    if category_codes:
-        ucs = [UserCategory(user=user, category=Category.objects.get(code=code))
-               for code in category_codes]
-        UserCategory.objects.bulk_create(ucs)
-
-
-def create_user_location_preference(user, location_preferences=None):
-    if location_preferences:
-        lps = [UserLocationPreference(
-            user=user, location_preference=lp) for lp in location_preferences]
-        UserLocationPreference.objects.bulk_create(lps)
-
-
 def insert_zipcodes_in_db(zipcodes, user_zipcode=None):
     objects = []
     for zipcode in zipcodes:

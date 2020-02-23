@@ -161,7 +161,7 @@
           <button
             v-on:submit="search"
             type="submit"
-            class="button is-success is-small"
+            class="button is-info is-small"
             :disabled="is_search_loading"
             v-bind:class="{ 'is-loading': is_search_loading }"
           >
@@ -169,6 +169,13 @@
           </button>
         </p>
       </div>
+      <a
+        v-on:click.prevent.stop="reset_filters"
+        class="subtitle is-6 has-text-link"
+        :disabled="is_search_loading"
+      >
+        Reset filters
+      </a>
     </form>
   </div>
 </template>
@@ -223,6 +230,13 @@ export default {
             }
           )
       }
+    },
+    reset_filters: function() {
+      this.search_filters.experience = null
+      this.search_filters.price_per_hour = null
+      this.search_filters.timing = null
+      this.search_filters.gender = null
+      this.search_filters.location_preferences = []
     },
     location_keyword_changed: function() {
       if (

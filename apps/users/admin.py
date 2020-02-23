@@ -4,20 +4,6 @@ from .models import *
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 
-class UserCategoryInline(admin.StackedInline):
-    model = UserCategory
-    can_delete = False
-    verbose_plural_name = "User Subjects"
-    fk_name = 'user'
-
-
-class UserLocationPreferenceInline(admin.StackedInline):
-    model = UserLocationPreference
-    can_delete = False
-    verbose_plural_name = "User Location Preferences"
-    fk_name = 'user'
-
-
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
@@ -32,8 +18,7 @@ class CustomUserAdmin(UserAdmin):
     list_display_links = ['email']
     search_fields = ('email',)
     ordering = ('email',)
-    inlines = (UserProfileInline, UserCategoryInline,
-               UserLocationPreferenceInline)
+    inlines = (UserProfileInline,)
     list_display = ('email', 'is_staff', 'is_active', 'is_superuser',)
     list_filter = ('is_staff', 'is_active', 'is_superuser', 'user_type')
     fieldsets = (

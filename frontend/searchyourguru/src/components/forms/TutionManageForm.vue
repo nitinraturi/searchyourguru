@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="table-container">
+    <div class="table-container" v-if="tution_list.length > 0">
       <table class="table is-fullwidth">
         <thead>
           <tr>
@@ -30,6 +30,12 @@
         </tbody>
       </table>
     </div>
+    <div v-if="tution_list.length == 0">
+      <p class="subtitle is-5">No tutions created yet !</p>
+      <p>
+        Click on the <span class="has-text-link">new tution</span> button above
+      </p>
+    </div>
 
     <div
       class="modal"
@@ -47,7 +53,7 @@
             <p><b>Batch Size</b>: {{ tution.batch_size }}</p>
             <p><b>Create At</b>: {{ tution.created_at }}</p>
             <p><b>Updated At</b>: {{ tution.updated_at }}</p>
-            <p><b>Subject</b>: {{ tution.category }}</p>
+            <p><b>Subject</b>: {{ tution.category.name }}</p>
             <p><b>Description</b></p>
             <p>{{ tution.description }}</p>
           </div>

@@ -137,16 +137,19 @@
             <div class="column is-6">
               <div class="field">
                 <label class="label">Location Preference</label>
-                <p class="control">
-                  <input
-                    v-model="tution.location"
-                    class="input"
-                    type="number"
-                    placeholder="eg: Alex Williams"
-                    :disabled="is_loading"
-                    required
-                  />
-                </p>
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select
+                      v-model="tution.location"
+                      :disabled="is_loading"
+                      required
+                    >
+                      <option value="1">At Tutor Home</option>
+                      <option value="2">At Student Home</option>
+                      <option value="3">At Institute</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="column is-6">
@@ -157,7 +160,7 @@
                     type="number"
                     class="input"
                     v-model="tution.batch_size"
-                    :disabled="is_loading"
+                    :disabled="true"
                     required
                   />
                 </div>

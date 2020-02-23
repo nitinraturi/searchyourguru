@@ -24,28 +24,6 @@ GENDER_CHOICES = (
     (OTHER, "Other")
 )
 
-ANYTIME = 1
-MORNING = 2
-AFTERNOON = 3
-EVENING = 4
-
-TUTION_TIMINGS = (
-    (ANYTIME, "Any Time"),
-    (MORNING, "Morning"),
-    (AFTERNOON, "Afternoon"),
-    (EVENING, "Evening")
-)
-
-AT_TUTOR_HOME = 1
-AT_STUDENT_HOME = 2
-AT_INSTITUTE = 3
-
-LOCATION_PREFERENCE = (
-    (AT_TUTOR_HOME, "At Tutor Home"),
-    (AT_STUDENT_HOME, "At Student Home"),
-    (AT_INSTITUTE, "At Insitute")
-)
-
 BELOW_2_YEARS = 1
 BETWEEN2AND5YEARS = 2
 ABOVE5YEARS = 3

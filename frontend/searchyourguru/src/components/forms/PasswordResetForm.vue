@@ -8,7 +8,7 @@
     <form action="#" v-on:submit.prevent="resend_reset_email" method="POST">
       <div class="field">
         <label class="label">Email</label>
-        <p class="control has-icons-left has-icons-right">
+        <p class="control">
           <input
             v-model="reset_email"
             class="input"
@@ -16,12 +16,6 @@
             placeholder="eg: abc@gmail.com"
             required
           />
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <span class="icon is-small is-right">
-            <i class="fas fa-check"></i>
-          </span>
         </p>
         <p class="help is-danger" v-if="reset_email_error == true">
           Please enter a valid email

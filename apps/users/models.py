@@ -25,6 +25,7 @@ class UserProfile(models.Model):
         User, on_delete=models.CASCADE, primary_key=True, related_name="user_profile")
     name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(unique=True, db_index=True)
+    experience = models.IntegerField(null=True, blank=True)
     phone = models.CharField(max_length=10, blank=True, null=True)
     dob = models.DateField(null=True, blank=True)
     gender = models.PositiveSmallIntegerField(
@@ -37,40 +38,21 @@ class UserProfile(models.Model):
         return self.user.email
 
 
-class UserCategory(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey('tution.Category', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.category.name
-
-    class Meta:
-        unique_together = ['user', 'category']
-
-
-class UserLocationPreference(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    location_preference = models.PositiveSmallIntegerField(
-        choices=user_constants.LOCATION_PREFERENCE, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return str(self.id)
-
-    class Meta:
-        unique_together = ['user', 'location_preference']
-
-
 class AllZipCode(models.Model):
-    zipcode = models.CharField(max_length=10, blank=True, null=True)
-    po_name = models.CharField(max_length=255, null=True, blank=True)
-    district = models.CharField(max_length=255, null=True, blank=True)
-    country = models.CharField(max_length=255, null=True, blank=True)
-    state = models.CharField(max_length=255, null=True, blank=True)
-    latitude = models.FloatField(null=True, blank=True)
-    longitude = models.FloatField(null=True, blank=True)
-    city = models.CharField(max_length=255, blank=True, null=True)
+    zipcode = models.CharField(
+        db_index=True, max_length=10, blank=True, null=True)
+    po_name = models.CharField(
+        db_index=True, max_length=255, null=True, blank=True)
+    district = models.CharField(
+        db_index=True, max_length=255, null=True, blank=True)
+    country = models.CharField(
+        db_index=True, max_length=255, null=True, blank=True)
+    state = models.CharField(
+        db_index=True, max_length=255, null=True, blank=True)
+    latitude = models.FloatField(db_index=True, null=True, blank=True)
+    longitude = models.FloatField(db_index=True, null=True, blank=True)
+    city = models.CharField(
+        db_index=True, max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.zipcode
