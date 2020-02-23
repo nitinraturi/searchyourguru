@@ -21,7 +21,7 @@
                 type="button"
                 name="button"
                 class="button is-info is-outlined is-small"
-                v-on:click="ShowRequestQuickView"
+                v-on:click="SetViewState(t)"
               >
                 View
               </button>
@@ -29,6 +29,35 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div
+      class="modal"
+      v-if="tution != null"
+      v-bind:class="{ 'is-active': quickview != false }"
+    >
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="card box is-paddingless is-small">
+          <div class="card-content">
+            <h1 class="title has-text-centered is-5">Tution Details</h1>
+            <p><b>Title</b>: {{ tution.title }}</p>
+            <p><b>Price</b>: {{ tution.price }}</p>
+            <p><b>Area</b>: {{ tution.area }}</p>
+            <p><b>Batch Size</b>: {{ tution.batch_size }}</p>
+            <p><b>Create At</b>: {{ tution.created_at }}</p>
+            <p><b>Updated At</b>: {{ tution.updated_at }}</p>
+            <p><b>Subject</b>: {{ tution.category }}</p>
+            <p><b>Description</b></p>
+            <p>{{ tution.description }}</p>
+          </div>
+        </div>
+      </div>
+      <button
+        class="modal-close is-large"
+        aria-label="close"
+        v-on:click="HideQuickView"
+      ></button>
     </div>
   </div>
 </template>
@@ -43,19 +72,21 @@ export default {
   data: function() {
     return {
       tution_list: [],
-      isActiveRequestQuickView: false,
-      user: null
+      quickview: false,
+      tution: null
     }
   },
   mounted: function() {
     this.get_request_list()
   },
   methods: {
-    ShowRequestQuickView: function() {
-      this.isActiveRequestQuickView = true
+    SetViewState: function(tution) {
+      this.tution = tution
+      this.quickview = true
     },
-    HideRequestQuickView: function() {
-      this.isActiveRequestQuickView = false
+    HideQuickView: function() {
+      this.quickview = false
+      this.tution = null
     },
     get_request_list: function() {
       axios
