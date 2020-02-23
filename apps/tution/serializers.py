@@ -9,7 +9,7 @@ from apps.users import serializers as users_serializers
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('name', 'code')
+        fields = ('id', 'name', 'code')
 
 
 class CategoryRelationSerializer(serializers.ModelSerializer):
@@ -98,6 +98,8 @@ class SubjectSuggestionSerializer(serializers.Serializer):
 
 
 class TutionCreateSerializer(serializers.ModelSerializer):
+    # category = models.CharField()
+
     class Meta:
         model = Tution
         fields = '__all__'
@@ -110,12 +112,15 @@ class TutionCreateSerializer(serializers.ModelSerializer):
 
 
 class TutionListSerializer(serializers.ModelSerializer):
+    tutor = users_serializers.UserProfileGuestSerializer()
+    category = CategorySerializer()
+
     class Meta:
         model = Tution
         fields = '__all__'
 
-    def validate(self, data):
-        request = self.context.get('request')
-        if request.user.user_type not in [user_constants.TUTOR, user_constants.SUPERUSER]:
-            raise serializers.ValidationError({'detail': 'Not a valid tutor'})
-        return data
+    # def validate(self, data):
+    #     request = self.context.get('request')
+    #     if request.user.user_type not in [user_constants.TUTOR, user_constants.SUPERUSER]:
+    #         raise serializers.ValidationError({'detail': 'Not a valid tutor'})
+    #     return data

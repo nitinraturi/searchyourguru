@@ -48,7 +48,8 @@ class TutionViewSet(viewsets.ViewSet):
         serializer.is_valid(raise_exception=True)
         data = tution_selectors.filtered_tution_data(
             **serializer.validated_data)
-        return Response({'data': data}, status=status.HTTP_200_OK)
+        serializer = TutionListSerializer(data, many=True)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['post'], url_name="connection_add", url_path="connection/add", permission_classes=[IsAuthenticated])
     def connection_add(self, request):

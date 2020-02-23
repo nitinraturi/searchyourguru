@@ -19,7 +19,7 @@ export default new Vuex.Store({
       gender: null,
       location_preferences: []
     },
-    filtered_users: []
+    filtered_tutions: []
   },
   getters: {
     is_loggedin: function(state) {

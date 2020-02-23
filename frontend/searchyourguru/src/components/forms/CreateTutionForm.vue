@@ -77,7 +77,7 @@
                     class="input"
                     list="subjects_list"
                     v-on:keyup="subject_keyword_changed"
-                    v-model="tution.subject"
+                    v-model="tution.category"
                     placeholder="eg: Math or Physics"
                     :disabled="is_loading"
                     required
@@ -85,8 +85,8 @@
                   <datalist id="subjects_list">
                     <option
                       v-for="sub in suggested_subjects"
-                      :key="sub.code"
-                      :value="sub.name"
+                      :key="sub.id"
+                      :value="sub.id"
                       >{{ sub.name }}</option
                     >
                   </datalist>
@@ -194,7 +194,7 @@ export default {
         title: null,
         description: null,
         area: null,
-        subject: null,
+        category: null,
         timing: null,
         location: null,
         batch_size: 1,
@@ -229,14 +229,14 @@ export default {
     },
     subject_keyword_changed: function() {
       if (
-        this.tution.subject != null &&
-        this.tution.subject != '' &&
-        this.tution.subject.length > 2
+        this.tution.category != null &&
+        this.tution.category != '' &&
+        this.tution.category.length > 2
       ) {
         axios
           .post(
             this.get_endpoint(this.endpoints.suggested_subjects),
-            { subject_keyword: this.tution.subject },
+            { subject_keyword: this.tution.category },
             this.guest_headers()
           )
           .then(

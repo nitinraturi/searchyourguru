@@ -1,19 +1,5 @@
 <template>
   <div id="search_app">
-    <!-- <section class="hero is-info is-bold is-small">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-centered">
-            <div class="column is-8">
-              <div class="box">
-                <FilterForm />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
-
     <section class="section">
       <div class="container is-fluid">
         <div class="columns is-centered">
@@ -37,7 +23,7 @@
             <section class="hero is-info is-bold is-small">
               <div class="hero-body">
                 <h1 class="title is-6 has-text-centered">
-                  Find the right tutor or student
+                  Finding tutions is made easy
                 </h1>
               </div>
             </section>
@@ -45,54 +31,26 @@
             <div class="columns is-multiline">
               <div
                 class="column is-4"
-                v-for="user in filtered_users"
-                :key="user.user_id"
+                v-for="t in filtered_tutions"
+                :key="t.id"
               >
                 <div class="card box is-paddingless is-small">
                   <div class="card-content">
                     <div class="media">
-                      <div class="media-left">
-                        <figure class="image is-rounded is-48x48">
-                          <img
-                            src="https://image.flaticon.com/icons/png/512/13/13471.png"
-                            alt="Placeholder image"
-                          />
-                        </figure>
-                      </div>
-                      <div class="media-content">
-                        <p class="title is-size-6">
-                          {{ user.name }}
-                          <span class="tag is-primary">New</span>
-                        </p>
-                        <p class="subtitle is-size-7">
-                          <span v-if="user.gender == 1"><b>Gen</b>: Male</span>
-                          <span v-if="user.gender == 2"
-                            ><b>Gen</b>: Female</span
-                          >
-                          <span v-if="user.gender == 3"><b>Gen</b>: Other</span>
-                        </p>
-                      </div>
+                      <p class="title is-size-6">
+                        {{ t.title }}
+                        <span class="tag is-primary">New</span>
+                      </p>
                     </div>
-                    <!-- <p class="is-size-7">
-                      <b>Rating</b> - <span class="has-text-info">1</span>/5
-                    </p> -->
-                    <!-- <progress
-                      id="progress-bar"
-                      class="progress is-info is-small"
-                      value="20"
-                      max="100"
-                    ></progress> -->
-                    <p class="is-size-7"><b>Exp</b>: {{ user.experience }}Y</p>
-                    <p class="is-size-7"><b>Pincode</b>: {{ user.zipcode }}</p>
+                    <p class="is-size-7"><b>Pincode</b>: {{ t.area }}</p>
                     <p class="is-size-7">
-                      <b>Fees</b>: &#8377; {{ user.price_per_hour }} / Hour
+                      <b>Fees</b>: &#8377; {{ t.price }} / Hour
                     </p>
-                    <!-- <p class="is-size-7">
-                      <b>Qualification</b>: {{ user.qualification }}
-                    </p> -->
-                    <!-- <p class="is-size-7"><b>Subject</b>: Mathematics</p> -->
-                    <p class="subtitle is-size-7">
-                      <b>Date of Birth</b>: {{ user.dob }}
+                    <p class="is-size-7">
+                      <b>Subject</b>: {{ t.category.name }}
+                    </p>
+                    <p class="is-size-7">
+                      <b>Batch Size</b>: {{ t.batch_size }}
                     </p>
                     <br />
                     <div class="field is-grouped is-grouped-centered">
@@ -101,9 +59,9 @@
                           type="button"
                           name="button"
                           class="button is-info is-outlined is-small"
-                          v-on:click="ShowProfileQuickView(user)"
+                          v-on:click="ShowProfileQuickView(t)"
                         >
-                          View Profile
+                          Request Demo
                         </button>
                       </div>
                     </div>
@@ -120,61 +78,40 @@
     <div
       class="modal"
       v-bind:class="{ 'is-active': isActiveProfileQuickView }"
-      v-if="user != null"
+      v-if="tution != null"
     >
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="card box is-paddingless is-small">
           <div class="card-content">
-            <div class="media">
-              <div class="media-left">
-                <figure class="image is-rounded is-48x48">
-                  <img
-                    src="https://image.flaticon.com/icons/png/512/13/13471.png"
-                    alt="Placeholder image"
-                  />
-                </figure>
-              </div>
-              <div class="media-content">
-                <p class="title is-size-6">
-                  {{ user.name }}
-                  <span class="tag is-primary">New</span>
-                </p>
-                <p class="subtitle is-size-7">
-                  <span v-if="user.gender == 1"><b>Gen</b>: Male</span>
-                  <span v-if="user.gender == 2"><b>Gen</b>: Female</span>
-                  <span v-if="user.gender == 3"><b>Gen</b>: Other</span>
-                </p>
-              </div>
-            </div>
-            <!-- <p class="is-size-7">
-                      <b>Rating</b> - <span class="has-text-info">1</span>/5
-                    </p> -->
-            <!-- <progress
-                      id="progress-bar"
-                      class="progress is-info is-small"
-                      value="20"
-                      max="100"
-                    ></progress> -->
-            <p class="is-size-7"><b>Exp</b>: {{ user.experience }}Y</p>
-            <p class="is-size-7"><b>Pincode</b>: {{ user.zipcode }}</p>
-            <p class="is-size-7">
-              <b>Fees</b>: &#8377; {{ user.price_per_hour }} / Hour
+            <p class="title is-size-6">
+              {{ tution.title }}
+              <span class="tag is-primary">New</span>
             </p>
-            <!-- <p class="is-size-7">
-                      <b>Qualification</b>: {{ user.qualification }}
-                    </p> -->
-            <!-- <p class="is-size-7"><b>Subject</b>: Mathematics</p> -->
+            <hr />
+            <p class="subtitle is-6 has-text-centered">Tution Details</p>
+            <p class="is-size-7"><b>Pincode</b>: {{ tution.area }}</p>
+            <p class="is-size-7">
+              <b>Fees</b>: &#8377; {{ tution.price }} / Hour
+            </p>
+            <p class="is-size-7"><b>Subject</b>: {{ tution.category.name }}</p>
+            <p class="is-size-7"><b>Batch Size</b>: {{ tution.batch_size }}</p>
+            <p class="is-size-7"><b>Posted On</b>: {{ tution.created_at }}</p>
+            <p class="is-size-7"><b>Description</b></p>
+            <p class="is-size-7">{{ tution.description }}</p>
+            <hr />
+            <p class="subtitle is-6 has-text-centered">Tutor Details</p>
+            <p class="is-size-7"><b>Name</b>: {{ tution.tutor.name }}</p>
+            <p class="is-size-7"><b>Exp</b>: {{ tution.tutor.experience }}Y</p>
             <p class="subtitle is-size-7">
-              <b>Date of Birth</b>: {{ user.dob }}
+              <b>Date of Birth</b>: {{ tution.tutor.dob }}
+            </p>
+            <p class="subtitle is-size-7">
+              <span v-if="tution.tutor.gender == 1"><b>Gen</b>: Male</span>
+              <span v-if="tution.tutor.gender == 2"><b>Gen</b>: Female</span>
+              <span v-if="tution.tutor.gender == 3"><b>Gen</b>: Other</span>
             </p>
             <br />
-            <p
-              class="subtitle is-6 has-text-info has-text-centered"
-              v-if="connection_response != null"
-            >
-              {{ connection_response }}
-            </p>
             <div class="field is-grouped is-grouped-centered">
               <div class="control">
                 <button
@@ -185,7 +122,7 @@
                   v-bind:class="{ 'is-loading': is_loading }"
                   v-on:click="AddConnection"
                 >
-                  Connect
+                  Request Demo Class
                 </button>
               </div>
             </div>
@@ -206,7 +143,6 @@
 </template>
 
 <script>
-// import FilterForm from '@/components/forms/FilterForm.vue'
 import axios from 'axios'
 import ValidatorsMixin from '@/components/mixins/ValidatorsMixin.vue'
 import EndpointsMixin from '@/components/mixins/EndpointsMixin.vue'
@@ -217,7 +153,7 @@ export default {
   data: function() {
     return {
       isActiveProfileQuickView: false,
-      user: null,
+      tution: null,
       connection_response: null,
       is_loading: false
     }
@@ -226,28 +162,28 @@ export default {
     isAuthenticated() {
       return this.$store.state.isAuthenticated
     },
-    filtered_users() {
-      return this.$store.state.filtered_users
+    filtered_tutions() {
+      return this.$store.state.filtered_tutions
     }
   },
   methods: {
-    ShowProfileQuickView: function(user) {
+    ShowProfileQuickView: function(tution) {
       this.isActiveProfileQuickView = true
-      this.user = user
+      this.tution = tution
     },
     HideProfileQuickView: function() {
       this.isActiveProfileQuickView = false
-      this.user = null
+      this.tution = null
     },
     AddConnection: function() {
       this.connection_response = null
-      if (this.user != null) {
+      if (this.tution != null) {
         this.is_loading = true
         axios
           .post(
             this.get_endpoint(this.endpoints.tution_request_add),
             {
-              tutor_id: this.user.user__id
+              tutor_id: this.tution.id
             },
             this.get_headers()
           )

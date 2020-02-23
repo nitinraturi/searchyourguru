@@ -45,56 +45,22 @@ def filtered_tution_data(**kwargs):
     except:
         zipcode = False
 
-    # Gettings subject related users id
-    valid_category_user_ids = users_models.UserCategory.objects.filter(
-        Q(user__is_active=True) &
-        Q(user__user_type=user_constants.TUTOR) &
-        Q(category__name__icontains=category)
-    ).values_list('user__id', flat=True)
-
-    user_qs = users_models.UserProfile.objects.filter(
-        user__is_active=True,
-        user__user_type=user_constants.TUTOR,
-        user__id__in=valid_category_user_ids
+    tutions = Tution.objects.filter(
+        Q(tutor__is_active=True) &
+        Q(category__name__icontains=category) |
+        Q(category__code__icontains=category)
     )
 
-    if zipcode == False:
-        valid_zipcode_qs = users_models.AllZipCode.objects.filter(
-            Q(po_name__icontains=location_keyword) |
-            Q(district__icontains=location_keyword) |
-            Q(state__icontains=location_keyword)
-        ).first()
-        if valid_category_user_ids is not None:
-            user_qs = user_qs.filter(
-                zipcode__icontains=valid_zipcode_qs.zipcode)
-    else:
-        user_qs = user_qs.filter(zipcode__icontains=zipcode)
-
-    if location_preferences:
-        valid_location_preferences_user_ids = users_models.UserLocationPreference.objects.filter(
-            user__id__in=location_preferences).values_list('id', flat=True)
-
-        if valid_location_preferences_user_ids:
-            user_qs = user_qs.filter(
-                user__id__in=valid_location_preferences_user_ids)
-
-    if experience:
-        user_qs = user_qs.filter(experience__lte=experience)
-
     if price_per_hour:
-        user_qs = user_qs.filter(price_per_hour__lte=price_per_hour)
-
-    if qualification:
-        user_qs = user_qs.filter(qualification__icontains=qualification)
+        tutions = tutions.filter(price__lte=price_per_hour)
 
     if timing:
-        user_qs = user_qs.filter(timing=timing)
+        tutions = tutions.filter(timing=timing)
 
     if gender:
-        user_qs = user_qs.filter(gender=gender)
+        tutions = tutions.filter(tutor__gender=gender)
 
-    return user_qs.values('user__id', 'user__user_type', 'gender', 'qualification', 'dob',
-                          'price_per_hour', 'name', 'timing', 'experience', 'zipcode')
+    return tutions
 
 
 def is_valid_connection_request(tutor, student):
@@ -138,3 +104,7 @@ def get_suggested_subjects(subject_keyword):
         Q(tag_type=tution_constants.SEARCH_TAG))
 
     return subjects
+
+
+def get_category(code):
+    return Category.objects.filter(code=code).first()

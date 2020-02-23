@@ -216,7 +216,7 @@ export default {
           )
           .then(
             response => {
-              this.$store.state.filtered_users = response.data.data
+              this.$store.state.filtered_tutions = response.data.data
             },
             error => {
               console.log(error)
@@ -321,7 +321,7 @@ export default {
           .then(
             response => {
               console.log(response)
-              this.$store.state.filtered_users = response.data.data
+              this.$store.state.filtered_tutions = response.data.data
               this.is_search_loading = false
             },
             error => {
