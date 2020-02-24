@@ -27,3 +27,4 @@ class TutionAdmin(admin.ModelAdmin):
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tution, TutionAdmin)
+admin.site.register(TutionRequest)
