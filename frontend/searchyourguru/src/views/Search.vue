@@ -141,6 +141,11 @@
               <span v-if="tution.tutor.gender == 3"><b>Gen</b>: Other</span>
             </p>
             <br />
+            <div class="columns" v-if="connection_response != null">
+                <div class="column">
+                    <p class="is-small is-info">{{ connection_response }}</p>
+                </div>
+            </div>
             <div class="field is-grouped is-grouped-centered">
               <div class="control">
                 <button
@@ -230,7 +235,7 @@ export default {
               this.is_loading = false
             },
             err => {
-              this.connection_response = err.response.data.detail[0]
+              this.connection_response = err.response.data
               this.is_loading = false
             }
           )
