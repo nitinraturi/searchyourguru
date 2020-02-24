@@ -28,7 +28,7 @@ class CategoryRelation(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.parent.code+"-"+self.child.code
+        return self.parent.code + "-" + self.child.code
 
 
 class Tution(models.Model):
@@ -51,3 +51,17 @@ class Tution(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class TutionRequest(models.Model):
+    tution = models.ForeignKey(Tution, on_delete=models.CASCADE)
+    student = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    is_accepted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ['tution', 'student']
+
+    def __str__(self):
+        return self.tution.tutor.email + ' - ' + self.student.email + ' status ' + self.is_accepted
