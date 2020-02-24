@@ -20,6 +20,7 @@ export default {
         tution_create: '/tution/create/',
         tution_list: '/tution/list/',
         tution_request_list: '/tution/connection/list/',
+        tution_request_add: '/tution/tution-request/',
         suggested_cities: '/tution/suggested-cities/',
         suggested_subjects: '/tution/suggested-subjects/'
       }
