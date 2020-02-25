@@ -63,3 +63,9 @@ class TutionViewSet(viewsets.ViewSet):
         return Response({
             'data': serializer.data
         }, status=status.HTTP_201_CREATED)
+
+    @action(detail=False,methods=['get'], url_name='tution_applied',url_path='tution-applied',permission_classes=[IsAuthenticated])
+    def tution_applied(self,request):
+        queryset = tution_selectors.tution_applied_requests(request.user)
+        serializer = TutionAppliedSerializer(queryset,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)

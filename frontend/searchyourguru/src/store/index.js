@@ -31,6 +31,17 @@ export default new Vuex.Store({
       } else {
         return false
       }
+    },
+    user_type: function(state) {
+      if (state.user.user_type != null) {
+        if (state.user.user_type == 4) {
+          return 'tutor'
+        } else if (state.user.user_type == 3) {
+          return 'student'
+        }
+      } else {
+        return 'anonymous'
+      }
     }
   },
   mutations: {},

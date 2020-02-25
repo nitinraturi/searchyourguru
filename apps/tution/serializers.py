@@ -87,3 +87,12 @@ class TutionRequestSerializer(serializers.ModelSerializer):
                 {'detail': 'Request already sent, please wait for tutor acceptance'})
 
         return data
+
+
+class TutionAppliedSerializer(serializers.ModelSerializer):
+    tution = TutionListSerializer()
+    student = users_serializers.UserGuestSerializer()
+    
+    class Meta:
+        model = TutionRequest
+        fields = '__all__'

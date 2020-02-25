@@ -51,8 +51,9 @@
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-8">
-            <h1 class="title is-5 has-text-centered">Tutions</h1>
-            <TutionManageForm />
+            <h1 class="title is-5 has-text-centered">Your Tutions</h1>
+            <TutionManageForm v-if="user_type == 'tutor'" />
+            <TutionAppliedForm v-if="user_type == 'student'" />
           </div>
         </div>
       </div>
@@ -83,6 +84,7 @@ import UpdateProfileForm from '@/components/forms/UpdateProfileForm.vue'
 import ChangePasswordForm from '@/components/forms/ChangePasswordForm.vue'
 import CreateTutionForm from '@/components/forms/CreateTutionForm.vue'
 import TutionManageForm from '@/components/forms/TutionManageForm.vue'
+import TutionAppliedForm from '@/components/forms/TutionAppliedForm.vue'
 
 export default {
   name: 'Dashboard',
@@ -105,13 +107,17 @@ export default {
   computed: {
     isUserTutor() {
       return this.$store.getters.is_user_tutor
+    },
+    user_type() {
+      return this.$store.getters.user_type
     }
   },
   components: {
     UpdateProfileForm,
     ChangePasswordForm,
     CreateTutionForm,
-    TutionManageForm
+    TutionManageForm,
+    TutionAppliedForm
   }
 }
 </script>

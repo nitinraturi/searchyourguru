@@ -107,3 +107,6 @@ def get_tution(id):
 
 def tution_request_exists(tution_id,student):
         return TutionRequest.objects.filter(tution__id=tution_id,student=student).exists()
+
+def tution_applied_requests(user):
+    return TutionRequest.objects.filter(student=user)

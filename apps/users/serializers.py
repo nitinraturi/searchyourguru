@@ -51,6 +51,14 @@ class UserProfileGuestSerializer(serializers.ModelSerializer):
         fields = ('name', 'dob', 'gender', 'is_verified', 'created_at')
 
 
+class UserGuestSerializer(serializers.ModelSerializer):
+    user_profile = UserProfileGuestSerializer()
+
+    class Meta:
+        model = get_user_model()
+        fields = ('user_type', 'user_profile')
+
+
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     password = serializers.CharField(max_length=64, required=True)
