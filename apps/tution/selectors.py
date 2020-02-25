@@ -98,3 +98,12 @@ def get_suggested_subjects(subject_keyword):
         Q(tag_type=tution_constants.SEARCH_TAG))
 
     return subjects
+
+def get_tution(id):
+    try:
+        return Tution.objects.get(id=id)
+    except Tution.DoesNotExist:
+        pass
+
+def tution_request_exists(tution_id,student):
+        return TutionRequest.objects.filter(tution__id=tution_id,student=student).exists()

@@ -141,11 +141,12 @@
               <span v-if="tution.tutor.gender == 3"><b>Gen</b>: Other</span>
             </p>
             <br />
-            <div class="columns" v-if="connection_response != null">
-                <div class="column">
-                    <p class="is-small is-info">{{ connection_response }}</p>
-                </div>
-            </div>
+            <p
+              class="subtitle has-text-info has-text-centered"
+              v-if="connection_response != null"
+            >
+              {{ connection_response }}
+            </p>
             <div class="field is-grouped is-grouped-centered">
               <div class="control">
                 <button
@@ -224,18 +225,18 @@ export default {
           .post(
             this.get_endpoint(this.endpoints.tution_request_add),
             {
-              tutor_id: this.tution.id
+              tution: this.tution.id
             },
             this.get_headers()
           )
           .then(
             () => {
               this.connection_response =
-                "Successfully Connected, Check your dashboard to see tutor's contact information"
+                'Request sent, wait for the tutor to accept your request'
               this.is_loading = false
             },
             err => {
-              this.connection_response = err.response.data
+              this.connection_response = err.response.data.detail[0]
               this.is_loading = false
             }
           )

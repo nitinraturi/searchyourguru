@@ -24,7 +24,11 @@ class TutionAdmin(admin.ModelAdmin):
     list_display = ('id', 'tutor', 'title')
     list_display_links = ('id', 'title')
 
+class TutionRequestAdmin(admin.ModelAdmin):
+    list_display = ['id','tution_title','tutor_email','student_email','is_accepted','created_at','updated_at']
+    list_display_links = ['id','tution_title']
+    list_filter = ['is_accepted']
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tution, TutionAdmin)
-admin.site.register(TutionRequest)
+admin.site.register(TutionRequest,TutionRequestAdmin)

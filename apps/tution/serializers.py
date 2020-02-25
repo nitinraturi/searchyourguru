@@ -70,13 +70,20 @@ class TutionCreateSerializer(serializers.ModelSerializer):
 class TutionRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = TutionRequest
-        fields = ('tution', 'student')
-
+        fields = ('tution',)
+        read_only_fields = ('student',)
 
     def validate(self, data):
         request = self.context.get('request')
+        tution = data.get('tution')
+
         if request.user.user_type not in [user_constants.STUDENT, user_constants.SUPERUSER]:
             raise serializers.ValidationError({
                 'detail': 'You are not authorized'
             })
+
+        if tution_selectors.tution_request_exists(tution.id, request.user):
+            raise serializers.ValidationError(
+                {'detail': 'Request already sent, please wait for tutor acceptance'})
+
         return data

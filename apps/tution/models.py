@@ -52,7 +52,6 @@ class Tution(models.Model):
     def __str__(self):
         return self.title
 
-
 class TutionRequest(models.Model):
     tution = models.ForeignKey(Tution, on_delete=models.CASCADE)
     student = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
@@ -64,4 +63,13 @@ class TutionRequest(models.Model):
         unique_together = ['tution', 'student']
 
     def __str__(self):
-        return self.tution.tutor.email + ' - ' + self.student.email + ' status ' + self.is_accepted
+        return str(self.id) + '-' + self.tution.tutor.email + ' - ' + self.student.email
+
+    def tutor_email(self):
+        return self.tution.tutor.email
+
+    def student_email(self):
+        return self.student.email
+    
+    def tution_title(self):
+        return self.tution.title

@@ -54,17 +54,12 @@ class TutionViewSet(viewsets.ViewSet):
         sc_serializer = CategorySerializer(queryset, many=True)
         return Response({'data': sc_serializer.data}, status=status.HTTP_200_OK)
 
-    @action(detail=False, methods=['post'], url_name='tution_request', url_path='tution-request')
+    @action(detail=False, methods=['post'], url_name='tution_request', url_path='tution-request', permission_classes=[IsAuthenticated])
     def tution_request(self, request):
-        serializer = TutionRequestSerializer(data={
-            'tution': Tution.objects.get(id=int(request.data['tutor_id'])),
-            'student': request.user
-        })
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                'data': serializer.data
-            }, status=status.HTTP_201_CREATED)
+        serializer = TutionRequestSerializer(
+            data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save(student=request.user)
         return Response({
-            'data': 'Server Error Encountered'
-        }, status=status.HTTP_400_BAD_REQUEST)
+            'data': serializer.data
+        }, status=status.HTTP_201_CREATED)
