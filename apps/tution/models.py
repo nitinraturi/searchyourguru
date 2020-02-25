@@ -56,6 +56,8 @@ class TutionRequest(models.Model):
     tution = models.ForeignKey(Tution, on_delete=models.CASCADE)
     student = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     is_accepted = models.BooleanField(default=False)
+    mobile = models.CharField(max_length=10, unique=True, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
