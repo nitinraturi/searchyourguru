@@ -114,7 +114,7 @@ export default {
             response => {
               this.suggested_cities = response.data.data
             },
-            err => console.log(err)
+            () => {}
           )
       }
     },
@@ -134,7 +134,7 @@ export default {
             response => {
               this.suggested_subjects = response.data.data
             },
-            err => console.log(err)
+            () => {}
           )
       }
     },
