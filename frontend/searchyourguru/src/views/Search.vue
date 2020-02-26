@@ -141,12 +141,19 @@
               <span v-if="tution.tutor.gender == 3"><b>Gen</b>: Other</span>
             </p>
             <br />
-            <p
-              class="subtitle has-text-info has-text-centered"
-              v-if="connection_response != null"
-            >
-              {{ connection_response }}
-            </p>
+            <div class="columns" v-if="isAuthenticated == true">
+                <div class="column">
+                    <p class="subtitle has-text-info has-text-centered">
+                        Please provide the below details correctly to connect with tutor
+                    </p>
+                    <TutionRequestDetailForm @studentAdditionalDetails="getStudentAdditionalDetails" />
+                </div>
+                <div class="column is-full" v-if="studentAdditionalDetails != null">
+                    <p class="subtitle has-text-info has-text-centered">
+                        {{ studentAdditionalDetails }}
+                    </p>
+                </div>
+            </div>
             <div class="field is-grouped is-grouped-centered">
               <div class="control">
                 <button
@@ -160,6 +167,13 @@
                   Request Demo Class
                 </button>
               </div>
+            </div>
+            <div class="columns" v-if="connection_response != null">
+                <div class="column">
+                    <p class="subtitle has-text-info has-text-centered">
+                      {{ connection_response }}
+                    </p>
+                </div>
             </div>
             <div class="" v-if="isAuthenticated == false">
               <h1 class="title is-5 has-text-danger">Login to Connect</h1>
@@ -184,6 +198,7 @@ import EndpointsMixin from '@/components/mixins/EndpointsMixin.vue'
 import RequestMixin from '@/components/mixins/RequestMixin'
 import AdvancedFilterForm from '@/components/forms/AdvancedFilterForm.vue'
 import LoginForm from '@/components/forms/LoginForm.vue'
+import TutionRequestDetailForm from '@/components/forms/TutionRequestDetailForm.vue'
 export default {
   data: function() {
     return {
@@ -191,7 +206,10 @@ export default {
       tution: null,
       connection_response: null,
       is_loading: false,
-      isActiveFilterQuickView: false
+      isActiveFilterQuickView: false,
+      studentAdditionalDetails: null,
+      mobile: "",
+      address: ""
     }
   },
   computed: {
@@ -217,6 +235,11 @@ export default {
       this.isActiveProfileQuickView = false
       this.tution = null
     },
+    getStudentAdditionalDetails: function(student_detail) {
+        this.mobile = student_detail.mobile
+        this.address = student_detail.address
+        this.studentAdditionalDetails = "Your details has been saved successfully"
+    },
     AddConnection: function() {
       this.connection_response = null
       if (this.tution != null) {
@@ -225,7 +248,9 @@ export default {
           .post(
             this.get_endpoint(this.endpoints.tution_request_add),
             {
-              tution: this.tution.id
+              tution: this.tution.id,
+              mobile: this.mobile,
+              address: this.address
             },
             this.get_headers()
           )
@@ -245,7 +270,8 @@ export default {
   },
   components: {
     AdvancedFilterForm,
-    LoginForm
+    LoginForm,
+    TutionRequestDetailForm
   },
   mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin]
 }

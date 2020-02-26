@@ -70,7 +70,7 @@ class TutionCreateSerializer(serializers.ModelSerializer):
 class TutionRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = TutionRequest
-        fields = ('tution',)
+        fields = ('tution', 'mobile', 'address',)
         read_only_fields = ('student',)
 
     def validate(self, data):
