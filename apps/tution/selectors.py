@@ -34,12 +34,12 @@ def filtered_tution_data(**kwargs):
         isinstance(int(location_keyword), int)
         zipcode = str(location_keyword)
     except:
-        zipcode = ALlZipCode.objects.filter(
+        zipcode = users_models.AllZipCode.objects.filter(
             Q(po_name__icontains=location_keyword) |
             Q(district__icontains=location_keyword) |
             Q(country__icontains=location_keyword) |
             Q(state__icontains=location_keyword) |
-            Q(area__icontains=location_keyword)
+            Q(city__icontains=location_keyword)
         ).first()
         if zipcode is not None:
             zipcode = zipcode.zipcode

@@ -57,7 +57,18 @@
               </div>
             </section>
             <br />
-            <div class="columns is-multiline">
+            <article
+              class="message is-info"
+              v-if="filtered_tutions.length == 0"
+            >
+              <div class="message-body">
+                No results to display
+              </div>
+            </article>
+            <div
+              class="columns is-multiline"
+              v-if="filtered_tutions.length > 0"
+            >
               <div
                 class="column is-4"
                 v-for="t in filtered_tutions"
@@ -237,7 +248,7 @@ html {
 }
 .filter_icon_mobile {
   position: fixed;
-  bottom: 10px;
+  bottom: 20px;
   right: 10px;
 }
 </style>
