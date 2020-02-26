@@ -21,10 +21,10 @@ class TutionViewSet(viewsets.ViewSet):
         serializer.save(tutor=request.user)
         return Response({'status': 1}, status=status.HTTP_200_OK)
 
-    @action(detail=False, methods=['post'], url_name="tution_list", url_path="list", permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['get'], url_name="tution_list", url_path="list", permission_classes=[IsAuthenticated])
     def tution_list(self, request):
         serializer = TutionListSerializer(
-            tution_services.get_tutions(request.user), many=True)
+            tution_selectors.get_tutions(request.user), many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['post'], url_name="search", url_path="search")
@@ -64,8 +64,14 @@ class TutionViewSet(viewsets.ViewSet):
             'data': serializer.data
         }, status=status.HTTP_201_CREATED)
 
-    @action(detail=False,methods=['get'], url_name='tution_applied',url_path='tution-applied',permission_classes=[IsAuthenticated])
-    def tution_applied(self,request):
+    @action(detail=False, methods=['get'], url_name='tution_applied', url_path='tution-applied', permission_classes=[IsAuthenticated])
+    def tution_applied(self, request):
         queryset = tution_selectors.tution_applied_requests(request.user)
-        serializer = TutionAppliedSerializer(queryset,many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+        serializer = TutionAppliedSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['get'], url_name="tution_applications", url_path="tution-applications", permission_classes=[IsAuthenticated])
+    def tution_applications(self, request):
+        queryset = None
+        seriailzer = None
+        return Response(seriailzer.data, status=status.HTTP_200_OK)

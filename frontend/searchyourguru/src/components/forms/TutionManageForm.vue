@@ -7,6 +7,7 @@
             <td>Tution Id</td>
             <td>Title</td>
             <td>Last Updated</td>
+            <td>Application Received</td>
             <td></td>
             <td></td>
           </tr>
@@ -17,13 +18,34 @@
             <td>{{ t.title }}</td>
             <td>{{ t.updated_at }}</td>
             <td>
+              <span
+                v-if="t.applications.length > 0"
+                class="tag is-danger is-rounded"
+                >{{ t.applications.length }}</span
+              >
+              <span v-if="t.applications.length == 0" class="">{{
+                t.applications.length
+              }}</span>
+            </td>
+            <td>
+              <button
+                type="button"
+                name="button"
+                class="button is-success is-outlined is-small"
+                :disabled="t.applications.length == 0"
+                v-on:click="SetApplicationsState(t.applications)"
+              >
+                Applications
+              </button>
+            </td>
+            <td>
               <button
                 type="button"
                 name="button"
                 class="button is-info is-outlined is-small"
                 v-on:click="SetViewState(t)"
               >
-                View
+                Manage
               </button>
             </td>
           </tr>
@@ -65,6 +87,46 @@
         v-on:click="HideQuickView"
       ></button>
     </div>
+
+    <div
+      class="modal"
+      v-if="applications.length > 0"
+      v-bind:class="{ 'is-active': quickview != false }"
+    >
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="card box is-paddingless is-small">
+          <div class="card-content">
+            <h1 class="title has-text-centered is-5">
+              Tution Applications -
+              <span class="tag is-rounded is-info">{{
+                applications.length
+              }}</span>
+            </h1>
+            <div
+              class="notification applicant_box"
+              v-for="a in applications"
+              :key="a.id"
+            >
+              <p><b>Name</b>: {{ a.student.user_profile.name }}</p>
+              <p>
+                <b>Gender</b>:
+                <span v-if="a.student.user_profile.gender == 1">Male</span>
+                <span v-if="a.student.user_profile.gender == 2">Female</span>
+                <span v-if="a.student.user_profile.gender == 3">Other</span>
+              </p>
+              <p><b>Phone</b>: {{ a.phone }}</p>
+              <p><b>Locality</b>: {{ a.address }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="modal-close is-large"
+        aria-label="close"
+        v-on:click="HideQuickView"
+      ></button>
+    </div>
   </div>
 </template>
 
@@ -79,7 +141,8 @@ export default {
     return {
       tution_list: [],
       quickview: false,
-      tution: null
+      tution: null,
+      applications: []
     }
   },
   mounted: function() {
@@ -90,17 +153,18 @@ export default {
       this.tution = tution
       this.quickview = true
     },
+    SetApplicationsState: function(applications) {
+      this.applications = applications
+      this.quickview = true
+    },
     HideQuickView: function() {
       this.quickview = false
       this.tution = null
+      this.applications = []
     },
     get_request_list: function() {
       axios
-        .post(
-          this.get_endpoint(this.endpoints.tution_list),
-          {},
-          this.get_headers()
-        )
+        .get(this.get_endpoint(this.endpoints.tution_list), this.get_headers())
         .then(
           response => {
             // console.log(response)
@@ -115,3 +179,9 @@ export default {
   mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin]
 }
 </script>
+
+<style>
+.applicant_box {
+  border: 1px solid cadetblue;
+}
+</style>

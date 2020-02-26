@@ -99,14 +99,25 @@ def get_suggested_subjects(subject_keyword):
 
     return subjects
 
+
+def get_tutions(user):
+    return Tution.objects.filter(is_active=True, tutor=user)
+
+
 def get_tution(id):
     try:
         return Tution.objects.get(id=id)
     except Tution.DoesNotExist:
         pass
 
-def tution_request_exists(tution_id,student):
-        return TutionRequest.objects.filter(tution__id=tution_id,student=student).exists()
+
+def tution_request_exists(tution_id, student):
+    return TutionRequest.objects.filter(tution__id=tution_id, student=student).exists()
+
 
 def tution_applied_requests(user):
     return TutionRequest.objects.filter(student=user)
+
+
+def tution_application_received(tutor, tution_id):
+    return TutionRequest.objects.filter(tution__tutor=tutor, tution__id=tution_id)

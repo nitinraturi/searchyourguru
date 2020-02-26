@@ -49,10 +49,17 @@ class SubjectSuggestionSerializer(serializers.Serializer):
 class TutionListSerializer(serializers.ModelSerializer):
     tutor = users_serializers.UserGuestSerializer()
     category = CategorySerializer()
+    applications = serializers.SerializerMethodField('get_applications')
 
     class Meta:
         model = Tution
         fields = '__all__'
+
+    def get_applications(self, obj):
+        queryset = tution_selectors.tution_application_received(
+            obj.tutor, obj.id)
+        data = TutionApplicantSerializer(queryset, many=True)
+        return data.data
 
 
 class TutionCreateSerializer(serializers.ModelSerializer):
@@ -93,6 +100,14 @@ class TutionRequestSerializer(serializers.ModelSerializer):
 
 class TutionAppliedSerializer(serializers.ModelSerializer):
     tution = TutionListSerializer()
+    student = users_serializers.UserGuestSerializer()
+
+    class Meta:
+        model = TutionRequest
+        fields = '__all__'
+
+
+class TutionApplicantSerializer(serializers.ModelSerializer):
     student = users_serializers.UserGuestSerializer()
 
     class Meta:
