@@ -130,10 +130,10 @@
             <p class="is-size-7">{{ tution.description }}</p>
             <hr />
             <p class="subtitle is-6 has-text-centered">Tutor Details</p>
-            <p class="is-size-7"><b>Name</b>: {{ tution.tutor.name }}</p>
-            <p class="is-size-7"><b>Exp</b>: {{ tution.tutor.experience }}Y</p>
+            <p class="is-size-7"><b>Name</b>: {{ tution.tutor.user_profile.name }}</p>
+            <p class="is-size-7"><b>Exp</b>: {{ tution.tutor.user_profile.experience }}Y</p>
             <p class="subtitle is-size-7">
-              <b>Date of Birth</b>: {{ tution.tutor.dob }}
+              <b>Date of Birth</b>: {{ tution.tutor.user_profile.dob }}
             </p>
             <p class="subtitle is-size-7">
               <span v-if="tution.tutor.gender == 1"><b>Gen</b>: Male</span>

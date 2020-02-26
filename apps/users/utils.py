@@ -16,8 +16,10 @@ def get_tokens_for_user(user):
 def fetch_zipcode_from_api(zipcode):
     zipcode_api_endpoint = "https://api.postalpincode.in/pincode/{zipcode}".format(zipcode=zipcode)
     response = requests.get(zipcode_api_endpoint)
+    print("response",response.status_code)
     if response.status_code == 200:
         result = response.json()[0]
+        print("result",result)
         return result['PostOffice'] if result['Status'] == 'Success' else None
 
 

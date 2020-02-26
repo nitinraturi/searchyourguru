@@ -26,14 +26,14 @@
               >
             </td>
             <td>
-              <button
+              <!-- <button
                 type="button"
                 name="button"
                 class="button is-info is-outlined is-small"
                 v-on:click="SetViewState(t)"
               >
                 View
-              </button>
+              </button> -->
             </td>
           </tr>
         </tbody>

@@ -47,7 +47,7 @@ class SubjectSuggestionSerializer(serializers.Serializer):
 
 
 class TutionListSerializer(serializers.ModelSerializer):
-    tutor = users_serializers.UserProfileGuestSerializer()
+    tutor = users_serializers.UserGuestSerializer()
     category = CategorySerializer()
 
     class Meta:

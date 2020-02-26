@@ -6,13 +6,13 @@
           <div class="column is-8">
             <h1 class="title is-5 has-text-centered">Manage</h1>
             <hr />
-            <div class="columns is-multiline">
+            <div class="columns is-multiline is-mobile">
               <div class="column is-3">
                 <a v-on:click.prevent.stop="set_app_state('general_settings')">
                   <figure class="image is-48x48">
                     <img src="@/assets/general_settings1.svg" alt="" />
                   </figure>
-                  <p class="subtitle has-text-link">General</p>
+                  <p class="subtitle is-6 has-text-link">General</p>
                 </a>
               </div>
               <div class="column is-3">
@@ -20,7 +20,7 @@
                   <figure class="image is-48x48">
                     <img src="@/assets/change_password.svg" alt="" />
                   </figure>
-                  <p class="subtitle has-text-link">Change Password</p>
+                  <p class="subtitle is-6 has-text-link">Change Password</p>
                 </a>
               </div>
               <div class="column is-3" v-if="isUserTutor == true">
@@ -28,19 +28,19 @@
                   <figure class="image is-48x48">
                     <img src="@/assets/create_tution.svg" alt="" />
                   </figure>
-                  <p class="subtitle has-text-link">
+                  <p class="subtitle is-6 has-text-link">
                     New Tution <span class="has-text-danger">+</span>
                   </p>
                 </a>
               </div>
-              <div class="column is-3">
+              <!-- <div class="column is-3">
                 <a v-on:click.prevent.stop="set_app_state('notification')">
                   <figure class="image is-48x48">
                     <img src="@/assets/notification1.svg" alt="" />
                   </figure>
-                  <p class="subtitle has-text-link">Notifications</p>
+                  <p class="subtitle is-6 has-text-link">Notifications</p>
                 </a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
