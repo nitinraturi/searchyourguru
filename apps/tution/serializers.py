@@ -68,9 +68,11 @@ class TutionCreateSerializer(serializers.ModelSerializer):
 
 
 class TutionRequestSerializer(serializers.ModelSerializer):
+    phone = serializers.CharField(min_length=10, max_length=10)
+
     class Meta:
         model = TutionRequest
-        fields = ('tution', 'mobile', 'address',)
+        fields = ('tution', 'phone', 'address',)
         read_only_fields = ('student',)
 
     def validate(self, data):
@@ -84,7 +86,7 @@ class TutionRequestSerializer(serializers.ModelSerializer):
 
         if tution_selectors.tution_request_exists(tution.id, request.user):
             raise serializers.ValidationError(
-                {'detail': 'Request already sent, please wait for tutor acceptance'})
+                {'detail': 'Request already sent, please wait for tutor acceptance. You can check your dashboard for tution status updates'})
 
         return data
 
@@ -92,7 +94,7 @@ class TutionRequestSerializer(serializers.ModelSerializer):
 class TutionAppliedSerializer(serializers.ModelSerializer):
     tution = TutionListSerializer()
     student = users_serializers.UserGuestSerializer()
-    
+
     class Meta:
         model = TutionRequest
         fields = '__all__'

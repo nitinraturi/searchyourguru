@@ -130,8 +130,12 @@
             <p class="is-size-7">{{ tution.description }}</p>
             <hr />
             <p class="subtitle is-6 has-text-centered">Tutor Details</p>
-            <p class="is-size-7"><b>Name</b>: {{ tution.tutor.user_profile.name }}</p>
-            <p class="is-size-7"><b>Exp</b>: {{ tution.tutor.user_profile.experience }}Y</p>
+            <p class="is-size-7">
+              <b>Name</b>: {{ tution.tutor.user_profile.name }}
+            </p>
+            <p class="is-size-7">
+              <b>Exp</b>: {{ tution.tutor.user_profile.experience }}Y
+            </p>
             <p class="subtitle is-size-7">
               <b>Date of Birth</b>: {{ tution.tutor.user_profile.dob }}
             </p>
@@ -141,43 +145,25 @@
               <span v-if="tution.tutor.gender == 3"><b>Gen</b>: Other</span>
             </p>
             <br />
-            <div class="columns" v-if="isAuthenticated == true">
-                <div class="column">
-                    <p class="subtitle has-text-info has-text-centered">
-                        Please provide the below details correctly to connect with tutor
-                    </p>
-                    <TutionRequestDetailForm @studentAdditionalDetails="getStudentAdditionalDetails" />
-                </div>
-                <div class="column is-full" v-if="studentAdditionalDetails != null">
-                    <p class="subtitle has-text-info has-text-centered">
-                        {{ studentAdditionalDetails }}
-                    </p>
-                </div>
-            </div>
-            <div class="field is-grouped is-grouped-centered">
-              <div class="control">
-                <button
-                  type="button"
-                  name="button"
-                  class="button is-info is-small"
-                  :disabled="isAuthenticated == false || is_loading == true"
-                  v-bind:class="{ 'is-loading': is_loading }"
-                  v-on:click="AddConnection"
-                >
-                  Request Demo Class
-                </button>
+
+            <div v-if="isAuthenticated == true">
+              <div class="card box has-background-white-ter">
+                <p class="title is-6 has-text-centered">
+                  Enter details below to connect
+                </p>
+                <p class="is-size-7 has-text-centered">
+                  *Your details will be shared with tutor for contact purpose.
+                </p>
+                <TutionRequestDetailForm v-bind:tution="tution" />
               </div>
             </div>
-            <div class="columns" v-if="connection_response != null">
-                <div class="column">
-                    <p class="subtitle has-text-info has-text-centered">
-                      {{ connection_response }}
-                    </p>
-                </div>
-            </div>
             <div class="" v-if="isAuthenticated == false">
-              <h1 class="title is-5 has-text-danger">Login to Connect</h1>
-              <LoginForm />
+              <div class="card box has-background-white-ter">
+                <h1 class="title is-5 has-text-info has-text-centered">
+                  Login to Connect
+                </h1>
+                <LoginForm />
+              </div>
             </div>
           </div>
         </div>
@@ -192,7 +178,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import ValidatorsMixin from '@/components/mixins/ValidatorsMixin.vue'
 import EndpointsMixin from '@/components/mixins/EndpointsMixin.vue'
 import RequestMixin from '@/components/mixins/RequestMixin'
@@ -204,12 +190,8 @@ export default {
     return {
       isActiveProfileQuickView: false,
       tution: null,
-      connection_response: null,
       is_loading: false,
-      isActiveFilterQuickView: false,
-      studentAdditionalDetails: null,
-      mobile: "",
-      address: ""
+      isActiveFilterQuickView: false
     }
   },
   computed: {
@@ -234,38 +216,6 @@ export default {
     HideProfileQuickView: function() {
       this.isActiveProfileQuickView = false
       this.tution = null
-    },
-    getStudentAdditionalDetails: function(student_detail) {
-        this.mobile = student_detail.mobile
-        this.address = student_detail.address
-        this.studentAdditionalDetails = "Your details has been saved successfully"
-    },
-    AddConnection: function() {
-      this.connection_response = null
-      if (this.tution != null) {
-        this.is_loading = true
-        axios
-          .post(
-            this.get_endpoint(this.endpoints.tution_request_add),
-            {
-              tution: this.tution.id,
-              mobile: this.mobile,
-              address: this.address
-            },
-            this.get_headers()
-          )
-          .then(
-            () => {
-              this.connection_response =
-                'Request sent, wait for the tutor to accept your request'
-              this.is_loading = false
-            },
-            err => {
-              this.connection_response = err.response.data.detail[0]
-              this.is_loading = false
-            }
-          )
-      }
     }
   },
   components: {

@@ -52,11 +52,13 @@ class Tution(models.Model):
     def __str__(self):
         return self.title
 
+
 class TutionRequest(models.Model):
     tution = models.ForeignKey(Tution, on_delete=models.CASCADE)
     student = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     is_accepted = models.BooleanField(default=False)
-    mobile = models.CharField(max_length=10, unique=True, null=True, blank=True)
+    phone = models.CharField(
+        max_length=10, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -72,6 +74,6 @@ class TutionRequest(models.Model):
 
     def student_email(self):
         return self.student.email
-    
+
     def tution_title(self):
         return self.tution.title
