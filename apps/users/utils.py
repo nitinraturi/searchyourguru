@@ -42,6 +42,6 @@ def fetch_zipcodes_from_excel_file(file_path):
             else:
                 continue
         AllZipCode.objects.bulk_create(objects)
-        print('Data has been inserted into the AllZipCode Table')
+        return True
     except:
-        print('Server error encountered')
+        return None
