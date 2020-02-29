@@ -214,3 +214,15 @@ class ZipCodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = AllZipCode
         fields = '__all__'
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = '__all__'
+
+    def create(self, validated_data):
+        contact = user_services.create_contact(**validated_data)
+        mailer_utils.send_contact_mail(
+            contact.email, contact.subject, contact.message)
+        return contact

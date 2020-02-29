@@ -1,7 +1,7 @@
 <template>
   <div id="home_view" class="has-background-white">
     <div class="columns is-multiline">
-      <div class="column is-8">
+      <div class="column is-9">
         <section class="hero is-info is-bold is-medium">
           <div class="hero-body">
             <div class="container-fluid">
@@ -19,7 +19,7 @@
           </div>
         </section>
       </div>
-      <div class="column is-4">
+      <div class="column is-3">
         <section class="section is-hidden-mobile">
           <figure class="image is-256x256">
             <img src="@/assets/classroom.svg" alt="" />
@@ -202,15 +202,31 @@
         </center>
       </div>
     </section>
+    <section class="section">
+      <div class="container">
+        <h1 class="title is-4 has-text-centered">
+          Contact Us - How can we help?
+        </h1>
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <div class="box">
+              <ContactForm />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 import FilterForm from '@/components/forms/FilterForm.vue'
+import ContactForm from '@/components/forms/ContactForm.vue'
 export default {
   name: 'home',
   components: {
-    FilterForm
+    FilterForm,
+    ContactForm
   },
   computed: {
     isAuthenticated() {

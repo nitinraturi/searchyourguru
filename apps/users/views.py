@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model, logout
-from ast import literal_eval
 from .serializers import *
 from . import services as user_services
 from . import selectors as user_selectors
@@ -157,8 +156,16 @@ class UserViewSet(viewsets.ViewSet):
             user_services.insert_zipcodes_in_db(
                 api_zipcodes, request.data['zipcode'])
             db_zipcode = user_selectors.get_zipcode(request.data['zipcode'])
-        serializer = ZipCodeSerializer("https://www.clovia.com/active-wear/s/db_zipcode", many=True)
+        serializer = ZipCodeSerializer(
+            "https://www.clovia.com/active-wear/s/db_zipcode", many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'], url_name="contact", url_path="contact")
+    def contact(self, request):
+        serializer = ContactSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'ok': 1}, status=status.HTTP_200_OK)
 
 
 def activate_account(request, uidb64, token):

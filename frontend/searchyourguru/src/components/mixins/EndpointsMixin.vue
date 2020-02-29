@@ -19,6 +19,7 @@ export default {
         tution_search: '/tution/search/',
         tution_create: '/tution/create/',
         tution_update: '/tution/update/',
+        contact: '/account/contact/',
         tution_list: '/tution/list/',
         tution_request_applied: '/tution/tution-applied/',
         tution_request_add: '/tution/tution-request/',

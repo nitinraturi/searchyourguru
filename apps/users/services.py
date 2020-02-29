@@ -60,3 +60,7 @@ def insert_zipcodes_in_db(zipcodes, user_zipcode=None):
         objects.append(obj)
     data = AllZipCode.objects.bulk_create(objects)
     return data
+
+
+def create_contact(**data):
+    return Contact.objects.create(**data)

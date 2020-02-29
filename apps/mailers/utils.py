@@ -37,3 +37,14 @@ def send_password_reset_mail(request,user):
     }
     body = render_to_string(template,context=context)
     send_mail(to_email,mail_subject,body)
+
+def send_contact_mail(email,subject,message):
+    template = 'mailers/contact_mail.html'
+    subject = "Query - "+subject
+    context = {
+        'email': email,
+        'message':message
+    }
+    body = render_to_string(template,context=context)
+    send_mail(settings.EMAIL_HOST_USER,subject,body)
+

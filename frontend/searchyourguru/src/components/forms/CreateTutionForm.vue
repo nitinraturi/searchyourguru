@@ -172,7 +172,7 @@
           <button
             type="submit"
             class="button is-link is-outlined"
-            v-bind:class="{ is_loading: is_loading }"
+            v-bind:class="{ 'is-loading': is_loading }"
             v-on:submit.prevent="create_tution"
           >
             Create
@@ -226,7 +226,7 @@ export default {
             response => {
               this.suggested_cities = response.data.data
             },
-            err => console.log(err)
+            () => {}
           )
       }
     },

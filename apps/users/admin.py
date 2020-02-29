@@ -45,5 +45,11 @@ class AllZipCodeAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'zipcode', 'po_name')
 
 
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ['id', 'email', 'subject', 'created_at']
+    list_display_links = ['id', 'email']
+
+
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(AllZipCode, AllZipCodeAdmin)
+admin.site.register(Contact, ContactAdmin)
