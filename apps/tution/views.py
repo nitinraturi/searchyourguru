@@ -21,6 +21,16 @@ class TutionViewSet(viewsets.ViewSet):
         serializer.save(tutor=request.user)
         return Response({'status': 1}, status=status.HTTP_200_OK)
 
+    @action(detail=False, methods=['post'], url_name="update_tution", url_path="update", permission_classes=[IsAuthenticated])
+    def update_tution(self, request):
+        data = request.data
+        tution = tution_selectors.get_tution(data.get('id'))
+        serializer = TutionUpdateSerializer(tution, data=request.data, context={
+                                            'request': request, 'tution': tution})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'ok': 1}, status=status.HTTP_200_OK)
+
     @action(detail=False, methods=['get'], url_name="tution_list", url_path="list", permission_classes=[IsAuthenticated])
     def tution_list(self, request):
         serializer = TutionListSerializer(

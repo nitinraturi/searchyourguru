@@ -20,6 +20,13 @@ TUTION_TIMINGS = (
     (EVENING, "Evening")
 )
 
+PRIVATE_TUTION = 1
+GROUP_TUTION = 2
+
+TUTION_TYPES = (
+    (PRIVATE_TUTION,"Private Tution"),
+    (GROUP_TUTION,"Group Tution")
+)
 AT_TUTOR_HOME = 1
 AT_STUDENT_HOME = 2
 AT_INSTITUTE = 3

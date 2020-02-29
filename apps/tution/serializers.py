@@ -74,6 +74,20 @@ class TutionCreateSerializer(serializers.ModelSerializer):
         return data
 
 
+class TutionUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tution
+        fields = ('title','price','description','timing','location','is_active')
+
+    def validate(self, data):
+        request = self.context.get('request')
+        tution = self.context.get('tution')
+        if tution is None:
+            raise serializers.ValidationError({'detail':'Invalid tution'})
+        elif request.user.id != tution.tutor.id:
+            raise serializers.ValidationError({'detail': 'Not a valid tutor'})
+        return data
+
 class TutionRequestSerializer(serializers.ModelSerializer):
     phone = serializers.CharField(min_length=10, max_length=10)
 

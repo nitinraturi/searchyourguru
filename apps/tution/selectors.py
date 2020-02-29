@@ -101,7 +101,7 @@ def get_suggested_subjects(subject_keyword):
 
 
 def get_tutions(user):
-    return Tution.objects.filter(is_active=True, tutor=user)
+    return Tution.objects.filter(tutor=user)
 
 
 def get_tution(id):

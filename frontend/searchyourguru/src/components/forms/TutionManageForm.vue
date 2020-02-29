@@ -6,7 +6,7 @@
           <tr>
             <td>Tution Id</td>
             <td>Title</td>
-            <td>Last Updated</td>
+            <td>Status</td>
             <td>Application Received</td>
             <td></td>
             <td></td>
@@ -16,11 +16,18 @@
           <tr v-for="t in tution_list" :key="t.id">
             <td>{{ t.id }}</td>
             <td>{{ t.title }}</td>
-            <td>{{ t.updated_at }}</td>
+            <td>
+              <span v-if="t.is_active == true" class="tag"
+                >Active</span
+              >
+              <span v-if="t.is_active == false" class="tag is-danger"
+                >Disabled</span
+              >
+            </td>
             <td>
               <span
                 v-if="t.applications.length > 0"
-                class="tag is-danger is-rounded"
+                class="tag is-success is-rounded"
                 >{{ t.applications.length }}</span
               >
               <span v-if="t.applications.length == 0" class="">{{
@@ -68,16 +75,146 @@
       <div class="modal-content">
         <div class="card box is-paddingless is-small">
           <div class="card-content">
-            <h1 class="title has-text-centered is-5">Tution Details</h1>
-            <p><b>Title</b>: {{ tution.title }}</p>
-            <p><b>Price</b>: {{ tution.price }}</p>
-            <p><b>Area</b>: {{ tution.area }}</p>
-            <p><b>Batch Size</b>: {{ tution.batch_size }}</p>
-            <p><b>Create At</b>: {{ tution.created_at }}</p>
-            <p><b>Updated At</b>: {{ tution.updated_at }}</p>
-            <p><b>Subject</b>: {{ tution.category.name }}</p>
-            <p><b>Description</b></p>
-            <p>{{ tution.description }}</p>
+            <form v-on:submit.prevent="update_tution">
+              <div class="columns is-multiline is-mobile">
+                <div class="column is-full">
+                  <label class="label">Title</label>
+                  <div class="field">
+                    <p class="control">
+                      <input
+                        v-model="tution.title"
+                        class="input"
+                        type="text"
+                        required
+                        :disabled="tution_update_mode == false"
+                      />
+                    </p>
+                  </div>
+                </div>
+                <div class="column is-full">
+                  <div class="field">
+                    <label class="label">Description</label>
+                    <div class="control">
+                      <textarea
+                        class="textarea"
+                        v-model="tution.description"
+                        :disabled="tution_update_mode == false"
+                        required
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-full">
+                  <div class="columns is-multiline is-mobile">
+                    <div class="column is-6">
+                      <div class="field">
+                        <label class="label">Preferred Timings</label>
+                        <div class="control">
+                          <div class="select is-fullwidth">
+                            <select
+                              v-model="tution.timing"
+                              :disabled="tution_update_mode == false"
+                              required
+                            >
+                              <option value="2">Morning</option>
+                              <option value="3">Afternoon</option>
+                              <option value="4">Evening</option>
+                              <option value="1">Anytime (7 AM - 7 PM)</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="column is-6">
+                      <div class="field">
+                        <label class="label">Hourly Price</label>
+                        <div class="control">
+                          <input
+                            type="number"
+                            class="input"
+                            v-model="tution.price"
+                            :disabled="tution_update_mode == false"
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-full">
+                  <div class="columns is-multiline is-mobile">
+                    <div class="column is-6">
+                      <div class="field">
+                        <label class="label">Location Preference</label>
+                        <div class="control">
+                          <div class="select is-fullwidth">
+                            <select
+                              v-model="tution.location"
+                              :disabled="tution_update_mode == false"
+                              required
+                            >
+                              <option value="1">At Tutor Home</option>
+                              <option value="2">At Student Home</option>
+                              <option value="3">At Institute</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="column is-6">
+                      <div class="field">
+                        <label class="label">Tution Status</label>
+                        <div class="control">
+                          <div class="select is-fullwidth">
+                            <select
+                              v-model="tution.is_active"
+                              :disabled="tution_update_mode == false"
+                              required
+                            >
+                              <option value="true">Active</option>
+                              <option value="false">Disabled</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-full">
+                  <div class="columns is-multiline is-mobile">
+                    <div class="column is-4">
+                      <b>Area</b>: {{ tution.area }}
+                    </div>
+                    <div class="column is-4">
+                      <b>Subject</b>: {{ tution.category.name }}
+                    </div>
+                    <div class="column is-4">
+                      <b>Batch Size</b>: {{ tution.batch_size }}
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-full">
+                  <button
+                    v-if="tution_update_mode == false"
+                    type="button"
+                    class="button is-danger is-outlined"
+                    v-bind:class="{ is_loading: is_loading }"
+                    v-on:click.prevent="ToggleUpdateMode(true)"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    v-if="tution_update_mode == true"
+                    type="submit"
+                    class="button is-link is-outlined"
+                    v-bind:class="{ is_loading: is_loading }"
+                    v-on:submit.prevent="update_tution"
+                  >
+                    Update
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -142,7 +279,9 @@ export default {
       tution_list: [],
       quickview: false,
       tution: null,
-      applications: []
+      applications: [],
+      tution_update_mode: false,
+      is_loading: false
     }
   },
   mounted: function() {
@@ -152,6 +291,9 @@ export default {
     SetViewState: function(tution) {
       this.tution = tution
       this.quickview = true
+    },
+    ToggleUpdateMode: function(mode) {
+      this.tution_update_mode = mode
     },
     SetApplicationsState: function(applications) {
       this.applications = applications
@@ -174,6 +316,36 @@ export default {
             // console.log(err)
           }
         )
+    },
+    update_tution: function() {
+      if (this.tution != null) {
+        this.is_loading = true
+        axios
+          .post(
+            this.get_endpoint(this.endpoints.tution_update),
+            {
+              id: this.tution.id,
+              price: this.tution.price,
+              title: this.tution.title,
+              description: this.tution.description,
+              timing: this.tution.timing,
+              location: this.tution.location,
+              is_active: this.tution.is_active
+            },
+            this.get_headers()
+          )
+          .then(
+            () => {
+              this.HideQuickView()
+              this.get_request_list()
+              this.is_loading = false
+              this.tution_update_mode = false
+            },
+            () => {
+              this.is_loading = false
+            }
+          )
+      }
     }
   },
   mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin]

@@ -22,19 +22,19 @@ if (search_filters) {
   store.state.search_filters = JSON.parse(search_filters)
 }
 
-const app = new Vue({
+new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
 
-router.beforeEach((to, from, next) => {
-  if (to.name) {
-    app.$store.commit('setLoading', true)
-  }
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   if (to.name) {
+//     app.$store.commit('setLoading', true)
+//   }
+//   next()
+// })
 
-router.afterEach(() => {
-  app.$store.commit('setLoading', false)
-})
+// router.afterEach(() => {
+//   app.$store.commit('setLoading', false)
+// })

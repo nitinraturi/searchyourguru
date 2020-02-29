@@ -7,7 +7,7 @@
     >
       <!-- Email -->
       <div class="field">
-        <p class="control has-icons-left has-icons-right">
+        <p class="control">
           <input
             v-model="general_settings.user_email"
             class="input"
@@ -16,12 +16,6 @@
             required
             disabled
           />
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <span class="icon is-small is-right">
-            <i class="fas fa-check"></i>
-          </span>
         </p>
         <p
           class="help is-danger"
@@ -33,7 +27,7 @@
 
       <!-- Phone -->
       <div class="field">
-        <p class="control has-icons-left has-icons-right">
+        <p class="control">
           <input
             v-model="general_settings.user_phone"
             class="input"
@@ -42,12 +36,6 @@
             required
             disabled
           />
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <span class="icon is-small is-right">
-            <i class="fas fa-check"></i>
-          </span>
         </p>
         <p
           class="help is-danger"
@@ -59,7 +47,7 @@
 
       <!-- Name -->
       <div class="field">
-        <p class="control has-icons-left has-icons-right">
+        <p class="control">
           <input
             v-model="general_settings.user_name"
             class="input"
@@ -68,12 +56,6 @@
             required
             v-bind:disabled="general_settings.edit_mode == false"
           />
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <span class="icon is-small is-right">
-            <i class="fas fa-check"></i>
-          </span>
         </p>
         <p
           class="help is-danger"

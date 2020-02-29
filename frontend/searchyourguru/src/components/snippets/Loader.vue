@@ -4,9 +4,9 @@
     <div class="modal-content" style="overflow:hidden">
       <center>
         <!-- <div class="loader"></div> -->
-        <p class="has-text-white">Loading SYG</p>
+        <!-- <p class="has-text-white">Loading SYG</p> -->
         <button
-          class="button is-medium is-link is-outlined is-rounded is-loading"
+          class="button is-small is-link is-outlined is-rounded is-loading"
         >
           Loading
         </button>
