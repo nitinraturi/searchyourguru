@@ -27,7 +27,7 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
-            <router-link class="navbar-item" to="/">FAQ</router-link>
+            <!-- <router-link class="navbar-item" to="/">FAQ</router-link> -->
           </div>
           <div class="navbar-end">
             <router-link
@@ -107,6 +107,7 @@ export default {
             localStorage.removeItem('guru-user-token')
             localStorage.removeItem('guru-user-token-refresh')
             localStorage.removeItem('syg_user_type')
+            this.$store.state.user.user_type = "anonymous"
             this.$store.state.isAuthenticated = false
             this.$router.push('/login/')
           },
