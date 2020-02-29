@@ -61,7 +61,7 @@
               <button
                 type="submit"
                 v-on:submit.prevent="search"
-                class="button is-link is-outlined"
+                class="button is-info is-outlined"
                 v-bind:class="{ 'is-loading': is_search_loading }"
               >
                 Search

@@ -3,17 +3,20 @@
     <Navbar />
     <!-- <Loader /> -->
     <router-view />
+    <Footer />>
   </div>
 </template>
 
 <script>
 import Navbar from '@/components/snippets/Navbar.vue'
+import Footer from '@/components/snippets/Footer.vue'
 // import Loader from '@/components/snippets/Loader.vue'
 
 export default {
   name: 'App',
   components: {
-    Navbar
+    Navbar,
+    Footer
     // Loader
   }
 }
@@ -22,7 +25,8 @@ export default {
 <style>
 body {
   background: #f5f4f3 !important;
-  font-size: 0.95em !important;
+  font-size: 0.9em !important;
+  font-family: Avenir, 'Open Sans', sans-serif;
 }
 
 .box {
