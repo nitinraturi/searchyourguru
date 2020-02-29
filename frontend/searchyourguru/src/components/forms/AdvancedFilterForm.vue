@@ -225,9 +225,7 @@ export default {
             response => {
               this.$store.state.filtered_tutions = response.data.data
             },
-            error => {
-              console.log(error)
-            }
+            () => {}
           )
       }
     },
@@ -254,7 +252,7 @@ export default {
             response => {
               this.suggested_cities = response.data.data
             },
-            err => console.log(err)
+            () => {}
           )
       }
     },
@@ -274,7 +272,7 @@ export default {
             response => {
               this.suggested_subjects = response.data.data
             },
-            err => console.log(err)
+            () => {}
           )
       }
     },
@@ -334,13 +332,12 @@ export default {
           )
           .then(
             response => {
-              console.log(response)
               this.$store.state.filtered_tutions = response.data.data
               this.is_search_loading = false
+              this.$emit('filters_applied')
             },
-            error => {
+            () => {
               this.is_search_loading = false
-              console.log(error)
             }
           )
       }

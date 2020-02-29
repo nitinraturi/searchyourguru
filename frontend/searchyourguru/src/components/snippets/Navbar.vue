@@ -107,7 +107,7 @@ export default {
             localStorage.removeItem('guru-user-token')
             localStorage.removeItem('guru-user-token-refresh')
             localStorage.removeItem('syg_user_type')
-            this.$store.state.user.user_type = "anonymous"
+            this.$store.state.user.user_type = 'anonymous'
             this.$store.state.isAuthenticated = false
             this.$router.push('/login/')
           },

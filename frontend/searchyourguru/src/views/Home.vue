@@ -17,7 +17,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" v-if="isAuthenticated == false">
       <div class="container">
         <center>
           <router-link to="/signup/" class="button is-success">
@@ -45,7 +45,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" v-if="isAuthenticated == false">
       <div class="container">
         <center>
           <router-link to="/signup/" class="button is-success">
@@ -81,6 +81,11 @@ export default {
   name: 'home',
   components: {
     FilterForm
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.state.isAuthenticated
+    }
   }
 }
 </script>

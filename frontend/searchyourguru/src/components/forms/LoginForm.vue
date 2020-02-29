@@ -147,7 +147,9 @@ export default {
               localStorage.setItem('syg_user_type', response.data.user_type)
               this.$store.state.user.user_type = response.data.user_type
               this.$store.state.isAuthenticated = true
-              if (this.redirectTo != null) {
+              if (this.$store.getters.user_type == 'tutor') {
+                this.$router.push('/dashboard/')
+              } else if (this.redirectTo != null) {
                 this.$router.push(this.redirectTo)
               }
             },

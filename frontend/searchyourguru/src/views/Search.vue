@@ -2,12 +2,14 @@
   <div id="search_app">
     <div>
       <a
+        v-if="isActiveFilterQuickView == false"
         v-on:click.prevent.stop="show_mobile_filter"
         class="filter_icon_mobile is-hidden-desktop"
       >
         <figure class="image is-48x48">
           <img src="@/assets/filter.svg" alt="" />
         </figure>
+        <p class="is-size-7 has-text-centered">Filters</p>
       </a>
       <div
         class="modal"
@@ -17,7 +19,7 @@
         <div class="modal-content">
           <div class="card box">
             <div class="card-content">
-              <AdvancedFilterForm />
+              <AdvancedFilterForm @filters_applied="hide_mobile_filter" />
             </div>
           </div>
         </div>
@@ -250,5 +252,6 @@ html {
   position: fixed;
   bottom: 20px;
   right: 10px;
+  z-index: 999;
 }
 </style>

@@ -79,9 +79,3 @@ class TutionViewSet(viewsets.ViewSet):
         queryset = tution_selectors.tution_applied_requests(request.user)
         serializer = TutionAppliedSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    @action(detail=False, methods=['get'], url_name="tution_applications", url_path="tution-applications", permission_classes=[IsAuthenticated])
-    def tution_applications(self, request):
-        queryset = None
-        seriailzer = None
-        return Response(seriailzer.data, status=status.HTTP_200_OK)

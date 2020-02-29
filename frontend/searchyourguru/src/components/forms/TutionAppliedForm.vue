@@ -6,7 +6,7 @@
           <tr>
             <td>Tution Id</td>
             <td>Title</td>
-            <td>Last Updated</td>
+            <td>Applied On</td>
             <td>Status</td>
             <td></td>
             <td></td>
@@ -16,13 +16,13 @@
           <tr v-for="t in tution_list" :key="t.id">
             <td>{{ t.tution.id }}</td>
             <td>{{ t.tution.title }}</td>
-            <td>{{ t.tution.updated_at }}</td>
+            <td>{{ t.updated_at }}</td>
             <td>
               <span v-if="t.is_accepted == true" class="has-text-success"
                 >Accepted</span
               >
               <span v-if="t.is_accepted == false" class="has-text-danger"
-                >Pending</span
+                >Wait for tutor to contact you</span
               >
             </td>
             <td>

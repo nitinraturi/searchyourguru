@@ -45,7 +45,6 @@ class Tution(models.Model):
     location = models.PositiveSmallIntegerField(
         choices=tution_constants.LOCATION_PREFERENCE)
     batch_size = models.IntegerField(default=1)
-    # tution_type = models.PositiveSmallIntegerField(choices=tution_constants.TUTION_TYPES)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

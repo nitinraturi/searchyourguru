@@ -17,9 +17,7 @@
             <td>{{ t.id }}</td>
             <td>{{ t.title }}</td>
             <td>
-              <span v-if="t.is_active == true" class="tag"
-                >Active</span
-              >
+              <span v-if="t.is_active == true" class="tag">Active</span>
               <span v-if="t.is_active == false" class="tag is-danger"
                 >Disabled</span
               >

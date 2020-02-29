@@ -50,6 +50,10 @@ class TutionListSerializer(serializers.ModelSerializer):
     tutor = users_serializers.UserGuestSerializer()
     category = CategorySerializer()
     applications = serializers.SerializerMethodField('get_applications')
+    created_at = serializers.SerializerMethodField()
+
+    def get_created_at(self,obj):
+        return obj.updated_at.strftime("%Y-%m-%d")
 
     class Meta:
         model = Tution
@@ -77,16 +81,18 @@ class TutionCreateSerializer(serializers.ModelSerializer):
 class TutionUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tution
-        fields = ('title','price','description','timing','location','is_active')
+        fields = ('title', 'price', 'description',
+                  'timing', 'location', 'is_active')
 
     def validate(self, data):
         request = self.context.get('request')
         tution = self.context.get('tution')
         if tution is None:
-            raise serializers.ValidationError({'detail':'Invalid tution'})
+            raise serializers.ValidationError({'detail': 'Invalid tution'})
         elif request.user.id != tution.tutor.id:
             raise serializers.ValidationError({'detail': 'Not a valid tutor'})
         return data
+
 
 class TutionRequestSerializer(serializers.ModelSerializer):
     phone = serializers.CharField(min_length=10, max_length=10)
@@ -115,6 +121,10 @@ class TutionRequestSerializer(serializers.ModelSerializer):
 class TutionAppliedSerializer(serializers.ModelSerializer):
     tution = TutionListSerializer()
     student = users_serializers.UserGuestSerializer()
+    updated_at = serializers.SerializerMethodField()
+
+    def get_updated_at(self,obj):
+        return obj.updated_at.strftime("%Y-%m-%d")
 
     class Meta:
         model = TutionRequest
