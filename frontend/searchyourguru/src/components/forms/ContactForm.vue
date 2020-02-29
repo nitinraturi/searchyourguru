@@ -11,61 +11,77 @@
       v-if="is_submitted == false"
       v-on:submit.prevent="submit_contact_form"
     >
-      <div class="field">
-        <label class="label">Name</label>
-        <div class="control">
-          <input
-            type="text"
-            :disabled="is_loading == true"
-            v-model="contact.name"
-            class="input"
-            required
-          />
+      <div class="columns is-multiline">
+        <div class="column is-full">
+          <div class="columns is-mobile">
+            <div class="column is-6">
+              <div class="field">
+                <label class="label">Name</label>
+                <div class="control">
+                  <input
+                    type="text"
+                    :disabled="is_loading == true"
+                    v-model="contact.name"
+                    class="input"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="column is-6">
+              <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                  <input
+                    type="email"
+                    :disabled="is_loading == true"
+                    v-model="contact.email"
+                    class="input"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column is-full">
+          <div class="field">
+            <label class="label">Subject</label>
+            <div class="control">
+              <input
+                type="text"
+                :disabled="is_loading == true"
+                v-model="contact.subject"
+                class="input"
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <div class="column is-full">
+          <div class="field">
+            <label class="label">Message</label>
+            <div class="control">
+              <textarea
+                class="textarea"
+                v-model="contact.message"
+                :disabled="is_loading == true"
+                required
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="column is-full">
+          <button
+            type="submit"
+            class="button is-link is-outlined"
+            v-bind:class="{ 'is-loading': is_loading }"
+            v-on:submit.prevent="submit_contact_form"
+          >
+            Submit
+          </button>
         </div>
       </div>
-      <div class="field">
-        <label class="label">Email</label>
-        <div class="control">
-          <input
-            type="email"
-            :disabled="is_loading == true"
-            v-model="contact.email"
-            class="input"
-            required
-          />
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Subject</label>
-        <div class="control">
-          <input
-            type="text"
-            :disabled="is_loading == true"
-            v-model="contact.subject"
-            class="input"
-            required
-          />
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Message</label>
-        <div class="control">
-          <textarea
-            class="textarea"
-            v-model="contact.message"
-            :disabled="is_loading == true"
-            required
-          ></textarea>
-        </div>
-      </div>
-      <button
-        type="submit"
-        class="button is-link is-outlined"
-        v-bind:class="{ 'is-loading': is_loading }"
-        v-on:submit.prevent="submit_contact_form"
-      >
-        Submit
-      </button>
     </form>
   </div>
 </template>
