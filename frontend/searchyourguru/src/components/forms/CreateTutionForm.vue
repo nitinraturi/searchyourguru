@@ -72,9 +72,11 @@
               <div class="field">
                 <label class="label">Subject</label>
                 <div class="control">
+                  <p class="help is-small is-danger" v-if="tution_subject_success != null">{{ tution_subject_success }}</p>
                   <input
                     type="text"
                     class="input"
+                    id="subject-list"
                     list="subjects_list"
                     v-on:keyup="subject_keyword_changed"
                     v-model="tution.category"
@@ -205,6 +207,7 @@ export default {
       },
       tution_created: false,
       is_loading: false,
+      tution_subject_success: null,
       suggested_subjects: [],
       suggested_cities: []
     }
@@ -232,8 +235,8 @@ export default {
     },
     subject_keyword_changed: function() {
       if (
-        this.tution.category != null &&
-        this.tution.category != '' &&
+        (this.tution.category != null &&
+        this.tution.category != '') ||
         this.tution.category.length > 2
       ) {
         axios
@@ -245,6 +248,14 @@ export default {
           .then(
             response => {
               this.suggested_subjects = response.data.data
+              for (let subject of this.suggested_subjects) {
+                if (parseInt(this.tution.category) !== parseInt(subject.id)) {
+                    this.tution_subject_success = 'Please select a valid option'
+                } else {
+                    this.tution_subject_success = ''
+                    break
+                }
+              }
             },
             err => console.log(err)
           )
