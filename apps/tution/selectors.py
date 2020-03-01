@@ -3,6 +3,7 @@ from . import constants as tution_constants
 from apps.users import constants as user_constants
 from apps.users import models as users_models
 from django.db.models import Q
+from django.core.cache import cache
 
 
 def get_categories():
@@ -80,25 +81,34 @@ def get_suggested_cities(location_keyword):
         zipcode = False
 
     if zipcode != False:
+        zipcode = int(zipcode)
         data = users_models.AllZipCode.objects.filter(
-            zipcode__icontains=int(zipcode))
+            Q(zipcode__search=zipcode) |
+            Q(zipcode__istartswith=zipcode)
+        )
     else:
         data = users_models.AllZipCode.objects.filter(
+            Q(po_name__search=location_keyword) |
+            Q(district__search=location_keyword) |
+            Q(city__search=location_keyword) |
             Q(po_name__istartswith=location_keyword) |
             Q(district__istartswith=location_keyword) |
             # Q(country__istartswith=location_keyword) |
             # Q(state__istartswith=location_keyword) |
             Q(city__istartswith=location_keyword)
         )
-    return data
+    return data.distinct('po_name')
 
 
 def get_suggested_subjects(subject_keyword):
     subjects = Category.objects.filter(
-        Q(name__icontains=subject_keyword) |
-        Q(code__icontains=subject_keyword) |
+        Q(name__search=subject_keyword) |
+        Q(code__search=subject_keyword) |
+        Q(name__istartswith=subject_keyword) |
+        Q(code__istartswith=subject_keyword) |
         Q(tag_type=tution_constants.TAG) |
-        Q(tag_type=tution_constants.SEARCH_TAG))
+        Q(tag_type=tution_constants.SEARCH_TAG)
+    )
 
     return subjects
 

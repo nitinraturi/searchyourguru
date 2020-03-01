@@ -1,32 +1,21 @@
 <template>
   <div id="home_view" class="has-background-white">
-    <div class="columns is-multiline">
-      <div class="column is-9">
-        <section class="hero is-info is-bold is-medium">
-          <div class="hero-body">
-            <div class="container-fluid">
-              <div class="columns is-centered">
-                <div class="column is-8">
-                  <p class="title is-5">
-                    Search for a tuition - Enter locality or pincode and subject
-                  </p>
-                  <div class="box">
-                    <FilterForm />
-                  </div>
-                </div>
+    <section class="hero is-info is-bold is-medium">
+      <div class="hero-body">
+        <div class="container-fluid">
+          <div class="columns is-centered">
+            <div class="column is-8">
+              <p class="title is-5">
+                Search for a tuition - Enter locality or pincode and subject
+              </p>
+              <div class="box">
+                <FilterForm />
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </div>
-      <div class="column is-3">
-        <section class="section is-hidden-mobile">
-          <figure class="image is-256x256">
-            <img src="@/assets/classroom.svg" alt="" />
-          </figure>
-        </section>
-      </div>
-    </div>
+    </section>
 
     <section class="section">
       <div class="container">
@@ -124,7 +113,7 @@
                 <div class="columns is-mobile">
                   <div class="column is-2">
                     <p class="subtitle">
-                      <span class="tag is-link is-rounded is-large">1</span>
+                      <span class="tag is-link is-rounded">1</span>
                     </p>
                   </div>
                   <div class="column is-10">
@@ -144,7 +133,7 @@
                 <div class="columns is-mobile">
                   <div class="column is-2">
                     <p class="subtitle">
-                      <span class="tag is-link is-rounded is-large">2</span>
+                      <span class="tag is-link is-rounded">2</span>
                     </p>
                   </div>
                   <div class="column is-10">
@@ -162,7 +151,7 @@
                 <div class="columns is-mobile">
                   <div class="column is-2">
                     <p class="subtitle">
-                      <span class="tag is-link is-rounded is-large">3</span>
+                      <span class="tag is-link is-rounded">3</span>
                     </p>
                   </div>
                   <div class="column is-10">
@@ -179,7 +168,7 @@
                 <div class="columns is-mobile">
                   <div class="column is-2">
                     <p class="subtitle">
-                      <span class="tag is-link is-rounded is-large">4</span>
+                      <span class="tag is-link is-rounded">4</span>
                     </p>
                   </div>
                   <div class="column is-10">

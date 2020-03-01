@@ -19,7 +19,7 @@
                   v-for="city in suggested_cities"
                   :key="city.id"
                   :value="city.po_name"
-                  >{{ city.po_name }}</option
+                  >{{ city.zipcode }} {{ city.po_name }}</option
                 >
               </datalist>
             </div>
@@ -84,6 +84,7 @@ export default {
     return {
       is_search_loading: false,
       location_keyword: '',
+      pre_location_keyword_len: 0,
       category: '',
       location_keyword_error: null,
       category_error: null,
@@ -102,8 +103,10 @@ export default {
       if (
         this.location_keyword != null &&
         this.location_keyword != '' &&
-        this.location_keyword.length > 3
+        this.location_keyword.length > 3 &&
+        this.location_keyword.length != this.pre_location_keyword_len
       ) {
+        this.pre_location_keyword_len = this.location_keyword.length
         axios
           .post(
             this.get_endpoint(this.endpoints.suggested_cities),

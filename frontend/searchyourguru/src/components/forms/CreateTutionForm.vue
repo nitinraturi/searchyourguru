@@ -62,7 +62,7 @@
                       v-for="city in suggested_cities"
                       :key="city.id"
                       :value="city.po_name"
-                      >{{ city.po_name }}</option
+                      >{{ city.zipcode }} {{ city.po_name }}</option
                     >
                   </datalist>
                 </div>
@@ -94,7 +94,7 @@
                       v-for="sub in suggested_subjects"
                       :key="sub.id"
                       :value="sub.id"
-                      >{{ sub.name }}</option
+                      >{{ sub.id }} - {{ sub.name }}</option
                     >
                   </datalist>
                 </div>

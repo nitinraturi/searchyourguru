@@ -24,7 +24,8 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('is_staff', 'is_active', 'is_superuser', 'user_type')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active', 'user_type','is_superuser', 'groups', 'user_permissions')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active',
+                                    'user_type', 'is_superuser', 'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
     add_fieldsets = (
@@ -42,7 +43,7 @@ class CustomUserAdmin(UserAdmin):
 
 class AllZipCodeAdmin(admin.ModelAdmin):
     list_display = ('id', 'zipcode', 'po_name', 'latitude',
-                    'longitude', 'district', 'state', 'country')
+                    'longitude', 'city', 'district', 'state', 'country')
     search_fields = ('zipcode',)
     list_display_links = ('id', 'zipcode', 'po_name')
 

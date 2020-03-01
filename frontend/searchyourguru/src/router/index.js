@@ -21,7 +21,8 @@ const routes = [
       metaTags: [
         {
           name: 'description',
-          content: 'SearchYourGuru lets tutor to post tution details and student to search for a tution'
+          content:
+            'SearchYourGuru lets tutor to post tution details and student to search for a tution'
         },
         {
           property: 'og:type',
@@ -47,11 +48,12 @@ const routes = [
     name: 'search',
     component: Search,
     meta: {
-      title: 'SearchYourGuru Search Tution',
+      title: 'Tuitions & Tutors - SearchYourGuru',
       metaTags: [
         {
           name: 'description',
-          content: 'SearchYourGuru lets students to search tutions for a subject'
+          content:
+            'SearchYourGuru lets students to search tutions for a subject'
         },
         {
           property: 'og_type',
@@ -77,11 +79,11 @@ const routes = [
     name: 'login',
     component: Login,
     meta: {
-      title: 'SearchYourGuru Login',
+      title: 'Login - SearchYourGuru',
       metaTags: [
         {
           name: 'description',
-          content: 'SearchYourGuru Sign in or Log In as a student or tutor'
+          content: 'Login, Signup - SearchYourGuru'
         },
         {
           property: 'og_type',
@@ -107,11 +109,12 @@ const routes = [
     name: 'signup',
     component: Signup,
     meta: {
-      title: 'SearchYourGuru Sign Up | Registration',
+      title: 'Signup, Registration - Searchyourguru',
       metaTags: [
         {
           name: 'description',
-          content: 'SearchYourGuru Sign Up or Register as a student or tutor'
+          content:
+            'Register as tutor or student, create an account - SearchYourGuru'
         },
         {
           property: 'og_type',
@@ -141,7 +144,7 @@ const routes = [
       metaTags: [
         {
           name: 'description',
-          content: 'SearchYourGuru email verification for users'
+          content: 'Email Verification - SearchYourGuru'
         },
         {
           property: 'og_type',
@@ -167,11 +170,11 @@ const routes = [
     name: 'password_reset',
     component: PasswordReset,
     meta: {
-      title: 'SearchYourGuru password reset',
+      title: 'Forgot Password - SearchYourGuru',
       metaTags: [
         {
           name: 'description',
-          content: 'SearchYourGuru user password reset or forgot password'
+          content: 'Reset your password, forgot password - SearchYourGuru'
         },
         {
           property: 'og_type',
@@ -197,11 +200,11 @@ const routes = [
     name: 'dashboard',
     component: Dashboard,
     meta: {
-      title: 'SearchYourGuru Dashboard',
+      title: 'Dashboard - SearchYourGuru',
       metaTags: [
         {
           name: 'description',
-          content: 'SearchYourGuru lets you create tution and modify tution details'
+          content: 'Manage Tuitions, account - SearchYourGuru'
         },
         {
           property: 'og:type',
@@ -220,34 +223,42 @@ const routes = [
   }
 ]
 
-
 const router = new VueRouter({
   routes,
   mode: 'history'
 })
 
 router.beforeEach((to, from, next) => {
-  const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title)
-  const nearestWithMeta = to.matched.slice().reverse().find(r => r.meta && r.meta.metaTags)
+  const nearestWithTitle = to.matched
+    .slice()
+    .reverse()
+    .find(r => r.meta && r.meta.title)
+  const nearestWithMeta = to.matched
+    .slice()
+    .reverse()
+    .find(r => r.meta && r.meta.metaTags)
 
-  if(nearestWithTitle) document.title = nearestWithTitle.meta.title
+  if (nearestWithTitle) document.title = nearestWithTitle.meta.title
 
-  Array.from(document.querySelectorAll('[data-vue-router-controlled]')).map(el => el.parentNode.removeChild(el))
+  Array.from(
+    document.querySelectorAll('[data-vue-router-controlled]')
+  ).map(el => el.parentNode.removeChild(el))
 
-  if(!nearestWithMeta) return next()
+  if (!nearestWithMeta) return next()
 
-  nearestWithMeta.meta.metaTags.map(tagDef => {
-    const tag = document.createElement('meta')
+  nearestWithMeta.meta.metaTags
+    .map(tagDef => {
+      const tag = document.createElement('meta')
 
-    Object.keys(tagDef).forEach(key => {
-      tag.setAttribute(key, tagDef[key])
+      Object.keys(tagDef).forEach(key => {
+        tag.setAttribute(key, tagDef[key])
+      })
+
+      tag.setAttribute('data-vue-router-controlled', '')
+
+      return tag
     })
-
-    tag.setAttribute('data-vue-router-controlled', '')
-
-    return tag
-  })
-  .forEach(tag => document.head.appendChild(tag))
+    .forEach(tag => document.head.appendChild(tag))
   next()
 })
 
