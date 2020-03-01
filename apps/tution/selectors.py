@@ -74,30 +74,37 @@ def filtered_tution_data(**kwargs):
 
 
 def get_suggested_cities(location_keyword):
-    try:
-        isinstance(int(location_keyword), int)
-        zipcode = str(location_keyword)
-    except:
-        zipcode = False
+    cache_key = "location_"+location_keyword.replace(" ", "_")
+    data = cache.get(cache_key)
+    if data is None:
+        try:
+            isinstance(int(location_keyword), int)
+            zipcode = str(location_keyword)
+        except:
+            zipcode = False
 
-    if zipcode != False:
-        zipcode = int(zipcode)
-        data = users_models.AllZipCode.objects.filter(
-            Q(zipcode__search=zipcode) |
-            Q(zipcode__istartswith=zipcode)
-        )
+        if zipcode != False:
+            zipcode = int(zipcode)
+            data = users_models.AllZipCode.objects.filter(
+                Q(zipcode__search=zipcode) |
+                Q(zipcode__istartswith=zipcode)
+            )
+        else:
+            data = users_models.AllZipCode.objects.filter(
+                Q(po_name__search=location_keyword) |
+                Q(district__search=location_keyword) |
+                Q(city__search=location_keyword) |
+                Q(po_name__istartswith=location_keyword) |
+                Q(district__istartswith=location_keyword) |
+                # Q(country__istartswith=location_keyword) |
+                # Q(state__istartswith=location_keyword) |
+                Q(city__istartswith=location_keyword)
+            )
+        data = data.distinct('po_name')
+        cache.set(cache_key, data, 86400 * 365)
     else:
-        data = users_models.AllZipCode.objects.filter(
-            Q(po_name__search=location_keyword) |
-            Q(district__search=location_keyword) |
-            Q(city__search=location_keyword) |
-            Q(po_name__istartswith=location_keyword) |
-            Q(district__istartswith=location_keyword) |
-            # Q(country__istartswith=location_keyword) |
-            # Q(state__istartswith=location_keyword) |
-            Q(city__istartswith=location_keyword)
-        )
-    return data.distinct('po_name')
+        pass
+    return data
 
 
 def get_suggested_subjects(subject_keyword):

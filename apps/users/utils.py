@@ -23,26 +23,25 @@ def fetch_zipcode_from_api(zipcode):
 
 
 def fetch_zipcodes_from_excel_file(file_path):
-    df = pd.read_excel(file_path)
-    try:
-        for pincode in df['PINCODE']:
-            pincode_data = fetch_zipcode_from_api(pincode)
-            if pincode_data is not None:
-                for data in pincode_data:
-                    try:
-                        AllZipCode.objects.create(
-                            po_name=data['Name'],
-                            district=data['District'],
-                            state=data['State'],
-                            country=data['Country'],
-                            zipcode=data['Pincode']
-                        )
-                        # objects.append(obj)
-                    except:
-                        pass
+    df = pd.read_csv(file_path)
+    objects = []
+    for index, row in df.iterrows():
+        try:
+            data = {
+                'po_name': row['officename'],
+                'district': row['Districtname'],
+                'state': row['statename'],
+                'zipcode': row['pincode'],
+                'country': "India",
+            }
+            obj = AllZipCode(**data)
+            objects.append(obj)
+            if index+1 % 10000 == 0:
+                print(index+1)
+        except Exception as e:
+            print(e)
+            pass
 
-            else:
-                continue
-        return True
-    except:
-        return None
+    AllZipCode.objects.all().delete()
+    total = AllZipCode.objects.bulk_create(objects)
+    return total
