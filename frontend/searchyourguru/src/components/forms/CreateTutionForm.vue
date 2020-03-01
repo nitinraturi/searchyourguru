@@ -72,7 +72,12 @@
               <div class="field">
                 <label class="label">Subject</label>
                 <div class="control">
-                  <p class="help is-small is-danger" v-if="tution_subject_success != null">{{ tution_subject_success }}</p>
+                  <p
+                    class="help is-small is-danger"
+                    v-if="tution_subject_success != null"
+                  >
+                    {{ tution_subject_success }}
+                  </p>
                   <input
                     type="text"
                     class="input"
@@ -235,8 +240,7 @@ export default {
     },
     subject_keyword_changed: function() {
       if (
-        (this.tution.category != null &&
-        this.tution.category != '') ||
+        (this.tution.category != null && this.tution.category != '') ||
         this.tution.category.length > 2
       ) {
         axios
@@ -250,14 +254,14 @@ export default {
               this.suggested_subjects = response.data.data
               for (let subject of this.suggested_subjects) {
                 if (parseInt(this.tution.category) !== parseInt(subject.id)) {
-                    this.tution_subject_success = 'Please select a valid option'
+                  this.tution_subject_success = 'Please select a valid option'
                 } else {
-                    this.tution_subject_success = ''
-                    break
+                  this.tution_subject_success = ''
+                  break
                 }
               }
             },
-            err => console.log(err)
+            () => {}
           )
       }
     },
