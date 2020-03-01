@@ -24,6 +24,7 @@ if (search_filters) {
 
 new Vue({
   router,
+  template: '',
   store,
   render: h => h(App)
 }).$mount('#app')
