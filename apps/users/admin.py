@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.utils.translation import gettext, gettext_lazy as _
 from .models import *
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
@@ -23,7 +24,8 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('is_staff', 'is_active', 'is_superuser', 'user_type')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active', 'user_type')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'user_type','is_superuser', 'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
     add_fieldsets = (
         (None, {
