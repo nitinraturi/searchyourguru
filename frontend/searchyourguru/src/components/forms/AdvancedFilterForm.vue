@@ -199,11 +199,9 @@ export default {
       category: '',
       location_keyword_error: null,
       subject_keyword_error: null,
-      category_error: null,
       selected_locations: [],
       suggested_cities: [],
       suggested_subjects: [],
-      pre_location_keyword_len: 0,
       search: {
         location_keyword: '',
         category: '',
@@ -256,14 +254,15 @@ export default {
       this.search.gender = null
       this.search.location_preferences = []
     },
-    location_keyword_changed: function() {
+    location_keyword_changed: function(e) {
+      if (e.keyCode === 37 || e.keyCode === 39) {
+        console.log('arrow keys pressed')
+      } else {
       if (
-        this.search.location_keyword != null &&
-        this.search.location_keyword != '' &&
-        this.search.location_keyword.length > 3 &&
-        this.search.location_keyword.length != this.pre_location_keyword_len
+        (this.search.location_keyword != null &&
+        this.search.location_keyword != '') ||
+        this.search.location_keyword.length > 3
       ) {
-        this.pre_location_keyword_len = this.search.location_keyword.length
         axios
           .post(
             this.get_endpoint(this.endpoints.suggested_cities),
@@ -285,8 +284,12 @@ export default {
             () => {}
           )
       }
+     }
     },
-    subject_keyword_changed: function() {
+    subject_keyword_changed: function(e) {
+      if (e.keyCode === 37 || e.keyCode === 39) {
+        console.log('arrow keys pressed')
+      } else {
       if (
         (this.search.category != null &&
         this.search.category != '') ||
@@ -313,19 +316,10 @@ export default {
             () => {}
           )
       }
+     }
     },
     apply_search: function() {
-      let payload = {}
-      this.location_keyword_error = null
-      this.category_error = null
-      if (
-        this.search.location_keyword == null ||
-        this.search.location_keyword == ''
-      ) {
-        this.location_keyword_error = 'Please enter a valid city or zipcode'
-      } else if (this.search.category == null || this.search.category == '') {
-        this.category_error = 'Please enter a valid category'
-      } else {
+        let payload = {}
         payload['location_keyword'] = this.search.location_keyword
         payload['category'] = this.search.category
 
@@ -369,7 +363,6 @@ export default {
               this.is_search_loading = false
             }
           )
-      }
     }
   },
   mixins: [EndpointsMixin, RequestMixin]

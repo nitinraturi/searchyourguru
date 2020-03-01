@@ -80,7 +80,6 @@ export default {
     return {
       is_search_loading: false,
       location_keyword: '',
-      pre_location_keyword_len: 0,
       category: '',
       location_keyword_error: null,
       subject_keyword_error: null,
@@ -95,14 +94,15 @@ export default {
     }
   },
   methods: {
-    location_keyword_changed: function() {
+    location_keyword_changed: function(e) {
+      if (e.keyCode === 37 || e.keyCode === 39) {
+        console.log('arrow keys pressed')
+      } else {
       if (
-        this.location_keyword != null &&
-        this.location_keyword != '' &&
-        this.location_keyword.length > 3 &&
-        this.location_keyword.length != this.pre_location_keyword_len
-      ) {
-        this.pre_location_keyword_len = this.location_keyword.length
+        (this.location_keyword != null &&
+        this.location_keyword != '') ||
+        this.location_keyword.length > 3
+        ) {
         axios
           .post(
             this.get_endpoint(this.endpoints.suggested_cities),
@@ -124,11 +124,15 @@ export default {
             () => {}
           )
       }
+     }
     },
-    subject_keyword_changed: function() {
+    subject_keyword_changed: function(e) {
+      if (e.keyCode === 37 || e.keyCode === 39) {
+        console.log('arrow keys pressed')
+      } else {
       if (
-        this.category != null &&
-        this.category != '' &&
+        (this.category != null &&
+        this.category != '') ||
         this.category.length > 2
       ) {
         axios
@@ -152,6 +156,7 @@ export default {
             () => {}
           )
       }
+     }
     },
     search: function() {
         this.$store.state.search_filters.location_keyword = this.location_keyword
