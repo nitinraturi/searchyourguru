@@ -8,6 +8,7 @@
               >Pincode or City</label
             >
             <div class="control">
+              <p v-if="location_keyword_error != null" class="help is-small is-danger">{{ location_keyword_error }}</p>
               <input
                 type="text"
                 class="input is-small"
@@ -33,6 +34,7 @@
       <div class="field">
         <label for="#" class="label is-size-7 has-text-grey">Course</label>
         <div class="control">
+          <p v-if="subject_keyword_error != null" class="help is-small is-danger">{{ subject_keyword_error }}</p>
           <input
             type="text"
             class="input is-small"
@@ -196,6 +198,7 @@ export default {
       location_keyword: '',
       category: '',
       location_keyword_error: null,
+      subject_keyword_error: null,
       category_error: null,
       selected_locations: [],
       suggested_cities: [],
@@ -270,6 +273,14 @@ export default {
           .then(
             response => {
               this.suggested_cities = response.data.data
+              for (let city of this.suggested_cities) {
+                if (this.search.location_keyword !== city.po_name) {
+                    this.location_keyword_error = 'Please select a valid option'
+                } else {
+                    this.location_keyword_error = ''
+                    break
+                }
+              }
             },
             () => {}
           )
@@ -277,8 +288,8 @@ export default {
     },
     subject_keyword_changed: function() {
       if (
-        this.search.category != null &&
-        this.search.category != '' &&
+        (this.search.category != null &&
+        this.search.category != '') ||
         this.search.category.length > 2
       ) {
         axios
@@ -290,6 +301,14 @@ export default {
           .then(
             response => {
               this.suggested_subjects = response.data.data
+              for(let subject of this.suggested_subjects) {
+                if (this.search.category !== subject.name) {
+                    this.subject_keyword_error = 'Please select a valid option'
+                } else {
+                    this.subject_keyword_error = ''
+                    break
+                }
+              }
             },
             () => {}
           )
