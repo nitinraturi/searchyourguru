@@ -35,11 +35,11 @@ def filtered_tution_data(**kwargs):
         zipcode = str(location_keyword)
     except:
         zipcode = users_models.AllZipCode.objects.filter(
-            Q(po_name__icontains=location_keyword) |
-            Q(district__icontains=location_keyword) |
-            Q(country__icontains=location_keyword) |
-            Q(state__icontains=location_keyword) |
-            Q(city__icontains=location_keyword)
+            Q(po_name__istartswith=location_keyword) |
+            Q(district__istartswith=location_keyword) |
+            Q(country__istartswith=location_keyword) |
+            Q(state__istartswith=location_keyword) |
+            Q(city__istartswith=location_keyword)
         ).first()
         if zipcode is not None:
             zipcode = zipcode.zipcode
@@ -84,9 +84,12 @@ def get_suggested_cities(location_keyword):
             zipcode__icontains=int(zipcode))
     else:
         data = users_models.AllZipCode.objects.filter(
-            Q(po_name__icontains=location_keyword) |
-            Q(district__icontains=location_keyword) |
-            Q(state__icontains=location_keyword))
+            Q(po_name__istartswith=location_keyword) |
+            Q(district__istartswith=location_keyword) |
+            # Q(country__istartswith=location_keyword) |
+            # Q(state__istartswith=location_keyword) |
+            Q(city__istartswith=location_keyword)
+        )
     return data
 
 
