@@ -2,8 +2,8 @@
   <div id="app">
     <Navbar />
     <!-- <Loader /> -->
-    <router-view />
-    <Footer />>
+    <router-view></router-view>
+    <Footer />
   </div>
 </template>
 
