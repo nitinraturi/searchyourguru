@@ -6,6 +6,7 @@
           <div class="field">
             <label class="label">City or Pincode</label>
             <div class="control">
+              <p v-if="location_keyword_error != null" class="help is-small is-danger">{{ location_keyword_error }}</p>
               <input
                 type="text"
                 class="input"
@@ -23,15 +24,13 @@
                 >
               </datalist>
             </div>
-            <p class="help is-danger" v-if="location_keyword_error != null">
-              {{ location_keyword_error }}
-            </p>
           </div>
         </div>
         <div class="column is-5">
           <div class="field">
             <label class="label">Subject</label>
             <div class="control">
+              <p v-if="subject_keyword_error != null" class="help is-small is-danger">{{ subject_keyword_error }}</p>
               <input
                 type="text"
                 class="input"
@@ -49,9 +48,6 @@
                 >
               </datalist>
             </div>
-            <p class="help is-danger" v-if="category_error != null">
-              {{ category_error }}
-            </p>
           </div>
         </div>
         <div class="column is-2">
@@ -87,7 +83,7 @@ export default {
       pre_location_keyword_len: 0,
       category: '',
       location_keyword_error: null,
-      category_error: null,
+      subject_keyword_error: null,
       valid_search_entries: false,
       suggested_cities: [],
       suggested_subjects: []
@@ -116,6 +112,14 @@ export default {
           .then(
             response => {
               this.suggested_cities = response.data.data
+              for (let city of this.suggested_cities) {
+                if (this.location_keyword !== city.po_name) {
+                    this.location_keyword_error = 'Please select a valid option'
+                } else {
+                    this.location_keyword_error = ''
+                    break
+                }
+              }
             },
             () => {}
           )
@@ -136,19 +140,20 @@ export default {
           .then(
             response => {
               this.suggested_subjects = response.data.data
+              for (let subject of this.suggested_subjects) {
+                if (this.category !== subject.name) {
+                    this.subject_keyword_error = 'Please select a valid option'
+                } else {
+                    this.subject_keyword_error = ''
+                    break
+                }
+              }
             },
             () => {}
           )
       }
     },
     search: function() {
-      this.location_keyword_error = null
-      this.category_error = null
-      if (this.location_keyword == null || this.location_keyword == '') {
-        this.location_keyword_error = 'Please enter a valid city or zipcode'
-      } else if (this.category == null || this.category == '') {
-        this.category_error = 'Please enter a valid subject'
-      } else {
         this.$store.state.search_filters.location_keyword = this.location_keyword
         this.$store.state.search_filters.category = this.category
         localStorage.setItem(
@@ -156,7 +161,6 @@ export default {
           JSON.stringify(this.$store.state.search_filters)
         )
         this.$router.push('/search/')
-      }
     }
   },
   mixins: [EndpointsMixin, RequestMixin]
