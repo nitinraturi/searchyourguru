@@ -2,8 +2,7 @@
 export default {
   data: function() {
     return {
-      base_api_url: 'http://localhost:8005',
-      // base_api_url: 'https://api.searchyourguru.com',
+      base_api_url: process.env.VUE_APP_API_ENDPOINT,
       endpoints: {
         login: '/account/auth/login/',
         logout: '/account/auth/logout/',

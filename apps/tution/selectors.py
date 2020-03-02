@@ -11,7 +11,10 @@ def get_categories():
 
 
 def get_category(code):
-    return Category.objects.filter(code=code).first()
+    try:
+        return Category.objects.get(code=code)
+    except Category.DoesNotExist:
+        pass
 
 
 def filtered_tution_data(**kwargs):
@@ -100,7 +103,7 @@ def get_suggested_cities(location_keyword):
                 # Q(state__istartswith=location_keyword) |
                 Q(city__istartswith=location_keyword)
             )
-        data = data.distinct('po_name')
+        data = data.distinct('po_name')[:20]
         cache.set(cache_key, data, 86400 * 365)
     else:
         pass

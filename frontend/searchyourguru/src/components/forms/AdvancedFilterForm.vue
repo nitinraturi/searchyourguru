@@ -8,50 +8,22 @@
               >Pincode or City</label
             >
             <div class="control">
-              <p v-if="location_keyword_error != null" class="help is-small is-danger">{{ location_keyword_error }}</p>
-              <input
-                type="text"
-                class="input is-small"
-                placeholder="eg: Delhi or 110092"
-                list="cities_list"
-                :disabled="is_search_loading"
-                v-model="search.location_keyword"
-                v-on:keyup="location_keyword_changed"
-              />
-              <datalist id="cities_list">
-                <option
-                  v-for="city in suggested_cities"
-                  :key="city.id"
-                  :value="city.po_name"
-                  >{{ city.po_name }}</option
-                >
-              </datalist>
+              <LocationFieldForm @location_changed="set_location_keyword" />
             </div>
+            <p
+              v-if="location_keyword_error != null"
+              class="help is-small is-danger"
+            >
+              {{ location_keyword_error }}
+            </p>
           </div>
         </div>
       </div>
 
       <div class="field">
-        <label for="#" class="label is-size-7 has-text-grey">Course</label>
+        <label for="#" class="label is-size-7 has-text-grey">Subject</label>
         <div class="control">
-          <p v-if="subject_keyword_error != null" class="help is-small is-danger">{{ subject_keyword_error }}</p>
-          <input
-            type="text"
-            class="input is-small"
-            placeholder="eg:Math"
-            list="subjects_list"
-            :disabled="is_search_loading"
-            v-model="search.category"
-            v-on:keyup="subject_keyword_changed"
-          />
-          <datalist id="subjects_list">
-            <option
-              v-for="sub in suggested_subjects"
-              :key="sub.code"
-              :value="sub.name"
-              >{{ sub.code }} {{ sub.name }}</option
-            >
-          </datalist>
+          <CategoryFieldForm @category_changed="set_category" />
         </div>
       </div>
 
@@ -68,6 +40,9 @@
             <option value="3">Other</option>
           </select>
         </div>
+        <p v-if="subject_keyword_error != null" class="help is-small is-danger">
+          {{ subject_keyword_error }}
+        </p>
       </div>
 
       <div class="field">
@@ -190,6 +165,9 @@
 import axios from 'axios'
 import EndpointsMixin from '@/components/mixins/EndpointsMixin.vue'
 import RequestMixin from '@/components/mixins/RequestMixin'
+import LocationFieldForm from '@/components/forms/LocationFieldForm.vue'
+import CategoryFieldForm from '@/components/forms/CategoryFieldForm.vue'
+
 export default {
   name: 'AdvancedFilterForm',
   data: function() {
@@ -222,7 +200,17 @@ export default {
   mounted: function() {
     this.initial_filters()
   },
+  components: {
+    LocationFieldForm,
+    CategoryFieldForm
+  },
   methods: {
+    set_location_keyword: function(value) {
+      this.search.location_keyword = value
+    },
+    set_category: function(value) {
+      this.search.category = value
+    },
     initial_filters: function() {
       this.search.location_keyword = this.search_filters.location_keyword
       this.search.category = this.search_filters.category
@@ -254,115 +242,51 @@ export default {
       this.search.gender = null
       this.search.location_preferences = []
     },
-    location_keyword_changed: function(e) {
-      if (e.keyCode === 37 || e.keyCode === 39) {
-        console.log('arrow keys pressed')
-      } else {
-      if (
-        (this.search.location_keyword != null &&
-        this.search.location_keyword != '') ||
-        this.search.location_keyword.length > 3
-      ) {
-        axios
-          .post(
-            this.get_endpoint(this.endpoints.suggested_cities),
-            { location_keyword: this.search.location_keyword },
-            this.guest_headers()
-          )
-          .then(
-            response => {
-              this.suggested_cities = response.data.data
-              for (let city of this.suggested_cities) {
-                if (this.search.location_keyword !== city.po_name) {
-                    this.location_keyword_error = 'Please select a valid option'
-                } else {
-                    this.location_keyword_error = ''
-                    break
-                }
-              }
-            },
-            () => {}
-          )
-      }
-     }
-    },
-    subject_keyword_changed: function(e) {
-      if (e.keyCode === 37 || e.keyCode === 39) {
-        console.log('arrow keys pressed')
-      } else {
-      if (
-        (this.search.category != null &&
-        this.search.category != '') ||
-        this.search.category.length > 2
-      ) {
-        axios
-          .post(
-            this.get_endpoint(this.endpoints.suggested_subjects),
-            { subject_keyword: this.search.category },
-            this.guest_headers()
-          )
-          .then(
-            response => {
-              this.suggested_subjects = response.data.data
-              for(let subject of this.suggested_subjects) {
-                if (this.search.category !== subject.name) {
-                    this.subject_keyword_error = 'Please select a valid option'
-                } else {
-                    this.subject_keyword_error = ''
-                    break
-                }
-              }
-            },
-            () => {}
-          )
-      }
-     }
-    },
     apply_search: function() {
-        let payload = {}
-        payload['location_keyword'] = this.search.location_keyword
-        payload['category'] = this.search.category
+      let payload = {}
+      payload['location_keyword'] = this.search.location_keyword
+      payload['category'] = this.search.category
 
-        if (this.search.experience != null || this.search.experience != '') {
-          payload['experience'] = this.search.experience
-        }
+      if (this.search.experience != null || this.search.experience != '') {
+        payload['experience'] = this.search.experience
+      }
 
-        if (this.search.gender != null || this.search.gender) {
-          payload['gender'] = this.search.gender
-        }
+      if (this.search.gender != null || this.search.gender) {
+        payload['gender'] = this.search.gender
+      }
 
-        if (
-          this.search.price_per_hour != null ||
-          this.search.price_per_hour != 0
-        ) {
-          payload['price_per_hour'] = this.search.price_per_hour
-        }
+      if (
+        this.search.price_per_hour != null ||
+        this.search.price_per_hour != 0
+      ) {
+        payload['price_per_hour'] = this.search.price_per_hour
+      }
 
-        if (this.selected_locations.length > 0) {
-          payload['location_preferences'] = this.selected_locations
-        }
+      if (this.selected_locations.length > 0) {
+        payload['location_preferences'] = this.selected_locations
+      }
 
-        if (this.search.timing != null || this.search.timing != '') {
-          payload['timing'] = this.search.timing
-        }
+      if (this.search.timing != null || this.search.timing != '') {
+        payload['timing'] = this.search.timing
+      }
 
-        this.is_search_loading = true
-        axios
-          .post(
-            this.get_endpoint(this.endpoints.tution_search),
-            payload,
-            this.guest_headers()
-          )
-          .then(
-            response => {
-              this.$store.state.filtered_tutions = response.data.data
-              this.is_search_loading = false
-              this.$emit('filters_applied')
-            },
-            () => {
-              this.is_search_loading = false
-            }
-          )
+      this.is_search_loading = true
+      axios
+        .post(
+          this.get_endpoint(this.endpoints.tution_search),
+          payload,
+          this.guest_headers()
+        )
+        .then(
+          response => {
+            this.$store.state.filtered_tutions = response.data.data
+            this.is_search_loading = false
+            this.$emit('filters_applied')
+          },
+          () => {
+            this.is_search_loading = false
+          }
+        )
     }
   },
   mixins: [EndpointsMixin, RequestMixin]

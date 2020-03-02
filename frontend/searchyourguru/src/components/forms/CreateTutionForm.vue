@@ -49,55 +49,28 @@
               <div class="field">
                 <label class="label">City or Pincode</label>
                 <div class="control">
-                  <input
-                    type="text"
-                    class="input"
-                    list="cities_list"
-                    placeholder="eg: Delhi or 110092"
-                    v-model="tution.area"
-                    v-on:keyup="location_keyword_changed"
-                  />
-                  <datalist id="cities_list">
-                    <option
-                      v-for="city in suggested_cities"
-                      :key="city.id"
-                      :value="city.po_name"
-                      >{{ city.zipcode }} {{ city.po_name }}</option
-                    >
-                  </datalist>
+                  <LocationFieldForm @location_changed="set_location_keyword" />
                 </div>
+                <p
+                  v-if="location_keyword_error != null"
+                  class="help is-small is-danger"
+                >
+                  {{ location_keyword_error }}
+                </p>
               </div>
             </div>
             <div class="column is-6">
               <div class="field">
                 <label class="label">Subject</label>
                 <div class="control">
-                  <p
-                    class="help is-small is-danger"
-                    v-if="tution_subject_success != null"
-                  >
-                    {{ tution_subject_success }}
-                  </p>
-                  <input
-                    type="text"
-                    class="input"
-                    id="subject-list"
-                    list="subjects_list"
-                    v-on:keyup="subject_keyword_changed"
-                    v-model="tution.category"
-                    placeholder="eg: Math or Physics"
-                    :disabled="is_loading"
-                    required
-                  />
-                  <datalist id="subjects_list">
-                    <option
-                      v-for="sub in suggested_subjects"
-                      :key="sub.id"
-                      :value="sub.id"
-                      >{{ sub.id }} - {{ sub.name }}</option
-                    >
-                  </datalist>
+                  <CategoryFieldForm @category_changed="set_category" />
                 </div>
+                <p
+                  class="help is-small is-danger"
+                  v-if="tution_subject_error != null"
+                >
+                  {{ tution_subject_error }}
+                </p>
               </div>
             </div>
           </div>
@@ -195,6 +168,8 @@ import axios from 'axios'
 import ValidatorsMixin from '@/components/mixins/ValidatorsMixin.vue'
 import EndpointsMixin from '@/components/mixins/EndpointsMixin.vue'
 import RequestMixin from '@/components/mixins/RequestMixin'
+import LocationFieldForm from '@/components/forms/LocationFieldForm.vue'
+import CategoryFieldForm from '@/components/forms/CategoryFieldForm.vue'
 
 export default {
   name: 'CreateTutionForm',
@@ -212,77 +187,49 @@ export default {
       },
       tution_created: false,
       is_loading: false,
-      tution_subject_success: null,
+      tution_subject_error: null,
+      location_keyword_error: null,
       suggested_subjects: [],
       suggested_cities: []
     }
   },
+  components: {
+    LocationFieldForm,
+    CategoryFieldForm
+  },
   methods: {
-    location_keyword_changed: function() {
-      if (
-        this.tution.area != null &&
-        this.tution.area != '' &&
-        this.tution.area.length > 3
-      ) {
-        axios
-          .post(
-            this.get_endpoint(this.endpoints.suggested_cities),
-            { location_keyword: this.tution.area },
-            this.guest_headers()
-          )
-          .then(
-            response => {
-              this.suggested_cities = response.data.data
-            },
-            () => {}
-          )
-      }
+    set_location_keyword: function(value) {
+      this.tution.area = value
     },
-    subject_keyword_changed: function() {
-      if (
-        (this.tution.category != null && this.tution.category != '') ||
-        this.tution.category.length > 2
-      ) {
-        axios
-          .post(
-            this.get_endpoint(this.endpoints.suggested_subjects),
-            { subject_keyword: this.tution.category },
-            this.guest_headers()
-          )
-          .then(
-            response => {
-              this.suggested_subjects = response.data.data
-              for (let subject of this.suggested_subjects) {
-                if (parseInt(this.tution.category) !== parseInt(subject.id)) {
-                  this.tution_subject_success = 'Please select a valid option'
-                } else {
-                  this.tution_subject_success = ''
-                  break
-                }
-              }
-            },
-            () => {}
-          )
-      }
+    set_category: function(value) {
+      this.tution.category = value
     },
     create_tution: function() {
-      this.is_loading = true
-      axios
-        .post(
-          this.get_endpoint(this.endpoints.tution_create),
-          this.tution,
-          this.get_headers()
-        )
-        .then(
-          () => {
-            this.is_loading = false
-            this.tution_created = true
-          },
-          () => {
-            this.is_loading = false
-            this.tution_created = false
-          }
-        )
+      this.location_keyword_error = null
+      this.tution_subject_error = null
+      if (this.tution.area == null || this.tution.area == '') {
+        this.location_keyword_error = 'This field is required'
+      } else if (this.tution.category == null || this.tution.category == '') {
+        this.tution_subject_error = 'This field is required'
+      } else {
+        this.is_loading = true
+        axios
+          .post(
+            this.get_endpoint(this.endpoints.tution_create),
+            this.tution,
+            this.get_headers()
+          )
+          .then(
+            () => {
+              this.is_loading = false
+              this.tution_created = true
+            },
+            () => {
+              this.is_loading = false
+              this.tution_created = false
+            }
+          )
+      }
     }
   },
   mixins: [ValidatorsMixin, EndpointsMixin, RequestMixin]

@@ -53,6 +53,18 @@ python manage.py makemigrations
 cd frontend/searchyourguru
 ```
 
+- Create .env file for Frontend
+
+```
+touch .env
+```
+
+- Add Enviroment Variables
+
+```
+VUE_APP_API_ENDPOINT=http://localhost:8005
+```
+
 - Install dependencies for node
 
 ```

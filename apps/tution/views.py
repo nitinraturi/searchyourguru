@@ -15,6 +15,7 @@ class TutionViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['post'], url_name="create_tution", url_path="create", permission_classes=[IsAuthenticated])
     def create_tution(self, request):
+        print('req', request.data)
         serializer = TutionCreateSerializer(
             data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)

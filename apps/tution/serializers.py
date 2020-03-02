@@ -52,7 +52,7 @@ class TutionListSerializer(serializers.ModelSerializer):
     applications = serializers.SerializerMethodField('get_applications')
     created_at = serializers.SerializerMethodField()
 
-    def get_created_at(self,obj):
+    def get_created_at(self, obj):
         return obj.updated_at.strftime("%Y-%m-%d")
 
     class Meta:
@@ -67,14 +67,23 @@ class TutionListSerializer(serializers.ModelSerializer):
 
 
 class TutionCreateSerializer(serializers.ModelSerializer):
+    category = serializers.CharField(max_length=255)
+
     class Meta:
         model = Tution
         fields = '__all__'
 
     def validate(self, data):
         request = self.context.get('request')
+        category = tution_selectors.get_category(data.get('category'))
         if request.user.user_type not in [user_constants.TUTOR, user_constants.SUPERUSER]:
             raise serializers.ValidationError({'detail': 'Not a valid tutor'})
+
+        if not category:
+            raise serializers.ValidationError(
+                {'detail': 'Not a valid category'})
+        else:
+            data['category'] = category
         return data
 
 
@@ -123,7 +132,7 @@ class TutionAppliedSerializer(serializers.ModelSerializer):
     student = users_serializers.UserGuestSerializer()
     updated_at = serializers.SerializerMethodField()
 
-    def get_updated_at(self,obj):
+    def get_updated_at(self, obj):
         return obj.updated_at.strftime("%Y-%m-%d")
 
     class Meta:
