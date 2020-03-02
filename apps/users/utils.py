@@ -24,7 +24,8 @@ def fetch_zipcode_from_api(zipcode):
 
 def fetch_zipcodes_from_excel_file(file_path):
     df = pd.read_csv(file_path)
-    objects = []
+    # objects = []
+    AllZipCode.objects.all().delete()
     for index, row in df.iterrows():
         try:
             data = {
@@ -35,13 +36,13 @@ def fetch_zipcodes_from_excel_file(file_path):
                 'country': "India",
             }
             obj = AllZipCode(**data)
-            objects.append(obj)
-            if index+1 % 10000 == 0:
-                print(index+1)
+            obj.save()
+            # objects.append(obj)
+            # if index+1 % 10000 == 0:
+            #     print(index+1)
         except Exception as e:
             print(e)
             pass
 
-    AllZipCode.objects.all().delete()
-    total = AllZipCode.objects.bulk_create(objects)
-    return total
+    # total = AllZipCode.objects.bulk_create(objects)
+    return True
