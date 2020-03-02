@@ -23,26 +23,27 @@ def fetch_zipcode_from_api(zipcode):
 
 
 def fetch_zipcodes_from_excel_file(file_path):
-    df = pd.read_csv(file_path)
-    # objects = []
+    chunksize = 10 ** 6
+    df_chunks = pd.read_csv(file_path, chunksize=chunksize, usecols=[
+        'officename', 'Districtname', 'statename', 'pincode'])
+    total = False
     AllZipCode.objects.all().delete()
-    for index, row in df.iterrows():
-        try:
-            data = {
-                'po_name': row['officename'],
-                'district': row['Districtname'],
-                'state': row['statename'],
-                'zipcode': row['pincode'],
-                'country': "India",
-            }
-            obj = AllZipCode(**data)
-            obj.save()
-            # objects.append(obj)
-            # if index+1 % 10000 == 0:
-            #     print(index+1)
-        except Exception as e:
-            print(e)
-            pass
+    for df in df_chunks:
+        objects = []
+        for index, row in df.iterrows():
+            try:
+                data = {
+                    'po_name': row['officename'],
+                    'district': row['Districtname'],
+                    'state': row['statename'],
+                    'zipcode': row['pincode'],
+                    'country': "India",
+                }
+                obj = AllZipCode(**data)
+                objects.append(obj)
 
-    # total = AllZipCode.objects.bulk_create(objects)
-    return True
+            except Exception as e:
+                print(e)
+                pass
+        total = AllZipCode.objects.bulk_create(objects)
+    return total
