@@ -17,7 +17,7 @@ const routes = [
     name: 'home',
     component: Home,
     meta: {
-      title: 'SearchYourGuru Home',
+      title: 'Home | SearchYourGuru',
       metaTags: [
         {
           name: 'description',
@@ -48,7 +48,7 @@ const routes = [
     name: 'search',
     component: Search,
     meta: {
-      title: 'Tuitions & Tutors - SearchYourGuru',
+      title: 'Search Tuitions & Tutors - SearchYourGuru',
       metaTags: [
         {
           name: 'description',
@@ -140,7 +140,7 @@ const routes = [
     name: 'verification',
     component: Verification,
     meta: {
-      title: 'SearchYourGuru Verification',
+      title: 'Email Verification | SearchYourGuru',
       metaTags: [
         {
           name: 'description',
@@ -170,7 +170,7 @@ const routes = [
     name: 'password_reset',
     component: PasswordReset,
     meta: {
-      title: 'Forgot Password - SearchYourGuru',
+      title: 'Forgot Password | SearchYourGuru',
       metaTags: [
         {
           name: 'description',
