@@ -191,14 +191,27 @@
         </center>
       </div>
     </section>
-    <section class="section">
+    <section class="section has-background-light">
       <div class="container">
         <h1 class="title is-4 has-text-centered">
           Contact Us - How can we help?
         </h1>
-        <div class="columns is-centered">
-          <div class="column is-8">
-            <div class="box">
+        <div class="columns is-multiline">
+          <div class="column is-6 has-text-centered">
+            <center>
+              <figure class="image is-128x128">
+                <img
+                  src="@/assets/contact_mail.svg"
+                  alt="contact-mail-searchyourguru"
+                />
+              </figure>
+            </center>
+            <hr />
+            <p class="subtile is-5">If you have any query, drop us a mail at</p>
+            <p class="subtitle is-5 has-text-info">helpdesk.syg@gmail.com</p>
+          </div>
+          <div class="column is-6">
+            <div class="">
               <ContactForm />
             </div>
           </div>

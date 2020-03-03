@@ -37,12 +37,13 @@ export default {
   methods: {
     is_valid_time_duration: function() {
       let elapsed_time = this.key_event_end_time - this.key_event_start_time
-      if (elapsed_time / 1000 >= 1) {
+      if (elapsed_time / 1000 >= 0.5) {
         return true
       }
       return false
     },
-    is_valid_key_strokes: function(keyCode) {
+    is_valid_key_strokes: function(e) {
+      let keyCode = e.which || e.keyCode
       if (
         (keyCode >= 65 && keyCode <= 90) ||
         (keyCode >= 97 && keyCode <= 122) ||
@@ -60,7 +61,7 @@ export default {
         this.category != '' &&
         this.category.length > 3 &&
         this.is_valid_time_duration() == true &&
-        this.is_valid_key_strokes(e.keyCode) == true
+        this.is_valid_key_strokes(e) == true
       ) {
         this.key_event_start_time = new Date().getTime()
         this.$emit('category_changed', this.category)
