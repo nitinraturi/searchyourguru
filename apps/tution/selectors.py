@@ -31,32 +31,27 @@ def filtered_tution_data(**kwargs):
         raise Exception(
             "category and location_keyword are required keyword arguments")
 
-    zipcode = None
-
     # Check whether the location_keyword is city or pincode
     try:
-        isinstance(int(location_keyword), int)
-        zipcode = str(location_keyword)
+        zipcode = int(location_keyword)
     except:
-        zipcode = users_models.AllZipCode.objects.filter(
-            Q(po_name__istartswith=location_keyword) |
-            Q(district__istartswith=location_keyword) |
-            Q(country__istartswith=location_keyword) |
-            Q(state__istartswith=location_keyword) |
-            Q(city__istartswith=location_keyword)
-        ).first()
-        if zipcode is not None:
-            zipcode = zipcode.zipcode
+        zipcode = None
 
     tutions = Tution.objects.filter(
-        Q(tutor__is_active=True) &
-        Q(is_deleted=False) &
-        Q(category__name__icontains=category) |
-        Q(category__code__icontains=category)
+        Q(category__name__icontains=category),
+        Q(category__code__icontains=category),
+        tutor__is_active=True,
+        is_deleted=False
     )
-
+    print("tutions", tutions)
     if zipcode:
-        tutions = tutions.filter(area__icontains=zipcode)
+        zipcode = users_models.AllZipCode.objects.filter(zipcode__search=zipcode
+                                                         ).values_list('po_name', flat=True)
+        tutions = tutions.filter(
+            Q(area__icontains=location_keyword) |
+            Q(area__in=zipcode))
+    else:
+        tutions = tutions.filter(area__search=location_keyword)
 
     if price_per_hour:
         tutions = tutions.filter(price__lte=price_per_hour)

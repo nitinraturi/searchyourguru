@@ -84,7 +84,7 @@
                         <span class="tag is-primary">New</span>
                       </p>
                     </div>
-                    <p class="is-size-7"><b>Pincode</b>: {{ t.area }}</p>
+                    <p class="is-size-7"><b>Area</b>: {{ t.area }}</p>
                     <p class="is-size-7">
                       <b>Fees</b>: &#8377; {{ t.price }} / Hour
                     </p>
@@ -132,7 +132,7 @@
             </p>
             <hr />
             <p class="subtitle is-6 has-text-centered">Tution Details</p>
-            <p class="is-size-7"><b>Pincode</b>: {{ tution.area }}</p>
+            <p class="is-size-7"><b>Area</b>: {{ tution.area }}</p>
             <p class="is-size-7">
               <b>Fees</b>: &#8377; {{ tution.price }} / Hour
             </p>
