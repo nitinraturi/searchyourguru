@@ -13,7 +13,7 @@
         v-for="sub in suggested_subjects"
         :key="sub.code"
         :value="sub.code"
-        >{{ sub.name }} ({{ sub.code }})</option
+        >{{ sub.name }}</option
       >
     </datalist>
   </div>
@@ -49,12 +49,12 @@ export default {
       if (
         this.category != null &&
         this.category != '' &&
-        this.category.length > 3 &&
-        this.is_valid_time_duration() == true &&
+        this.category.length > 0 &&
+        // this.is_valid_time_duration() == true &&
         this.pre_category_len != this.category.length
       ) {
         this.pre_category_len = this.category.length
-        this.key_event_start_time = new Date().getTime()
+        // this.key_event_start_time = new Date().getTime()
         this.$emit('category_changed', this.category)
         // console.log(e.keyCode, this.category)
         axios

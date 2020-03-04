@@ -115,8 +115,8 @@ def get_suggested_subjects(subject_keyword):
     subjects = Category.objects.filter(
         Q(name__search=subject_keyword) |
         Q(code__search=subject_keyword) |
-        Q(name__istartswith=subject_keyword) |
-        Q(code__istartswith=subject_keyword) |
+        Q(name__icontains=subject_keyword) |
+        Q(code__icontains=subject_keyword) |
         Q(tag_type=tution_constants.TAG) |
         Q(tag_type=tution_constants.SEARCH_TAG)
     )
