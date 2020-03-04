@@ -46,7 +46,7 @@ export default {
       let keyCode = e.which || e.keyCode
       if (
         (keyCode >= 65 && keyCode <= 90) ||
-        (keyCode >= 97 && keyCode <= 122)||
+        (keyCode >= 97 && keyCode <= 122) ||
         (keyCode >= 43 && keyCode <= 53) ||
         (keyCode >= 29 && keyCode <= 54) ||
         (keyCode >= 7 && keyCode <= 16)
