@@ -32,6 +32,15 @@ class TutionViewSet(viewsets.ViewSet):
         serializer.save()
         return Response({'ok': 1}, status=status.HTTP_200_OK)
 
+    @action(detail=False, methods=['post'], url_name="delete_tution", url_path="delete", permission_classes=[IsAuthenticated])
+    def delete_tution(self, request):
+        print(request.data)
+        serializer = TutionDeleteSerializer(data=request.data, context={
+                                            'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.delete_tution()
+        return Response({'ok': 1}, status=status.HTTP_200_OK)
+
     @action(detail=False, methods=['get'], url_name="tution_list", url_path="list", permission_classes=[IsAuthenticated])
     def tution_list(self, request):
         serializer = TutionListSerializer(

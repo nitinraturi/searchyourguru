@@ -30,7 +30,8 @@ export default {
       suggested_subjects: [],
       category: '',
       key_event_start_time: new Date().getTime(),
-      key_event_end_time: null
+      key_event_end_time: null,
+      pre_category_len: 0
     }
   },
   mixins: [EndpointsMixin, RequestMixin],
@@ -42,20 +43,7 @@ export default {
       }
       return false
     },
-    is_valid_key_strokes: function(e) {
-      let keyCode = e.which || e.keyCode
-      if (
-        (keyCode >= 65 && keyCode <= 90) ||
-        (keyCode >= 97 && keyCode <= 122) ||
-        (keyCode >= 43 && keyCode <= 53) ||
-        (keyCode >= 29 && keyCode <= 54) ||
-        (keyCode >= 7 && keyCode <= 16)
-      ) {
-        return true
-      }
-      return false
-    },
-    subject_keyword_changed: function(e) {
+    subject_keyword_changed: function() {
       this.key_event_end_time = new Date().getTime()
 
       if (
@@ -63,8 +51,9 @@ export default {
         this.category != '' &&
         this.category.length > 3 &&
         this.is_valid_time_duration() == true &&
-        this.is_valid_key_strokes(e) == true
+        this.pre_category_len != this.category.length
       ) {
+        this.pre_category_len = this.category.length
         this.key_event_start_time = new Date().getTime()
         this.$emit('category_changed', this.category)
         // console.log(e.keyCode, this.category)

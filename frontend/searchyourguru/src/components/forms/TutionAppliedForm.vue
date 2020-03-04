@@ -21,8 +21,13 @@
               <span v-if="t.is_accepted == true" class="has-text-success"
                 >Accepted</span
               >
-              <span v-if="t.is_accepted == false" class="has-text-danger"
+              <span
+                v-if="t.is_accepted == false && t.tution.is_deleted == false"
+                class="has-text-danger"
                 >Wait for tutor to contact you</span
+              >
+              <span v-if="t.tution.is_deleted == true" class="has-text-danger"
+                >Tution Deleted by tutor</span
               >
             </td>
             <td>

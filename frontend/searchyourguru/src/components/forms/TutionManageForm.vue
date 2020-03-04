@@ -73,7 +73,10 @@
       <div class="modal-content">
         <div class="card box is-paddingless is-small">
           <div class="card-content">
-            <form v-on:submit.prevent="update_tution">
+            <form
+              v-on:submit.prevent="update_tution"
+              v-if="tution_delete_mode == false"
+            >
               <div class="columns is-multiline is-mobile">
                 <div class="column is-full">
                   <label class="label">Title</label>
@@ -192,27 +195,92 @@
                   </div>
                 </div>
                 <div class="column is-full">
-                  <button
-                    v-if="tution_update_mode == false"
-                    type="button"
-                    class="button is-danger is-outlined"
-                    v-bind:class="{ is_loading: is_loading }"
-                    v-on:click.prevent="ToggleUpdateMode(true)"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    v-if="tution_update_mode == true"
-                    type="submit"
-                    class="button is-link is-outlined"
-                    v-bind:class="{ is_loading: is_loading }"
-                    v-on:submit.prevent="update_tution"
-                  >
-                    Update
-                  </button>
+                  <div class="columns is-mobile">
+                    <div class="column is-2" v-if="tution_update_mode == false">
+                      <button
+                        type="button"
+                        class="button is-info is-outlined"
+                        v-on:click.prevent="ToggleUpdateMode(true)"
+                      >
+                        Edit
+                      </button>
+                    </div>
+                    <div class="column is-2" v-if="tution_update_mode == true">
+                      <button
+                        type="submit"
+                        class="button is-info is-outlined"
+                        v-bind:class="{ 'is-loading': is_loading }"
+                        v-on:submit.prevent="update_tution"
+                      >
+                        Update
+                      </button>
+                    </div>
+                    <div class="column is-2" v-if="tution_update_mode == true">
+                      <button
+                        type="button"
+                        class="button"
+                        v-on:click.prevent="ToggleUpdateMode(false)"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                    <div
+                      class="column is-2"
+                      v-if="
+                        tution_update_mode == false &&
+                          tution_delete_mode == false
+                      "
+                    >
+                      <button
+                        type="button"
+                        class="button is-danger"
+                        v-bind:class="{ 'is-loading': is_loading }"
+                        v-on:click.prevent="ToggleTutionDeleteMode(true)"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </form>
+
+            <div v-if="tution_delete_mode == true">
+              <h1 class="title is-5">
+                Are you sure you want to delete this tution -
+              </h1>
+              <p class="subtitle is-5">
+                {{ tution.title }}
+              </p>
+
+              <div class="columns is-mobile">
+                <div class="column is-2">
+                  <button
+                    v-if="
+                      tution_update_mode == false && tution_delete_mode == true
+                    "
+                    type="button"
+                    class="button is-danger is-outlined"
+                    v-bind:class="{ 'is-loading': is_loading }"
+                    v-on:click.prevent="delete_tution"
+                  >
+                    Delete
+                  </button>
+                </div>
+                <div class="column is-2">
+                  <button
+                    v-if="
+                      tution_update_mode == false && tution_delete_mode == true
+                    "
+                    type="button"
+                    class="button"
+                    v-on:click.prevent="ToggleTutionDeleteMode(false)"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -279,6 +347,7 @@ export default {
       tution: null,
       applications: [],
       tution_update_mode: false,
+      tution_delete_mode: false,
       is_loading: false
     }
   },
@@ -292,6 +361,9 @@ export default {
     },
     ToggleUpdateMode: function(mode) {
       this.tution_update_mode = mode
+    },
+    ToggleTutionDeleteMode: function(mode) {
+      this.tution_delete_mode = mode
     },
     SetApplicationsState: function(applications) {
       this.applications = applications
@@ -329,6 +401,30 @@ export default {
               timing: this.tution.timing,
               location: this.tution.location,
               is_active: this.tution.is_active
+            },
+            this.get_headers()
+          )
+          .then(
+            () => {
+              this.HideQuickView()
+              this.get_request_list()
+              this.is_loading = false
+              this.tution_update_mode = false
+            },
+            () => {
+              this.is_loading = false
+            }
+          )
+      }
+    },
+    delete_tution: function() {
+      if (this.tution != null) {
+        this.is_loading = true
+        axios
+          .post(
+            this.get_endpoint(this.endpoints.tution_delete),
+            {
+              tution_id: this.tution.id
             },
             this.get_headers()
           )

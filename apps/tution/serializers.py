@@ -4,6 +4,7 @@ from apps.users import constants as user_constants
 from apps.users import selectors as user_selectors
 from . import selectors as tution_selectors
 from apps.users import serializers as users_serializers
+from apps.tution import services as tution_services
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -101,6 +102,26 @@ class TutionUpdateSerializer(serializers.ModelSerializer):
         elif request.user.id != tution.tutor.id:
             raise serializers.ValidationError({'detail': 'Not a valid tutor'})
         return data
+
+
+class TutionDeleteSerializer(serializers.Serializer):
+    tution_id = serializers.IntegerField()
+
+    def validate(self, data):
+        request = self.context.get('request')
+        tution_id = data.get('tution_id')
+        print("asdasd", tution_id)
+        tution = tution_selectors.get_tution(tution_id)
+        if tution is None:
+            raise serializers.ValidationError({'detail': 'Invalid tution'})
+        elif request.user.id != tution.tutor.id:
+            raise serializers.ValidationError({'detail': 'Not a valid tutor'})
+        data['tution'] = tution
+        return data
+
+    def delete_tution(self):
+        tution = self.validated_data.get('tution')
+        tution_services.delete_tution(tution)
 
 
 class TutionRequestSerializer(serializers.ModelSerializer):

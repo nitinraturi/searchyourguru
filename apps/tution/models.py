@@ -46,6 +46,7 @@ class Tution(models.Model):
         choices=tution_constants.LOCATION_PREFERENCE)
     batch_size = models.IntegerField(default=1)
     is_active = models.BooleanField(default=True)
+    is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

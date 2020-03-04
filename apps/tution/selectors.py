@@ -50,6 +50,7 @@ def filtered_tution_data(**kwargs):
 
     tutions = Tution.objects.filter(
         Q(tutor__is_active=True) &
+        Q(is_deleted=False) &
         Q(category__name__icontains=category) |
         Q(category__code__icontains=category)
     )
@@ -124,7 +125,7 @@ def get_suggested_subjects(subject_keyword):
 
 
 def get_tutions(user):
-    return Tution.objects.filter(tutor=user)
+    return Tution.objects.filter(tutor=user, is_deleted=False)
 
 
 def get_tution(id):

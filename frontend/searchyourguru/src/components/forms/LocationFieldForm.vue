@@ -30,7 +30,8 @@ export default {
       suggested_cities: [],
       location_keyword: '',
       key_event_start_time: new Date().getTime(),
-      key_event_end_time: null
+      key_event_end_time: null,
+      pre_keyword_len: 0
     }
   },
   mixins: [EndpointsMixin, RequestMixin],
@@ -42,20 +43,7 @@ export default {
       }
       return false
     },
-    is_valid_key_strokes: function(e) {
-      let keyCode = e.which || e.keyCode
-      if (
-        (keyCode >= 65 && keyCode <= 90) ||
-        (keyCode >= 97 && keyCode <= 122) ||
-        (keyCode >= 43 && keyCode <= 53) ||
-        (keyCode >= 29 && keyCode <= 54) ||
-        (keyCode >= 7 && keyCode <= 16)
-      ) {
-        return true
-      }
-      return false
-    },
-    location_keyword_changed: function(e) {
+    location_keyword_changed: function() {
       this.key_event_end_time = new Date().getTime()
 
       if (
@@ -63,9 +51,10 @@ export default {
         this.location_keyword != '' &&
         this.location_keyword.length > 3 &&
         this.is_valid_time_duration() == true &&
-        this.is_valid_key_strokes(e) == true
+        this.pre_keyword_len != this.location_keyword.length
       ) {
         this.key_event_start_time = new Date().getTime()
+        this.pre_keyword_len = this.location_keyword.length
         this.$emit('location_changed', this.location_keyword)
         // console.log(e.keyCode, this.location_keyword)
         axios
