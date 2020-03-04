@@ -12,8 +12,8 @@
       <option
         v-for="sub in suggested_subjects"
         :key="sub.code"
-        :value="sub.name"
-        >{{ sub.name }}</option
+        :value="sub.code"
+        >{{ sub.name }} ({{ sub.code }})</option
       >
     </datalist>
   </div>
