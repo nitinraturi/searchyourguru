@@ -37,15 +37,18 @@ def filtered_tution_data(**kwargs):
     except:
         zipcode = None
 
-    tutions = Tution.objects.filter(
-        Q(category__name__icontains=category),
-        Q(category__code__icontains=category),
-        tutor__is_active=True,
-        is_deleted=False
+    # Important Filter
+    tutions = Tution.objects.filter(is_active=True, is_deleted=False)
+
+    # Filter by category or subject
+    tutions = tutions.filter(
+        Q(category__name__search=category) |
+        Q(category__code__search=category)
     )
-    print("tutions", tutions)
+
+    # Filter by area
     if zipcode:
-        zipcode = users_models.AllZipCode.objects.filter(zipcode__search=zipcode
+        zipcode = users_models.AllZipCode.objects.filter(zipcode__istartswith=zipcode
                                                          ).values_list('po_name', flat=True)
         tutions = tutions.filter(
             Q(area__icontains=location_keyword) |
@@ -53,6 +56,7 @@ def filtered_tution_data(**kwargs):
     else:
         tutions = tutions.filter(area__search=location_keyword)
 
+    # Other Filters
     if price_per_hour:
         tutions = tutions.filter(price__lte=price_per_hour)
 

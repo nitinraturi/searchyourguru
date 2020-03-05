@@ -21,7 +21,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class TutionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'tutor', 'title', 'is_active', 'is_deleted')
+    list_display = ('id', 'tutor', 'title', 'area', 'is_active', 'is_deleted')
     list_display_links = ('id', 'title')
     list_filter = ('is_active', 'is_deleted')
 
