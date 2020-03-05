@@ -42,8 +42,8 @@ def filtered_tution_data(**kwargs):
 
     # Filter by category or subject
     tutions = tutions.filter(
-        Q(category__name__search=category) |
-        Q(category__code__search=category)
+        Q(category__name__icontains=category) |
+        Q(category__code__icontains=category)
     )
 
     # Filter by area
