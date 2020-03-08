@@ -2,7 +2,7 @@
 export default {
   data: function() {
     return {
-      base_api_url: process.env.VUE_APP_API_ENDPOINT,
+      base_api_url: process.env.VUE_APP_API_ENDPOINT || 'http://localhost:8005',
       endpoints: {
         login: '/account/auth/login/',
         logout: '/account/auth/logout/',
