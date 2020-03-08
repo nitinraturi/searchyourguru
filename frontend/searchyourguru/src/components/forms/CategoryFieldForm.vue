@@ -5,8 +5,8 @@
       class="input"
       list="subjects_list"
       placeholder="eg:Math"
-      v-on:keyup="subject_keyword_changed"
       v-model="category"
+      @keypress="subject_keyword_changed"
     />
     <datalist id="subjects_list">
       <option
@@ -29,39 +29,45 @@ export default {
     return {
       suggested_subjects: [],
       category: '',
-      key_event_start_time: new Date().getTime(),
-      key_event_end_time: null,
-      pre_category_len: 0
+      prev_request: null
+//      key_event_start_time: new Date().getTime(),
+//      key_event_end_time: null,
+//      pre_category_len: 0
     }
   },
   mixins: [EndpointsMixin, RequestMixin],
   methods: {
-    is_valid_time_duration: function() {
+/*    is_valid_time_duration: function() {
       let elapsed_time = this.key_event_end_time - this.key_event_start_time
       if (elapsed_time / 1000 >= 0.5) {
         return true
       }
       return false
-    },
+    }, */
     subject_keyword_changed: function() {
-      this.key_event_end_time = new Date().getTime()
+//      this.key_event_end_time = new Date().getTime()
 
       if (
         this.category != null &&
-        this.category != '' &&
-        this.category.length > 0 &&
+        this.category != ''
+//        this.category.length > 0 &&
         // this.is_valid_time_duration() == true &&
-        this.pre_category_len != this.category.length
+//        this.pre_category_len != this.category.length
       ) {
-        this.pre_category_len = this.category.length
+//        this.pre_category_len = this.category.length
         // this.key_event_start_time = new Date().getTime()
         this.$emit('category_changed', this.category)
-        // console.log(e.keyCode, this.category)
+
+        if (this.prev_request !== null) {
+          this.prev_request.cancel()
+        }
+
+        this.prev_request = axios.CancelToken.source()
         axios
           .post(
             this.get_endpoint(this.endpoints.suggested_subjects),
             { subject_keyword: this.category },
-            this.guest_headers()
+            { cancelToken: this.prev_request.token }
           )
           .then(
             response => {
